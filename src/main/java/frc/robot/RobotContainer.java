@@ -5,15 +5,22 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.subsystems.Drivetrain;
 
 public class RobotContainer {
-    Drivetrain drive = new Drivetrain();
+  Drivetrain drive = new Drivetrain();
+  CommandGenericHID leftStick=new CommandGenericHID(0);
+  CommandGenericHID rightStick=new CommandGenericHID(1);
   public RobotContainer() {
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    drive.setDefaultCommand(new ArcadeDrive(drive, ()->rightStick.getRawAxis(0), ()->rightStick.getRawAxis(1)));
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
