@@ -14,7 +14,7 @@ public class RobotContainer {
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() { /* TODO document why this method is empty */ }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
