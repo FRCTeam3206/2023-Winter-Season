@@ -12,6 +12,7 @@ public class ClawCommand extends CommandBase{
         this.coneSupplier=coneButton;
         this.cubeSupplier=cubeButton;
         this.claw=claw;
+        addRequirements(claw);
     }
     public void execute(){
         if(cubeSupplier.get()){
