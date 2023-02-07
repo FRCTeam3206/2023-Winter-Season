@@ -31,7 +31,12 @@ public class RobotContainer {
     pcmCompressor.enableDigital();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+    drive.setDefaultCommand(new ArcadeDrive(drive, ()->rightStick.getRawAxis(0), ()->rightStick.getRawAxis(1)));
+    claw.setDefaultCommand(new ClawCommand(claw,()->xbox.getHID().getRawButton(BTN_CONE),()->xbox.getHID().getRawButton(BTN_CUBE)));
+    intake.setDefaultCommand(new IntakeCommand(intake, ()->xbox.getHID().getRawButton(BTN_INTAKE)));
+    
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
