@@ -10,16 +10,25 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.*;
 public class Arm extends SubsystemBase{
-    CANSparkMax armMotor=new CANSparkMax(Ports.ARM_MOTOR, MotorType.kBrushless);
+    CANSparkMax elbow=new CANSparkMax(Ports.ARM_MOTOR, MotorType.kBrushless);
+    CANSparkMax telescope = new CANSparkMax(Ports.ARM_MOTOR, MotorType.kBrushless);
     public Arm(){
-        SparkMaxPIDController pid=armMotor.getPIDController();
-        pid.setP(0);
-        pid.setD(0);
-        pid.setI(0);
-        pid.setFF(0);
+        SparkMaxPIDController elbowPid= elbow.getPIDController();
+        elbowPid.setP(0);
+        elbowPid.setD(0);
+        elbowPid.setI(0);
+        elbowPid.setFF(0);
+        SparkMaxPIDController telePid = telescope.getPIDController();
+        telePid.setP(0);
+        telePid.setD(0);
+        telePid.setI(0);
+        telePid.setFF(0);
     }
-    public void setPos(int pos){
-        armMotor.getPIDController().setReference(pos, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    public void setElbowPos(int pos){
+        elbow.getPIDController().setReference(pos, com.revrobotics.CANSparkMax.ControlType.kPosition);
+    }
+    public void setTelePos(int pos){
+        telescope.getPIDController().setReference(pos, com.revrobotics.CANSparkMax.ControlType.kPosition);
     }
     
 }
