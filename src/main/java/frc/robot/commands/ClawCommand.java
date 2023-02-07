@@ -8,7 +8,7 @@ import frc.robot.subsystems.Claw;
 public class ClawCommand extends CommandBase{
     private Supplier<Boolean> coneSupplier,cubeSupplier;
     private Claw claw;
-    public ClawCommand(Supplier<Boolean> coneButton,Supplier<Boolean> cubeButton,Claw claw){
+    public ClawCommand(Claw claw,Supplier<Boolean> coneButton,Supplier<Boolean> cubeButton){
         this.coneSupplier=coneButton;
         this.cubeSupplier=cubeButton;
         this.claw=claw;
