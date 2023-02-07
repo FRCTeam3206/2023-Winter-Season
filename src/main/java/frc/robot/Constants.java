@@ -5,5 +5,6 @@ public class Constants {
         public static final int INTAKE_MOTOR=5;
         public static final int CLAW_MASTER_PISTON = 0;
         public static final int CLAW_SECOND_PISTON = 1;
+        public static final int ARM_MOTOR=6;
     }    
 }
