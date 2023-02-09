@@ -19,7 +19,7 @@ public class Drivetrain extends SubsystemBase {
     RelativeEncoder rightEncoder = frontRighttDrive.getEncoder();
 
     DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRighttDrive);
-
+    boolean flipped=false;
 
     public Drivetrain() {
         frontLeftDrive.restoreFactoryDefaults();
@@ -42,7 +42,12 @@ public class Drivetrain extends SubsystemBase {
     public void tankDrive(double left_speed, double right_speed) {
         drive.tankDrive(left_speed, right_speed);
     }
-
+    public void flip(){
+        flipped=!flipped;
+    }
+    public void setFlipped(boolean flipped){
+        this.flipped=flipped;
+    }
     public void reset_position() {
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
