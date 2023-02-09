@@ -1,3 +1,5 @@
+This branch includes Arcade Drive and mechanism code.
+
 # 2023-Winter-Season
 
 This repository contains the robot code for FRC Team 3206 "Royal T-Wrecks" for 2023 Charged Up.
