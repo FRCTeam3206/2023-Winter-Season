@@ -36,7 +36,7 @@ public class RobotContainer {
     drive.setDefaultCommand(new ArcadeDrive(drive, ()->rightStick.getRawAxis(0), ()->rightStick.getRawAxis(1)));
     claw.setDefaultCommand(new ClawCommand(claw,()->xbox.getHID().getRawButton(BTN_CONE),()->xbox.getHID().getRawButton(BTN_CUBE)));
     intake.setDefaultCommand(new IntakeCommand(intake, ()->xbox.getHID().getRawButton(BTN_INTAKE)));
-    rightStick.button(2).onTrue(new InstantCommand(()->{drive.flip();}));
+    rightStick.button(BTN_DRIVE_FLIP).onTrue(new InstantCommand(()->{drive.flip();}));
   }
 
   public Command getAutonomousCommand() {
