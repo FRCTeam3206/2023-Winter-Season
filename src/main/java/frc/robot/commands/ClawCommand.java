@@ -3,6 +3,7 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Claw;
 
 public class ClawCommand extends CommandBase {
@@ -18,9 +19,11 @@ public class ClawCommand extends CommandBase {
 
     public void execute() {
         if (cubeSupplier.get()) {
-            claw.cube();
+            //claw.cube();
+            claw.grab(Constants.ClawBools.GRAB_BLCK);
         } else if (coneSupplier.get()) {
-            claw.cone();
+            //claw.cone();
+            claw.grab(Constants.ClawBools.GRAB_CONE);
         } else {
             claw.open();
         }
