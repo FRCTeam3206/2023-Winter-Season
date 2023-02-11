@@ -13,5 +13,6 @@ public class Constants {
         public static final int BTN_CONE = 4;
         public static final int BTN_CUBE = 1;
         public static final int BTN_INTAKE = 6;
+        public static final int BTN_DRIVE_FLIP = 2;
     }
 }
