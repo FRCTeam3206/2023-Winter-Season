@@ -16,7 +16,20 @@ public class Gyro {
     }
 
     public void periodic() {
-
+        pos_x.periodic();
+        pos_y.periodic();
+        pos_z.periodic();
     }
 
+    public double getGyroAngleX() {
+        return pos_x.get();
+    }
+
+    public double getGyroAngleY() {
+        return pos_y.get();
+    }
+
+    public double getGyroAngleZ() {
+        return pos_z.get();
+    }
 }

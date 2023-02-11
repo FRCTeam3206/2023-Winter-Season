@@ -17,4 +17,8 @@ public class Filter {
     public void periodic() {
         this.store = this.filter.calculate(this.source.get());
     }
+
+    public Double get() {
+        return this.store;
+    }
 }
