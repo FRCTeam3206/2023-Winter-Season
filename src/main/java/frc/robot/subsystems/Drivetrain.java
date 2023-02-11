@@ -7,7 +7,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.helpers.Gyro;
 
 public class Drivetrain extends SubsystemBase {
     CANSparkMax frontLeftDrive = new CANSparkMax(1, MotorType.kBrushless);
@@ -19,7 +19,7 @@ public class Drivetrain extends SubsystemBase {
     RelativeEncoder rightEncoder = frontRighttDrive.getEncoder();
 
     DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRighttDrive);
-
+    Gyro gyro = new Gyro();
 
     public Drivetrain() {
         frontLeftDrive.restoreFactoryDefaults();
@@ -46,5 +46,10 @@ public class Drivetrain extends SubsystemBase {
     public void reset_position() {
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
+    }
+
+    @Override
+    public void periodic() {
+        gyro.periodic();
     }
 }
