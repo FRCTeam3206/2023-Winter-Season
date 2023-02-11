@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
 public class Drivetrain extends SubsystemBase {
     CANSparkMax frontLeftDrive = new CANSparkMax(1, MotorType.kBrushless);
     CANSparkMax frontRighttDrive = new CANSparkMax(2, MotorType.kBrushless);
@@ -19,7 +18,6 @@ public class Drivetrain extends SubsystemBase {
     RelativeEncoder rightEncoder = frontRighttDrive.getEncoder();
 
     DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRighttDrive);
-
 
     public Drivetrain() {
         frontLeftDrive.restoreFactoryDefaults();

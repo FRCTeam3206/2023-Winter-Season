@@ -10,8 +10,8 @@ public class IntakeCommand extends CommandBase {
     private Supplier<Boolean> button;
 
     public IntakeCommand(Intake subsystem, Supplier<Boolean> button) {
-        this.button=button;
-        this.intake=subsystem;
+        this.button = button;
+        this.intake = subsystem;
         addRequirements(subsystem);
     }
 
@@ -21,11 +21,11 @@ public class IntakeCommand extends CommandBase {
 
     @Override
     public void execute() {
-       if(button.get()){
-        intake.runIntake();
-       }else{
-        intake.stopIntake();
-       }
+        if (button.get()) {
+            intake.runIntake();
+        } else {
+            intake.stopIntake();
+        }
     }
 
     @Override
