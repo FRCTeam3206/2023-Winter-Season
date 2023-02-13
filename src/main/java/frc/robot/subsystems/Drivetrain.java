@@ -7,31 +7,32 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
-    CANSparkMax frontLeftDrive = new CANSparkMax(1, MotorType.kBrushless);
-    CANSparkMax frontRighttDrive = new CANSparkMax(2, MotorType.kBrushless);
-    CANSparkMax rearLeftDrive = new CANSparkMax(3, MotorType.kBrushless);
-    CANSparkMax rearRightDrive = new CANSparkMax(4, MotorType.kBrushless);
+    CANSparkMax frontLeftDrive = new CANSparkMax(Constants.CANIDs.FLD, MotorType.kBrushless);
+    CANSparkMax frontRightDrive = new CANSparkMax(Constants.CANIDs.FRD, MotorType.kBrushless);
+    CANSparkMax rearLeftDrive = new CANSparkMax(Constants.CANIDs.RLD, MotorType.kBrushless);
+    CANSparkMax rearRightDrive = new CANSparkMax(Constants.CANIDs.RRD, MotorType.kBrushless);
 
     RelativeEncoder leftEncoder = frontLeftDrive.getEncoder();
-    RelativeEncoder rightEncoder = frontRighttDrive.getEncoder();
+    RelativeEncoder rightEncoder = frontRightDrive.getEncoder();
 
-    DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRighttDrive);
+    DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
     boolean flipped = false;
 
     public Drivetrain() {
         frontLeftDrive.restoreFactoryDefaults();
-        frontRighttDrive.restoreFactoryDefaults();
+        frontRightDrive.restoreFactoryDefaults();
         rearLeftDrive.restoreFactoryDefaults();
         rearRightDrive.restoreFactoryDefaults();
 
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
 
-        frontRighttDrive.setInverted(true);
+        frontRightDrive.setInverted(true);
         rearLeftDrive.follow(frontLeftDrive);
-        rearRightDrive.follow(frontRighttDrive);
+        rearRightDrive.follow(frontRightDrive);
     }
 
     public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {

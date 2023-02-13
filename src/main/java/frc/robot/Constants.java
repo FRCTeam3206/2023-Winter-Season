@@ -15,4 +15,17 @@ public class Constants {
         public static final int BTN_INTAKE = 6;
         public static final int BTN_DRIVE_FLIP = 2;
     }
+
+    public static class CANIDs {
+        public static final int FLD = 1;
+        public static final int FRD = 2;
+        public static final int RLD = 3;
+        public static final int RRD = 4;
+    }
+
+    // Macros for the claw.grab() func
+    public static class ClawBools {
+        public static final boolean GRAB_CONE = true;
+        public static final boolean GRAB_BLCK = false;
+    }
 }
