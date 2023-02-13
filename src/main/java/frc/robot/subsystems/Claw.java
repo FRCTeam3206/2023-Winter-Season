@@ -34,7 +34,7 @@ public class Claw extends SubsystemBase {
             secondaryPiston.set(true);
         } else {                                    // Grabbing a cube
             masterPiston.set(true);
-            secondaryPiston.set(true);
+            secondaryPiston.set(false);
         } 
 
     }
