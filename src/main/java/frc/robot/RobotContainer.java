@@ -17,11 +17,13 @@ import static frc.robot.Constants.Inputs.*;
 
 public class RobotContainer {
     Drivetrain drive = new Drivetrain();
+
     public RobotContainer() {
         configureBindings();
     }
 
-    private void configureBindings() {}
+    private void configureBindings() {
+    }
 
     public Command getAutonomousCommand() {
         return Commands.print("No autonomous command configured");
