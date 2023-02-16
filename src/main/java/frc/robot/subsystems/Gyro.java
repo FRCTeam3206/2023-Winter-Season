@@ -5,14 +5,14 @@ import frc.robot.Constants;
 import frc.robot.helpers.Filter;
 
 public class Gyro {
-    public ADIS16448_IMU imu = new ADIS16448_IMU();
+    public ADIS16448_IMU raw_gyro = new ADIS16448_IMU();
 
-    public Filter pos_x = new Filter(() -> imu.getGyroAngleX(), Constants.FILTER_WINDOW_SIZE);
-    public Filter pos_y = new Filter(() -> imu.getGyroAngleY(), Constants.FILTER_WINDOW_SIZE);
-    public Filter pos_z = new Filter(() -> imu.getGyroAngleZ(), Constants.FILTER_WINDOW_SIZE);
+    public Filter pos_x = new Filter(() -> raw_gyro.getGyroAngleX(), Constants.FILTER_WINDOW_SIZE);
+    public Filter pos_y = new Filter(() -> raw_gyro.getGyroAngleY(), Constants.FILTER_WINDOW_SIZE);
+    public Filter pos_z = new Filter(() -> raw_gyro.getGyroAngleZ(), Constants.FILTER_WINDOW_SIZE);
 
     public Gyro() {
-        imu.reset();
+        raw_gyro.reset();
     }
 
     public void periodic() {
@@ -22,6 +22,7 @@ public class Gyro {
     }
 
     public double getGyroAngleX() {
+        
         return pos_x.get();
     }
 
