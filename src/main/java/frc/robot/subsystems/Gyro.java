@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.helpers.Filter;
 
@@ -22,15 +23,20 @@ public class Gyro {
     }
 
     public double getGyroAngleX() {
-        
-        return pos_x.get();
+        double value = pos_x.get();
+        SmartDashboard.putNumber("Pos X", value);
+        return value;
     }
 
     public double getGyroAngleY() {
-        return pos_y.get();
+        double value = pos_y.get();
+        SmartDashboard.putNumber("Pos Y", value);
+        return value;
     }
 
     public double getGyroAngleZ() {
-        return pos_z.get();
+        double value = pos_z.get();
+        SmartDashboard.putNumber("Pos Z", value);
+        return value;
     }
 }
