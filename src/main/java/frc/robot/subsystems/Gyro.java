@@ -14,7 +14,7 @@ public class Gyro {
 
     public double getRawGyroAngleX() {
         double value = raw_gyro.getGyroAngleX();
-        SmartDashboard.putNumber("Raw Pos ", value);
+        SmartDashboard.putNumber("Raw Pos X", value);
         return value;
     }
 

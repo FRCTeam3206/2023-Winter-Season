@@ -19,6 +19,7 @@ public class Drivetrain extends SubsystemBase {
 
     DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
     boolean flipped = false;
+    Gyro gyro = new Gyro();
 
     public Drivetrain() {
         frontLeftDrive.restoreFactoryDefaults();
@@ -53,5 +54,10 @@ public class Drivetrain extends SubsystemBase {
     public void reset_position() {
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
+    }
+
+    @Override
+    public void periodic() {
+        gyro.periodic();
     }
 }
