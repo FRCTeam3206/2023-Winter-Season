@@ -21,7 +21,7 @@ public class Drivetrain extends SubsystemBase {
     boolean flipped = false;
 
     Gyro gyro = new Gyro();
-    
+
     public Drivetrain() {
         frontLeftDrive.restoreFactoryDefaults();
         frontRightDrive.restoreFactoryDefaults();
