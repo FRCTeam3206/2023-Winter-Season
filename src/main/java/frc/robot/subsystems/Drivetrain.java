@@ -6,13 +6,12 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
-    CANSparkMax frontLeftDrive = new CANSparkMax(Constants.CANIDs.FLD, MotorType.kBrushless);
-    CANSparkMax frontRightDrive = new CANSparkMax(Constants.CANIDs.FRD, MotorType.kBrushless);
-    CANSparkMax rearLeftDrive = new CANSparkMax(Constants.CANIDs.RLD, MotorType.kBrushless);
-    CANSparkMax rearRightDrive = new CANSparkMax(Constants.CANIDs.RRD, MotorType.kBrushless);
+    CANSparkMax frontLeftDrive = new CANSparkMax(1, MotorType.kBrushless);
+    CANSparkMax frontRightDrive = new CANSparkMax(2, MotorType.kBrushless);
+    CANSparkMax rearLeftDrive = new CANSparkMax(3, MotorType.kBrushless);
+    CANSparkMax rearRightDrive = new CANSparkMax(4, MotorType.kBrushless);
 
     RelativeEncoder leftEncoder = frontLeftDrive.getEncoder();
     RelativeEncoder rightEncoder = frontRightDrive.getEncoder();
