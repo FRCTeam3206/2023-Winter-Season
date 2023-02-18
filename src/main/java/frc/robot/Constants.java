@@ -9,6 +9,10 @@ public class Constants {
         public static final int CLAW_SECOND_PISTON = 1;
         public static final int ARM_MOTOR = 6;
         public static final int INTAKE_DEPLOY = 2;
+        public static final int COMPRESSOR_MODULE = 0;
+        public static final int RIGHT_JOYSTICK = 1;
+        public static final int LEFT_JOYSTICK = 0;
+        public static final int XBOX_CONTROLLER = 2;
     }
 
     public static class Inputs {
@@ -16,6 +20,13 @@ public class Constants {
         public static final int BTN_CUBE = 1;
         public static final int BTN_INTAKE = 6;
         public static final int BTN_DRIVE_FLIP = 2;
+
+        public static final int ARCADE_FORWARD_AXIS = 1;
+        public static final int ARCADE_ROTATE_AXIS = 3;
+
+        public static final int TANK_LEFT_AXIS = 1;
+        public static final int TANK_RIGHT_AXIS = 1;
+
     }
 
     public static class CANIDs {
