@@ -54,10 +54,8 @@ public class RobotContainer {
             drive,
             () -> rightStick.getRawAxis(ARCADE_FORWARD_AXIS),
             () -> rightStick.getRawAxis(ARCADE_ROTATE_AXIS));
-    TankDrive tank = new TankDrive(
-            drive,
-            () -> leftStick.getRawAxis(TANK_LEFT_AXIS),
-            () -> rightStick.getRawAxis(TANK_RIGHT_AXIS));
+    TankDrive tank = new TankDrive(drive, () -> leftStick.getRawAxis(TANK_LEFT_AXIS),
+            () -> rightStick.getRawAxis(TANK_RIGHT_AXIS), () -> rightStick.getHID().getRawButton(1));
 
     // Choosers
     SendableChooser<Command> drive_chooser = new SendableChooser<>();
@@ -71,8 +69,7 @@ public class RobotContainer {
         drive_chooser.setDefaultOption("Arcade", arcade);
         drive_chooser.addOption("Tank", tank);
         SmartDashboard.putData("Drive Mode", drive_chooser);
-        drive.setDefaultCommand(new ArcadeDrive(drive, () -> leftStick.getRawAxis(TANK_LEFT_AXIS),
-                () -> rightStick.getRawAxis(TANK_RIGHT_AXIS)));
+        drive.setDefaultCommand(drive_chooser.getSelected());
         // // Setup Claw
         // claw.setDefaultCommand(
         // new ClawCommand(

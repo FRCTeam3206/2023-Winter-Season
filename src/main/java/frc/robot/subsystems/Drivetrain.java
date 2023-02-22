@@ -5,6 +5,8 @@ import com.revrobotics.RelativeEncoder;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,6 +22,7 @@ public class Drivetrain extends SubsystemBase {
     DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
     boolean flipped = false;
     Gyro gyro = new Gyro();
+    Solenoid shifter = new Solenoid(PneumaticsModuleType.REVPH, 1);// TODO move to constants
 
     public Drivetrain() {
         frontLeftDrive.restoreFactoryDefaults();
@@ -49,6 +52,10 @@ public class Drivetrain extends SubsystemBase {
 
     public void setFlipped(boolean flipped) {
         this.flipped = flipped;
+    }
+
+    public void setShift(boolean shift) {
+        shifter.set(shift);
     }
 
     public void reset_position() {
