@@ -68,10 +68,11 @@ public class RobotContainer {
 
     private void configureBindings() {
         // Setup Drivetrain
-        drive_chooser.setDefaultOption("arcade (if you choose this you are based)", arcade);
-        drive_chooser.addOption("tank (armor iddd for wimds L rizz)", tank);
+        drive_chooser.setDefaultOption("Arcade", arcade);
+        drive_chooser.addOption("Tank", tank);
         SmartDashboard.putData("Drive Mode", drive_chooser);
-
+        drive.setDefaultCommand(new ArcadeDrive(drive, () -> leftStick.getRawAxis(TANK_LEFT_AXIS),
+                () -> rightStick.getRawAxis(TANK_RIGHT_AXIS)));
         // // Setup Claw
         // claw.setDefaultCommand(
         // new ClawCommand(

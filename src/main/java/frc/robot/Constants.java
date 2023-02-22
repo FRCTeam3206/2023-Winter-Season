@@ -31,10 +31,10 @@ public class Constants {
     }
 
     public static class CANIDs {
-        public static final int FLD = 1;
-        public static final int FRD = 2;
+        public static final int FLD = 4;
+        public static final int FRD = 1;
         public static final int RLD = 3;
-        public static final int RRD = 4;
+        public static final int RRD = 2;
     }
 
     // Macros for the claw.grab() func
