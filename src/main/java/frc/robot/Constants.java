@@ -10,6 +10,7 @@ public class Constants {
         public static final int ARM_MOTOR = 6;
         public static final int INTAKE_DEPLOY = 2;
         public static final int COMPRESSOR_MODULE = 0;
+        public static final int SOLENOID_SHIFTER = 1;
 
         public static final int RIGHT_JOYSTICK = 0;
         public static final int LEFT_JOYSTICK = 1;
@@ -27,6 +28,8 @@ public class Constants {
 
         public static final int TANK_LEFT_AXIS = 1;
         public static final int TANK_RIGHT_AXIS = 1;
+
+        public static final int BTN_SHIFT = 1;
 
     }
 

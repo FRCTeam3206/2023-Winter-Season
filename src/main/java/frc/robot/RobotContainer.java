@@ -4,17 +4,8 @@
 
 package frc.robot;
 
-import static frc.robot.Constants.Inputs.ARCADE_FORWARD_AXIS;
-import static frc.robot.Constants.Inputs.ARCADE_ROTATE_AXIS;
-import static frc.robot.Constants.Inputs.BTN_CONE;
-import static frc.robot.Constants.Inputs.BTN_CUBE;
-import static frc.robot.Constants.Inputs.BTN_INTAKE;
-import static frc.robot.Constants.Inputs.TANK_LEFT_AXIS;
-import static frc.robot.Constants.Inputs.TANK_RIGHT_AXIS;
-import static frc.robot.Constants.Ports.COMPRESSOR_MODULE;
-import static frc.robot.Constants.Ports.LEFT_JOYSTICK;
-import static frc.robot.Constants.Ports.RIGHT_JOYSTICK;
-import static frc.robot.Constants.Ports.XBOX_CONTROLLER;
+import static frc.robot.Constants.Inputs.*;
+import static frc.robot.Constants.Ports.*;
 
 import java.util.Optional;
 
@@ -54,10 +45,9 @@ public class RobotContainer {
             drive,
             () -> rightStick.getRawAxis(ARCADE_FORWARD_AXIS),
             () -> rightStick.getRawAxis(ARCADE_ROTATE_AXIS),
-            () -> rightStick.getHID().getRawButton(1));
+            () -> rightStick.getHID().getRawButton(BTN_SHIFT));
     TankDrive tank = new TankDrive(drive, () -> leftStick.getRawAxis(TANK_LEFT_AXIS),
-            () -> rightStick.getRawAxis(TANK_RIGHT_AXIS), () -> rightStick.getHID().getRawButton(1));// TODO move to
-                                                                                                     // constants
+            () -> rightStick.getRawAxis(TANK_RIGHT_AXIS), () -> rightStick.getHID().getRawButton(BTN_SHIFT));
 
     // Choosers
     SendableChooser<Command> drive_chooser = new SendableChooser<>();
@@ -72,7 +62,7 @@ public class RobotContainer {
         drive_chooser.addOption("Tank", tank);
         SmartDashboard.putData("Drive Mode", drive_chooser);
         drive.setDefaultCommand(drive_chooser.getSelected());
-        // // Setup Claw
+        // Setup Claw
         // claw.setDefaultCommand(
         // new ClawCommand(
         // claw,
@@ -85,7 +75,7 @@ public class RobotContainer {
         // intake,
         // () -> xbox.getHID().getRawButton(BTN_INTAKE)));
 
-        // // Setup Compressor
+        // Setup Compressor
         // pcmCompressor.enableDigital();
     }
 
