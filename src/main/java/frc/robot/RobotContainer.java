@@ -53,9 +53,11 @@ public class RobotContainer {
     ArcadeDrive arcade = new ArcadeDrive(
             drive,
             () -> rightStick.getRawAxis(ARCADE_FORWARD_AXIS),
-            () -> rightStick.getRawAxis(ARCADE_ROTATE_AXIS));
+            () -> rightStick.getRawAxis(ARCADE_ROTATE_AXIS),
+            () -> rightStick.getHID().getRawButton(1));
     TankDrive tank = new TankDrive(drive, () -> leftStick.getRawAxis(TANK_LEFT_AXIS),
-            () -> rightStick.getRawAxis(TANK_RIGHT_AXIS), () -> rightStick.getHID().getRawButton(1));
+            () -> rightStick.getRawAxis(TANK_RIGHT_AXIS), () -> rightStick.getHID().getRawButton(1));// TODO move to
+                                                                                                     // constants
 
     // Choosers
     SendableChooser<Command> drive_chooser = new SendableChooser<>();

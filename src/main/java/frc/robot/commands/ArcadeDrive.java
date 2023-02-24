@@ -9,11 +9,14 @@ public class ArcadeDrive extends CommandBase {
     private final Drivetrain m_drive;
     private final Supplier<Double> forwardPower;
     private final Supplier<Double> rotatePower;
+    private final Supplier<Boolean> shift;
 
-    public ArcadeDrive(Drivetrain subsystem, Supplier<Double> forwardPower, Supplier<Double> rotatePower) {
+    public ArcadeDrive(Drivetrain subsystem, Supplier<Double> forwardPower, Supplier<Double> rotatePower,
+            Supplier<Boolean> shift) {
         this.m_drive = subsystem;
         this.forwardPower = forwardPower;
         this.rotatePower = rotatePower;
+        this.shift = shift;
         addRequirements(subsystem);
     }
 
@@ -24,6 +27,7 @@ public class ArcadeDrive extends CommandBase {
     @Override
     public void execute() {
         this.m_drive.arcadeDrive(this.forwardPower.get(), this.rotatePower.get());
+        m_drive.setShift(shift.get());
     }
 
     @Override
