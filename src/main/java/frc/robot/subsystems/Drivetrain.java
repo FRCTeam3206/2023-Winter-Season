@@ -21,7 +21,7 @@ public class Drivetrain extends SubsystemBase {
 
     DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
     boolean flipped = false;
-    // Gyro gyro = new Gyro();
+    Gyro gyro = new Gyro();
     Solenoid shifter = new Solenoid(PneumaticsModuleType.REVPH, Constants.Ports.SOLENOID_SHIFTER);
 
     public Drivetrain() {
@@ -63,8 +63,12 @@ public class Drivetrain extends SubsystemBase {
         rightEncoder.setPosition(0);
     }
 
+    public double pitch() {
+        return gyro.getGyroAngleZ();
+    }
+
     @Override
     public void periodic() {
-        // gyro.periodic();
+        gyro.periodic();
     }
 }

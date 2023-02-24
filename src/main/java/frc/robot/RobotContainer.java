@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArcadeDrive;
+import frc.robot.commands.ChargeLeveler;
 import frc.robot.commands.ClawCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.TankDrive;
@@ -61,6 +62,7 @@ public class RobotContainer {
         drive_chooser.setDefaultOption("Arcade", arcade);
         drive_chooser.addOption("Tank", tank);
         SmartDashboard.putData("Drive Mode", drive_chooser);
+        rightStick.button(BTN_LEVEL).onTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
         // Setup Claw
         // claw.setDefaultCommand(

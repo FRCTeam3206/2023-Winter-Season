@@ -2,6 +2,7 @@ package frc.robot;
 
 public class Constants {
     public static final int FILTER_WINDOW_SIZE = 5;
+    public static final double CHARGE_LEVEL_K = 10 / 3.0;
 
     public static class Ports {
         public static final int INTAKE_MOTOR = 5;
@@ -30,7 +31,7 @@ public class Constants {
         public static final int TANK_RIGHT_AXIS = 1;
 
         public static final int BTN_SHIFT = 1;
-
+        public static final int BTN_LEVEL = 2;
     }
 
     public static class CANIDs {
