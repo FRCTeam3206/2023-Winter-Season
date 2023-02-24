@@ -62,7 +62,7 @@ public class RobotContainer {
         drive_chooser.setDefaultOption("Arcade", arcade);
         drive_chooser.addOption("Tank", tank);
         SmartDashboard.putData("Drive Mode", drive_chooser);
-        rightStick.button(BTN_LEVEL).onTrue(new ChargeLeveler(drive));
+        rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
         // Setup Claw
         // claw.setDefaultCommand(

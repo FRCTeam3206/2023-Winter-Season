@@ -35,11 +35,13 @@ public class ChargeLeveler extends CommandBase {
          * SmartDashboard.putString("Status", "Neutral");
          * }
          */
-        double speed = -drive.pitch() * Constants.CHARGE_LEVEL_K;
+        double speed = drive.pitch() * Constants.CHARGE_LEVEL_K;
+        SmartDashboard.putNumber("Level Pitch", drive.pitch());
         if (speed < -.6)
             speed = -.6;
         if (speed > .6)
             speed = .6;
+        SmartDashboard.putNumber("Speed", speed);
         drive.arcadeDrive(speed, 0);
         //
     }

@@ -9,6 +9,7 @@ public class Gyro {
     public ADIS16448_IMU raw_gyro = new ADIS16448_IMU();
 
     public Gyro() {
+        raw_gyro.calibrate();
         raw_gyro.reset();
     }
 
