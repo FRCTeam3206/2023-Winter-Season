@@ -21,15 +21,18 @@ import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ChargeLeveler;
 import frc.robot.commands.ClawCommand;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.PhotonLibVision;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
     // Subsystems
     Drivetrain drive = new Drivetrain();
+    Vision vision = new Vision();
     // Claw claw = new Claw();
     // Arm arm = new Arm();
     // Intake intake = new Intake();
@@ -64,6 +67,7 @@ public class RobotContainer {
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
+        vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw
         // claw.setDefaultCommand(
         // new ClawCommand(

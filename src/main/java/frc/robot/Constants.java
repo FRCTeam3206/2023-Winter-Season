@@ -46,4 +46,9 @@ public class Constants {
         public static final boolean GRAB_CONE = true;
         public static final boolean GRAB_BLCK = false;
     }
+
+    public class Vision {
+        // Change which camera you want to use with photonvision.
+        public static final String photonvision_camera = "USB_CAMERA";
+    }
 }
