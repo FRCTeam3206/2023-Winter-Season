@@ -64,7 +64,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public double pitch() {
-        return gyro.getGyroAngleZ();
+        return gyro.getRawGyroAngleZ();
     }
 
     @Override

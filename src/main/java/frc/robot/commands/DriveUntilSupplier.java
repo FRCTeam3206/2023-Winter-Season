@@ -9,6 +9,8 @@ public class DriveUntilSupplier extends CommandBase {
     private Drivetrain drive;
     private Supplier<Boolean> isDone;
     private double speed;
+    private long timeout = 3000;
+    private long start;
 
     public DriveUntilSupplier(Drivetrain drive, Supplier<Boolean> supplier, double speed) {
         this.drive = drive;
@@ -16,11 +18,20 @@ public class DriveUntilSupplier extends CommandBase {
         this.speed = speed;
     }
 
+    public void initialize() {
+        start = System.currentTimeMillis();
+    }
+
+    public DriveUntilSupplier setTimeout(long timeout) {
+        this.timeout = timeout;
+        return this;
+    }
+
     public void execute() {
         drive.arcadeDrive(speed, 0);
     }
 
     public boolean isFinished() {
-        return isDone.get();
+        return isDone.get() || System.currentTimeMillis() - start > timeout;
     }
 }

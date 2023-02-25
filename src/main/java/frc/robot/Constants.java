@@ -2,7 +2,7 @@ package frc.robot;
 
 public class Constants {
     public static final int FILTER_WINDOW_SIZE = 5;
-    public static final double CHARGE_LEVEL_K = 1.0 / 10.0 / 2.5;
+    public static final double CHARGE_LEVEL_K = 1.0 / 10.0 / 2.25;
 
     public static class Ports {
         public static final int INTAKE_MOTOR = 5;
@@ -49,6 +49,6 @@ public class Constants {
 
     public class Vision {
         // Change which camera you want to use with photonvision.
-        public static final String photonvision_camera = "USB_CAMERA";
+        public static final String photonvision_camera = "USB_webcam";
     }
 }

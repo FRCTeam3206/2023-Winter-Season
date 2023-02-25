@@ -58,9 +58,46 @@ public class RobotContainer {
 
     // Choosers
     SendableChooser<Command> drive_chooser = new SendableChooser<>();
+    SendableChooser<Command> auton_chooser = new SendableChooser<>();
 
     public RobotContainer() {
         configureBindings();
+        autons();
+    }
+
+    private void autons() {
+        auton_chooser.addOption("Charge Level", new SequentialCommandGroup(new Command[] {
+                new DriveUntilSupplier(drive, () -> {
+                    // System.out.println(0);
+                    return drive.pitch() > 10;
+                }, 0.8),
+
+                new DriveUntilSupplier(drive, () -> {
+                    // System.out.println(1);
+                    return drive.pitch() < -10;
+                }, 0.8),
+
+                new DriveUntilSupplier(drive, () -> {
+                    // System.out.println(2);
+                    return Math.abs(drive.pitch()) < 1;
+                }, 0.8).setTimeout(1500),
+
+                new DriveTime(drive, .8, 350),
+
+                new DriveUntilSupplier(drive, () -> {
+                    // System.out.println(3);
+                    return drive.pitch() < -10;
+                }, -0.8),
+
+                new DriveUntilSupplier(drive, () -> {
+                    // System.out.println(4);
+                    return Math.abs(drive.pitch()) < 5;
+                }, -0.5),
+
+                new ChargeLeveler(drive)
+        }));
+        auton_chooser.setDefaultOption("Forward", new DriveTime(drive, .5, 5000));
+        SmartDashboard.putData(auton_chooser);
     }
 
     private void configureBindings() {
@@ -70,7 +107,7 @@ public class RobotContainer {
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
-        vision.setDefaultCommand(new PhotonLibVision(vision));
+        // vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw
         // claw.setDefaultCommand(
         // new ClawCommand(
@@ -90,31 +127,7 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
 
-        return new SequentialCommandGroup(new Command[] {
-                new DriveUntilSupplier(drive, () -> {
-                    return drive.pitch() > 10;
-                }, 0.8),
-
-                new DriveUntilSupplier(drive, () -> {
-                    return drive.pitch() < -10;
-                }, 0.8),
-
-                new DriveUntilSupplier(drive, () -> {
-                    return Math.abs(drive.pitch()) < 1;
-                }, 0.8),
-
-                new DriveTime(drive, .8, 350),
-
-                new DriveUntilSupplier(drive, () -> {
-                    return drive.pitch() < -10;
-                }, -0.8),
-
-                new DriveUntilSupplier(drive, () -> {
-                    return Math.abs(drive.pitch()) < 5;
-                }, -0.5),
-
-                new ChargeLeveler(drive)
-        });
+        return auton_chooser.getSelected();
 
     }
 }

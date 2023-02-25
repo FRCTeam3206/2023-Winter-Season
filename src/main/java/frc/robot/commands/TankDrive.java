@@ -26,7 +26,7 @@ public class TankDrive extends CommandBase {
 
     @Override
     public void execute() {
-        this.m_drive.tankDrive(this.leftSupplier.get(), this.rightSupplier.get());
+        this.m_drive.tankDrive(-this.leftSupplier.get(), -this.rightSupplier.get());
         m_drive.setShift(shiftSupplier.get());
     }
 
