@@ -15,11 +15,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ChargeLeveler;
 import frc.robot.commands.ClawCommand;
+import frc.robot.commands.DriveTime;
+import frc.robot.commands.DriveUntilSupplier;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.PhotonLibVision;
 import frc.robot.commands.TankDrive;
@@ -86,6 +89,32 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return Commands.print("No autonomous command configured");
+
+        return new SequentialCommandGroup(new Command[] {
+                new DriveUntilSupplier(drive, () -> {
+                    return drive.pitch() > 10;
+                }, 0.8),
+
+                new DriveUntilSupplier(drive, () -> {
+                    return drive.pitch() < -10;
+                }, 0.8),
+
+                new DriveUntilSupplier(drive, () -> {
+                    return Math.abs(drive.pitch()) < 1;
+                }, 0.8),
+
+                new DriveTime(drive, .8, 350),
+
+                new DriveUntilSupplier(drive, () -> {
+                    return drive.pitch() < -10;
+                }, -0.8),
+
+                new DriveUntilSupplier(drive, () -> {
+                    return Math.abs(drive.pitch()) < 5;
+                }, -0.5),
+
+                new ChargeLeveler(drive)
+        });
+
     }
 }
