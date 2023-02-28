@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -67,6 +68,9 @@ public class RobotContainer {
 
     private void autons() {
         auton_chooser.addOption("Charge Level", new SequentialCommandGroup(new Command[] {
+                new InstantCommand(() -> {
+                    drive.calibrateGyro();
+                }),
                 new DriveUntilSupplier(drive, () -> {
                     // System.out.println(0);
                     return drive.pitch() > 10;
@@ -82,7 +86,7 @@ public class RobotContainer {
                     return Math.abs(drive.pitch()) < 1;
                 }, 0.8).setTimeout(1500),
 
-                new DriveTime(drive, .8, 350),
+                new DriveTime(drive, 0.8, 350),
 
                 new DriveUntilSupplier(drive, () -> {
                     // System.out.println(3);
@@ -107,7 +111,7 @@ public class RobotContainer {
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
-        // vision.setDefaultCommand(new PhotonLibVision(vision));
+        vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw
         // claw.setDefaultCommand(
         // new ClawCommand(

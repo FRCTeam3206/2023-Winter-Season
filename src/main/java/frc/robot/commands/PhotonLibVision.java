@@ -11,7 +11,9 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -35,11 +37,12 @@ public class PhotonLibVision extends CommandBase {
         }
         if (aprilTagFieldLayout != null) {
             try {
+                Transform3d cameraPos = new Transform3d(new Translation3d(0, .2, .36), new Rotation3d(0, 0, Math.PI));
                 estimator = new PhotonPoseEstimator(
                         aprilTagFieldLayout,
                         PoseStrategy.AVERAGE_BEST_TARGETS,
                         camera,
-                        new Transform3d());
+                        cameraPos);
             } catch (Exception e) {
                 e.printStackTrace();
             }

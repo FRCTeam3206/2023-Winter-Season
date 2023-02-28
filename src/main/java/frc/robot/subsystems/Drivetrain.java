@@ -38,6 +38,10 @@ public class Drivetrain extends SubsystemBase {
         rearRightDrive.follow(frontRightDrive);
     }
 
+    public void calibrateGyro() {
+        gyro.raw_gyro.calibrate();
+    }
+
     public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
         drive.arcadeDrive(xaxisSpeed, zaxisRotate);
     }
