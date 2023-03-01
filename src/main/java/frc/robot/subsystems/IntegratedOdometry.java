@@ -1,12 +1,14 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.RelativeEncoder;
 import java.io.IOException;
 import java.util.Optional;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+
+import com.ctre.phoenix.sensors.CANCoder;
+
 import org.photonvision.EstimatedRobotPose;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -22,7 +24,7 @@ import frc.robot.Constants;
 
 public class IntegratedOdometry {
     Gyro gyro;
-    RelativeEncoder rightEncoder, lefEncoder;
+    CANCoder rightEncoder, lefEncoder;
     PhotonCamera camera = new PhotonCamera(Constants.Vision.photonvision_camera);
     Pose3d pose = new Pose3d();
     PhotonPoseEstimator estimator;
@@ -30,7 +32,7 @@ public class IntegratedOdometry {
     Field2d field = new Field2d();
     DifferentialDriveOdometry odometry;
 
-    public IntegratedOdometry(Gyro gyro, RelativeEncoder rightEncoder, RelativeEncoder lefEncoder) {
+    public IntegratedOdometry(Gyro gyro, CANCoder rightEncoder, CANCoder lefEncoder) {
         this.gyro = gyro;
         this.rightEncoder = rightEncoder;
         this.lefEncoder = lefEncoder;

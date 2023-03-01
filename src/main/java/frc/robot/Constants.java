@@ -39,6 +39,9 @@ public class Constants {
         public static final int FRD = 1;
         public static final int RLD = 3;
         public static final int RRD = 2;
+
+        public static final int RIGHT_ENCODER = 5;
+        public static final int LEFT_ENCODER = 6;
     }
 
     // Macros for the claw.grab() func
