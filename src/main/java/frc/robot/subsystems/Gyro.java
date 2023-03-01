@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -51,6 +52,10 @@ public class Gyro {
         double value = pos_z.get();
         SmartDashboard.putNumber("Pos Z", value);
         return value;
+    }
+
+    public Rotation2d yaw() {
+        return new Rotation2d(getGyroAngleZ());
     }
 
     public void periodic() {
