@@ -56,6 +56,8 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        m_robotContainer.drive.setDefaultCommand(m_robotContainer.drive_chooser.getSelected());
+
     }
 
     @Override
@@ -64,10 +66,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopExit() {
+        m_robotContainer.drive_chooser.getSelected().cancel();
     }
 
     @Override
-    public void testPeriodic() {
+    public void testInit() {
+        CommandScheduler.getInstance().cancelAll();
     }
 
     @Override

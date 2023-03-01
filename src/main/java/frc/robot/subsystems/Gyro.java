@@ -9,12 +9,13 @@ public class Gyro {
     public ADIS16448_IMU raw_gyro = new ADIS16448_IMU();
 
     public Gyro() {
+        raw_gyro.calibrate();
         raw_gyro.reset();
     }
 
     public double getRawGyroAngleX() {
         double value = raw_gyro.getGyroAngleX();
-        SmartDashboard.putNumber("Raw Pos ", value);
+        SmartDashboard.putNumber("Raw Pos X", value);
         return value;
     }
 
