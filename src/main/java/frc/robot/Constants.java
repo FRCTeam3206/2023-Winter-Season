@@ -25,19 +25,19 @@ public class Constants {
     }
 
     public static class Inputs {
-        public static final int BTN_CONE = 4;
-        public static final int BTN_CUBE = 1;
-        public static final int BTN_INTAKE = 6;
+        public static final int BTN_CONE = 4;    // Xbox Y Yellow
+        public static final int BTN_CUBE = 1;    // Xbox X blue
+        public static final int BTN_INTAKE = 6;  //  Xbox Right Bumper
         public static final int BTN_DRIVE_FLIP = 2;
 
         public static final int ARCADE_FORWARD_AXIS = 1;
         public static final int ARCADE_ROTATE_AXIS = 2;
 
-        public static final int TANK_LEFT_AXIS = 1;
-        public static final int TANK_RIGHT_AXIS = 1;
+        public static final int TANK_LEFT_AXIS = 1;    // Left joystick
+        public static final int TANK_RIGHT_AXIS = 1;   // Right joystick
 
-        public static final int BTN_SHIFT = 1;
-        public static final int BTN_LEVEL = 2;
+        public static final int BTN_SHIFT = 1;         // Right Joystick trigger
+        public static final int BTN_LEVEL = 2;         // Right joystick Thumb
     }
 
     public static class CANIDs {
