@@ -5,6 +5,7 @@ import com.revrobotics.RelativeEncoder;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -16,8 +17,11 @@ public class Drivetrain extends SubsystemBase {
     CANSparkMax frontRightDrive = new CANSparkMax(Constants.CANIDs.FRD, MotorType.kBrushless);
     CANSparkMax rearLeftDrive = new CANSparkMax(Constants.CANIDs.RLD, MotorType.kBrushless);
     CANSparkMax rearRightDrive = new CANSparkMax(Constants.CANIDs.RRD, MotorType.kBrushless);
-    RelativeEncoder leftEncoder = frontLeftDrive.getEncoder();
-    RelativeEncoder rightEncoder = frontRightDrive.getEncoder();
+    Encoder frontRightEncoder = new Encoder(1, 1);
+    Encoder frontLeftEncoder = new Encoder(2, 2);
+    // RelativeEncoder leftEncoder = frontLeftDrive.getEncoder();
+    // RelativeEncoder rightEncoder = frontRightDrive.getEncoder();
+   
 
     DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
     boolean flipped = false;
@@ -30,8 +34,11 @@ public class Drivetrain extends SubsystemBase {
         rearLeftDrive.restoreFactoryDefaults();
         rearRightDrive.restoreFactoryDefaults();
 
-        leftEncoder.setPosition(0);
-        rightEncoder.setPosition(0);
+        frontLeftEncoder.reset();
+        frontRightEncoder.reset();
+        // reset_position();
+        // leftEncoder.setPosition(0);
+        // rightEncoder.setPosition(0);
 
         frontRightDrive.setInverted(true);
         rearLeftDrive.follow(frontLeftDrive);
@@ -63,8 +70,10 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void reset_position() {
-        leftEncoder.setPosition(0);
-        rightEncoder.setPosition(0);
+        frontLeftEncoder.reset();
+        frontRightEncoder.reset();
+        // leftEncoder.setPosition(0);
+        // rightEncoder.setPosition(0);
     }
 
     public double pitch() {
