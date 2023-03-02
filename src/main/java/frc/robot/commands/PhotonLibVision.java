@@ -31,7 +31,7 @@ public class PhotonLibVision extends CommandBase {
         addRequirements(vision);
         try {
             aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
-        } catch (IOException e) {
+        } catch (IOException e) { // TODO rename variable e to follow good variable naming
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
