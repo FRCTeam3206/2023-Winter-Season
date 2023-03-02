@@ -1,12 +1,15 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.sensors.CANCoder;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.Encoder;
+
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -15,10 +18,13 @@ public class Drivetrain extends SubsystemBase {
     CANSparkMax frontRightDrive = new CANSparkMax(Constants.CANIDs.FRD, MotorType.kBrushless);
     CANSparkMax rearLeftDrive = new CANSparkMax(Constants.CANIDs.RLD, MotorType.kBrushless);
     CANSparkMax rearRightDrive = new CANSparkMax(Constants.CANIDs.RRD, MotorType.kBrushless);
-    Encoder frontRightEncoder = new Encoder(1, 1);
-    Encoder frontLeftEncoder = new Encoder(2, 2);
+    
+    CANCoder RightEncoder = new CANCoder(1);
+    CANCoder LeftEncoder = new CANCoder(2);
     // RelativeEncoder leftEncoder = frontLeftDrive.getEncoder();
     // RelativeEncoder rightEncoder = frontRightDrive.getEncoder();
+
+
    
 
     DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
@@ -32,8 +38,8 @@ public class Drivetrain extends SubsystemBase {
         rearLeftDrive.restoreFactoryDefaults();
         rearRightDrive.restoreFactoryDefaults();
 
-        frontLeftEncoder.reset();
-        frontRightEncoder.reset();
+        
+        
         // reset_position();
         // leftEncoder.setPosition(0);
         // rightEncoder.setPosition(0);
@@ -68,8 +74,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void reset_position() {
-        frontLeftEncoder.reset();
-        frontRightEncoder.reset();
+       
         // leftEncoder.setPosition(0);
         // rightEncoder.setPosition(0);
     }
@@ -80,6 +85,9 @@ public class Drivetrain extends SubsystemBase {
 
     @Override
     public void periodic() {
+        super.periodic();
+        SmartDashboard.putNumber("Left Encoder", LeftEncoder.getPosition());
+        SmartDashboard.putNumber("Right Encoder", RightEncoder.getPosition());
         gyro.periodic();
     }
 }
