@@ -3,6 +3,7 @@ package frc.robot;
 public class Constants {
     public static final int FILTER_WINDOW_SIZE = 5;
     public static final double CHARGE_LEVEL_K = 1.0 / 10.0 / 2.25;
+    public static final double ENCODER_RATIO_K = 6 * Math.PI / 360;
 
     public static class Ports {
         public static final int INTAKE_MOTOR = 5;
@@ -40,8 +41,8 @@ public class Constants {
         public static final int RLD = 3;
         public static final int RRD = 2;
 
-        public static final int RIGHT_ENCODER = 5;
-        public static final int LEFT_ENCODER = 6;
+        public static final int RIGHT_ENCODER = 1;
+        public static final int LEFT_ENCODER = 2;
     }
 
     // Macros for the claw.grab() func

@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
@@ -10,6 +11,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANIDs;
 
@@ -20,8 +22,20 @@ public class Drivetrain extends SubsystemBase {
     CANSparkMax frontRightDrive = new CANSparkMax(CANIDs.FRD, MotorType.kBrushless);
     CANSparkMax rearLeftDrive = new CANSparkMax(CANIDs.RLD, MotorType.kBrushless);
     CANSparkMax rearRightDrive = new CANSparkMax(CANIDs.RRD, MotorType.kBrushless);
-    CANCoder leftEncoder = new CANCoder(CANIDs.LEFT_ENCODER);
-    CANCoder rightEncoder = new CANCoder(CANIDs.LEFT_ENCODER);
+    // Probably a better way to do this, but we do not know it, so here our solution
+    // lies :)
+    WPI_CANCoder leftEncoder = new WPI_CANCoder(CANIDs.LEFT_ENCODER) {
+        @Override
+        public double getPosition() {
+            return super.getPosition() * ENCODER_RATIO_K;
+        }
+    };
+    WPI_CANCoder rightEncoder = new WPI_CANCoder(CANIDs.LEFT_ENCODER) {
+        @Override
+        public double getPosition() {
+            return super.getPosition() * ENCODER_RATIO_K;
+        }
+    };
     DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
     boolean flipped = false;
     Gyro gyro = new Gyro();

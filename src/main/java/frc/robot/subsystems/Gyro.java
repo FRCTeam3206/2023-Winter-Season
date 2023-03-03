@@ -55,7 +55,7 @@ public class Gyro {
     }
 
     public Rotation2d yaw() {
-        return new Rotation2d(getGyroAngleZ());
+        return new Rotation2d(getRawGyroAngleZ());
     }
 
     public void periodic() {
