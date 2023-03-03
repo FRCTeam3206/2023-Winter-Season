@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.SensorTimeBase;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -24,18 +26,8 @@ public class Drivetrain extends SubsystemBase {
     CANSparkMax rearRightDrive = new CANSparkMax(CANIDs.RRD, MotorType.kBrushless);
     // Probably a better way to do this, but we do not know it, so here our solution
     // lies :)
-    WPI_CANCoder leftEncoder = new WPI_CANCoder(CANIDs.LEFT_ENCODER) {
-        @Override
-        public double getPosition() {
-            return super.getPosition() * ENCODER_RATIO_K;
-        }
-    };
-    WPI_CANCoder rightEncoder = new WPI_CANCoder(CANIDs.LEFT_ENCODER) {
-        @Override
-        public double getPosition() {
-            return super.getPosition() * ENCODER_RATIO_K;
-        }
-    };
+    WPI_CANCoder leftEncoder = new WPI_CANCoder(CANIDs.LEFT_ENCODER);
+    WPI_CANCoder rightEncoder = new WPI_CANCoder(CANIDs.RIGHT_ENCODER);
     DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
     boolean flipped = false;
     Gyro gyro = new Gyro();
@@ -48,7 +40,13 @@ public class Drivetrain extends SubsystemBase {
         frontRightDrive.restoreFactoryDefaults();
         rearLeftDrive.restoreFactoryDefaults();
         rearRightDrive.restoreFactoryDefaults();
-
+        CANCoderConfiguration config = new CANCoderConfiguration();
+        config.sensorCoefficient = ENCODER_RATIO_K;
+        config.unitString = "m";
+        config.sensorTimeBase = SensorTimeBase.PerSecond;
+        rightEncoder.configAllSettings(config);
+        config.sensorDirection = true;
+        leftEncoder.configAllSettings(config);
         leftEncoder.setPosition(0);
         rightEncoder.setPosition(0);
 
@@ -98,5 +96,7 @@ public class Drivetrain extends SubsystemBase {
     public void periodic() {
         gyro.periodic();
         pose = odometry.update();
+        SmartDashboard.putData(leftEncoder);
+        SmartDashboard.putData(rightEncoder);
     }
 }
