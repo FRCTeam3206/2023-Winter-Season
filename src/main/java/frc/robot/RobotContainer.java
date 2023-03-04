@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AlignCommand;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ChargeLeveler;
 import frc.robot.commands.ClawCommand;
@@ -111,6 +112,7 @@ public class RobotContainer {
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
+        rightStick.button(2).whileTrue(new AlignCommand(drive, Constants.Vision.getScoreArea(7, -1, 1)));
         // vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw
         // claw.setDefaultCommand(
