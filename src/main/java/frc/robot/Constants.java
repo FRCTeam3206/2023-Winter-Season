@@ -57,6 +57,33 @@ public class Constants {
     }
 
     public static class Vision {
+        public static Translation3d[] aprilTags = new Translation3d[] {
+                null,
+                new Translation3d(15.513558, 1.071626, 0.462788),
+                new Translation3d(15.513558, 2.748026, 0.462788),
+                new Translation3d(15.513558, 4.424426, 0.462788),
+                new Translation3d(16.178784, 6.749796, 0.695452),
+                new Translation3d(0.36195, 6.749796, 0.695452),
+                new Translation3d(1.02743, 4.424426, 0.462788),
+                new Translation3d(1.02743, 2.748026, 0.462788),
+                new Translation3d(1.02743, 1.071626, 0.462788),
+        };
+
+        /*
+         * positions
+         * (-1,1) (0,1) (1,1)
+         * (-1,0) (0,0) (1,0)
+         */
+        public static Translation3d getScoreArea(int tagID, int x, int y) {
+            Translation3d aprilTag = aprilTags[tagID];
+            double multiplier = 1.0;
+            if (tagID > 4)
+                multiplier = -1.0;
+            return new Translation3d(multiplier * (.226 + (y) * .433), -multiplier * (x) * .559,
+                    .403 + (y) * .304)
+                    .plus(aprilTag);
+        }
+
         // Change which camera you want to use with photonvision.
         public static final String photonvision_camera = "USB_GS_Camera";
         public static final Transform3d CAMERA_POS = new Transform3d(new Translation3d(-.229, 0, 0),
