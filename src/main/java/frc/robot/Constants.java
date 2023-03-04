@@ -9,6 +9,8 @@ public class Constants {
     public static final double CHARGE_LEVEL_K = 1.0 / 10.0 / 2.25;
     public static final double ENCODER_RATIO_K = 6. * Math.PI / 39.37 / 4090.;
     public static final double TRACK_WIDTH = 20.817 / 39.37;
+    public static final double AlignDampener = 1.2;
+    public static final double ALIGN_DEADZONE = .15;
 
     public static class Ports {
         public static final int INTAKE_MOTOR = 5;

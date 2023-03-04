@@ -112,7 +112,16 @@ public class RobotContainer {
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
-        rightStick.button(2).whileTrue(new AlignCommand(drive, Constants.Vision.getScoreArea(7, -1, 1)));
+
+        rightStick.povDownLeft().whileTrue(new AlignCommand(drive, 1, 0));
+        rightStick.povDown().whileTrue(new AlignCommand(drive, 0, 0));
+        rightStick.povDownRight().whileTrue(new AlignCommand(drive, -1, 0));
+        rightStick.povUpLeft().whileTrue(new AlignCommand(drive, 1, -1));
+        rightStick.povUp().whileTrue(new AlignCommand(drive, 0, -1));
+        rightStick.povUpRight().whileTrue(new AlignCommand(drive, -1, -1));
+
+        // rightStick.povDown().whileTrue(new AlignCommand(drive,
+        // Constants.Vision.getScoreArea(2, 0, 0)));
         // vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw
         // claw.setDefaultCommand(
