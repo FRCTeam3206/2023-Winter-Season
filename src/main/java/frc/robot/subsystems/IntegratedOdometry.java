@@ -12,31 +12,37 @@ import com.ctre.phoenix.sensors.CANCoder;
 import org.photonvision.EstimatedRobotPose;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.Constants.Vision;
 
 public class IntegratedOdometry {
     Gyro gyro;
     CANCoder rightEncoder, lefEncoder;
     PhotonCamera camera = new PhotonCamera(Constants.Vision.photonvision_camera);
     Pose3d pose = new Pose3d();
-    PhotonPoseEstimator estimator;
+    PhotonPoseEstimator photonEstimator;
     AprilTagFieldLayout aprilTagFieldLayout = null;
     Field2d field = new Field2d();
-    DifferentialDriveOdometry odometry;
+    DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(
+            Constants.TRACK_WIDTH);
+    DifferentialDrivePoseEstimator poseEstimator;
 
     public IntegratedOdometry(Gyro gyro, CANCoder rightEncoder, CANCoder lefEncoder) {
         this.gyro = gyro;
         this.rightEncoder = rightEncoder;
         this.lefEncoder = lefEncoder;
-        odometry = new DifferentialDriveOdometry(gyro.yaw(), 0, 0);
+        poseEstimator = new DifferentialDrivePoseEstimator(kinematics, gyro.yaw(), lefEncoder.getPosition(),
+                rightEncoder.getPosition(), new Pose2d());
         try {
             aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
         } catch (IOException e) {
@@ -45,34 +51,33 @@ public class IntegratedOdometry {
         }
         if (aprilTagFieldLayout != null) {
             try {
-                Transform3d cameraPos = new Transform3d(new Translation3d(0, .2, .36), new Rotation3d(0, 0, Math.PI));
-                estimator = new PhotonPoseEstimator(
+
+                photonEstimator = new PhotonPoseEstimator(
                         aprilTagFieldLayout,
-                        PoseStrategy.CLOSEST_TO_REFERENCE_POSE,
+                        PoseStrategy.AVERAGE_BEST_TARGETS,
                         camera,
-                        cameraPos);
+                        Vision.CAMERA_POS);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        SmartDashboard.putData("Field", field);
     }
 
     public Pose2d update() {
         // propose encoder based position
-        Pose2d pose = odometry.update(gyro.yaw(), lefEncoder.getPosition(), rightEncoder.getPosition());
+        poseEstimator.update(gyro.yaw(), lefEncoder.getPosition(), rightEncoder.getPosition());
         // if we don't have a vision estimator or there is no april tag, return that;
-        if (estimator == null)
-            return pose;
+        if (photonEstimator == null)
+            return poseEstimator.getEstimatedPosition();
         // Tell vision what the last encoder position was(to prevent spiradic hopping)
-        estimator.setReferencePose(pose);
-        Optional<EstimatedRobotPose> estimatedPoseOptional = estimator.update();
+        photonEstimator.setReferencePose(pose);
+        Optional<EstimatedRobotPose> estimatedPoseOptional = photonEstimator.update();
         if (!estimatedPoseOptional.isEmpty()) {
-            pose = estimatedPoseOptional.get().estimatedPose.toPose2d();
+            poseEstimator.addVisionMeasurement(estimatedPoseOptional.get().estimatedPose.toPose2d(),
+                    estimatedPoseOptional.get().timestampSeconds);
         }
-        field.setRobotPose(pose);
-        SmartDashboard.putData("Field", field);
-        // tell odometry that vision is correct
-        odometry.resetPosition(gyro.yaw(), lefEncoder.getPosition(), rightEncoder.getPosition(), pose);
-        return pose;
+        field.setRobotPose(poseEstimator.getEstimatedPosition());
+        return poseEstimator.getEstimatedPosition();
     }
 }

@@ -1,9 +1,14 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
+
 public class Constants {
     public static final int FILTER_WINDOW_SIZE = 5;
     public static final double CHARGE_LEVEL_K = 1.0 / 10.0 / 2.25;
     public static final double ENCODER_RATIO_K = 6. * Math.PI / 39.37 / 4090.;
+    public static final double TRACK_WIDTH = 20.817 / 39.37;
 
     public static class Ports {
         public static final int INTAKE_MOTOR = 5;
@@ -51,8 +56,10 @@ public class Constants {
         public static final boolean GRAB_BLCK = false;
     }
 
-    public class Vision {
+    public static class Vision {
         // Change which camera you want to use with photonvision.
         public static final String photonvision_camera = "USB_GS_Camera";
+        public static final Transform3d CAMERA_POS = new Transform3d(new Translation3d(-.229, 0, 0),
+                new Rotation3d(0, 0, Math.PI));
     }
 }
