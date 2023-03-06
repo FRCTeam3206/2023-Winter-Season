@@ -76,6 +76,8 @@ public class AlignCommand extends CommandBase {
     }
 
     private boolean hasPassedTolerance = false;
+    private double turnSpeed = 0;
+    private boolean finisher = false;
 
     @Override
     public void execute() {
@@ -85,18 +87,30 @@ public class AlignCommand extends CommandBase {
         double currentAngle = drive.getPose().getRotation().getRadians();
         desiredAngle = clipAngle(desiredAngle);
         currentAngle = clipAngle(currentAngle);
-        double deltaTheta = currentAngle - desiredAngle;
-        double speed = -Constants.AlignDampener * (deltaTheta);
-        if (deltaTheta < 4 * 3.14 / 360)
-            hasPassedTolerance = true;
-        if (hasPassedTolerance)
-            speed = 0;
-        // if (speed > .7)
-        // speed = .7;
-        // if (speed < -.7)
-        // speed = -.7;
-        drive.arcadeDrive(0, speed);
-        SmartDashboard.putNumber("Speed", speed);
+        double deltaTheta = -(currentAngle - desiredAngle);
+        // double speed = -Constants.ALIGN_DAMPENER * (deltaTheta);
+        // if (deltaTheta < ((4 * 3.14) / 360)) {
+        // hasPassedTolerance = true;
+        // }
+        // if (hasPassedTolerance) {
+        // SmartDashboard.putNumber("Tolerance", 1.0);
+        // speed = 0;
+        // }
+        if ((deltaTheta * 180 / Math.PI) > 2.0) {
+            turnSpeed = deltaTheta * Constants.ALIGN_DAMPENER;
+            if (turnSpeed < Constants.ALIGN_FLOOR) {
+                turnSpeed = Constants.ALIGN_FLOOR;
+            }
+        } else if ((deltaTheta * 180 / Math.PI) < -2.0) {
+            turnSpeed = deltaTheta * Constants.ALIGN_DAMPENER;
+            if (turnSpeed > -Constants.ALIGN_FLOOR) {
+                turnSpeed = -Constants.ALIGN_FLOOR;
+            }
+        } else {
+            turnSpeed = 0;
+        }
+        drive.arcadeDrive(0, turnSpeed);
+        SmartDashboard.putNumber("TurnSpeed", turnSpeed);
         SmartDashboard.putNumber("DX", deltaPosX);
         SmartDashboard.putNumber("DY", deltaPosY);
         SmartDashboard.putNumber("Des Angle", desiredAngle * 180 / 3.14);
@@ -116,7 +130,13 @@ public class AlignCommand extends CommandBase {
     }
 
     @Override
+    public boolean isFinished() {
+        return finisher;
+    }
+
+    @Override
     public void end(boolean interrupted) {
         this.hasPassedTolerance = false;
     }
+
 }

@@ -26,7 +26,7 @@ public class ArcadeDrive extends CommandBase {
 
     @Override
     public void execute() {
-        this.m_drive.arcadeDrive(-this.forwardPower.get(), -this.rotatePower.get());
+        this.m_drive.arcadeDrive(-this.forwardPower.get(), this.rotatePower.get());
         m_drive.setShift(shift.get());
     }
 
