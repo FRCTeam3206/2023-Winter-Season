@@ -39,7 +39,7 @@ public class RobotContainer {
     Vision vision = new Vision();
     // Claw claw = new Claw();
     // Arm arm = new Arm();
-    // Intake intake = new Intake();
+    Intake intake = new Intake();
     // Compressor pcmCompressor = new Compressor(COMPRESSOR_MODULE,
     // PneumaticsModuleType.CTREPCM);
 
@@ -120,10 +120,10 @@ public class RobotContainer {
         // () -> xbox.getHID().getRawButton(BTN_CUBE)));
 
         // // Setup Intake
-        // intake.setDefaultCommand(
-        // new IntakeCommand(
-        // intake,
-        // () -> xbox.getHID().getRawButton(BTN_INTAKE)));
+        intake.setDefaultCommand(
+                new IntakeCommand(
+                        intake,
+                        () -> xbox.getHID().getRawButton(BTN_INTAKE)));
 
         // Setup Compressor
         // pcmCompressor.enableDigital();
