@@ -11,7 +11,7 @@ public class Constants {
     public static final double TRACK_WIDTH = 20.817 / 39.37;
 
     public static class Ports {
-        public static final int INTAKE_MOTOR = 5;
+        public static final int INTAKE_MOTOR = 7;
         public static final int CLAW_MASTER_PISTON = 0;
         public static final int CLAW_SECOND_PISTON = 1;
         public static final int ARM_MOTOR = 6;
