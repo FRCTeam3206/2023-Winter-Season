@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.CANIDs;
@@ -98,5 +99,9 @@ public class Drivetrain extends SubsystemBase {
         pose = odometry.update();
         SmartDashboard.putData(leftEncoder);
         SmartDashboard.putData(rightEncoder);
+    }
+
+    public Field2d getField() {
+        return odometry.field;
     }
 }

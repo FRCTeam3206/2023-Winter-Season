@@ -50,7 +50,7 @@ public class IntegratedOdometry {
 
                 photonEstimator = new PhotonPoseEstimator(
                         aprilTagFieldLayout,
-                        PoseStrategy.AVERAGE_BEST_TARGETS,
+                        PoseStrategy.MULTI_TAG_PNP,
                         camera,
                         Vision.CAMERA_POS);
             } catch (Exception e) {
@@ -58,6 +58,10 @@ public class IntegratedOdometry {
             }
         }
         SmartDashboard.putData("Field", field);
+    }
+
+    public Field2d getField() {
+        return field;
     }
 
     public Pose2d update() {

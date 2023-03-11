@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -75,12 +76,12 @@ public class AlignCommand extends CommandBase {
         }
     }
 
-    private boolean hasPassedTolerance = false;
     private double turnSpeed = 0;
-    private boolean finisher = false;
+    boolean hasPassedTolerance = false;
 
     @Override
     public void execute() {
+        drive.getField().setRobotPose(new Pose2d(desiredLocation.toTranslation2d(), new Rotation2d()));
         double deltaPosX = desiredLocation.getX() - drive.getPose().getX();
         double deltaPosY = desiredLocation.getY() - drive.getPose().getY();
         double desiredAngle = Math.atan(deltaPosY / deltaPosX);
@@ -96,19 +97,24 @@ public class AlignCommand extends CommandBase {
         // SmartDashboard.putNumber("Tolerance", 1.0);
         // speed = 0;
         // }
-        if ((deltaTheta * 180 / Math.PI) > 2.0) {
-            turnSpeed = deltaTheta * Constants.ALIGN_DAMPENER;
-            if (turnSpeed < Constants.ALIGN_FLOOR) {
-                turnSpeed = Constants.ALIGN_FLOOR;
-            }
-        } else if ((deltaTheta * 180 / Math.PI) < -2.0) {
-            turnSpeed = deltaTheta * Constants.ALIGN_DAMPENER;
-            if (turnSpeed > -Constants.ALIGN_FLOOR) {
-                turnSpeed = -Constants.ALIGN_FLOOR;
-            }
-        } else {
-            turnSpeed = 0;
-        }
+        // if ((deltaTheta * 180 / Math.PI) > 2.0) {
+        // turnSpeed = deltaTheta * Constants.ALIGN_DAMPENER;
+        // if (turnSpeed < Constants.ALIGN_FLOOR) {
+        // turnSpeed = Constants.ALIGN_FLOOR;
+        // }
+        // } else if ((deltaTheta * 180 / Math.PI) < -2.0) {
+        // turnSpeed = deltaTheta * Constants.ALIGN_DAMPENER;
+        // if (turnSpeed > -Constants.ALIGN_FLOOR) {
+        // turnSpeed = -Constants.ALIGN_FLOOR;
+        // }
+        // } else {
+        // turnSpeed = 0;
+        // }
+        turnSpeed = deltaTheta / Constants.ALIGN_DAMPENER;
+        if (turnSpeed > .7)
+            turnSpeed = .7;
+        if (turnSpeed < -.7)
+            turnSpeed = -.7;
         drive.arcadeDrive(0, turnSpeed);
         SmartDashboard.putNumber("TurnSpeed", turnSpeed);
         SmartDashboard.putNumber("DX", deltaPosX);
@@ -131,7 +137,7 @@ public class AlignCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return finisher;
+        return false;
     }
 
     @Override
