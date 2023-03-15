@@ -18,13 +18,8 @@ public class Intake extends SubsystemBase {
     public Intake() {
     }
 
-    public void runIntake() {
+    public void runIntake(double speed) {
         // deploy.set(true);
-        intakeMotor.set(.7);
-    }
-
-    public void stopIntake() {
-        // deploy.set(false);
-        intakeMotor.set(0);
+        intakeMotor.set(-speed);
     }
 }
