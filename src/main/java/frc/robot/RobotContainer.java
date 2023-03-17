@@ -26,6 +26,7 @@ import frc.robot.commands.DriveTime;
 import frc.robot.commands.DriveUntilSupplier;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.PhotonLibVision;
+import frc.robot.commands.SeeSawCommand;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
@@ -65,6 +66,10 @@ public class RobotContainer {
         configureBindings();
         autons();
     }
+
+    Trigger buttonUp = leftStick
+
+    Trigger buttonDown=leftStick
 
     private void autons() {
         auton_chooser.addOption("Charge Level", new SequentialCommandGroup(new Command[] {
@@ -108,6 +113,9 @@ public class RobotContainer {
         // Setup Drivetrain
         drive_chooser.setDefaultOption("Arcade", arcade);
         drive_chooser.addOption("Tank", tank);
+        buttonUp.whileTrue(new SeeSawCommand(intake, 1));
+        buttonDown.whileTrue(new SeeSawCommand(intake, 0));
+
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());

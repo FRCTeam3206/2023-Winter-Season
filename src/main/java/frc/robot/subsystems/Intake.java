@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -12,11 +13,10 @@ import static frc.robot.Constants.*;
 
 public class Intake extends SubsystemBase {
     CANSparkMax intakeMotor = new CANSparkMax(Ports.INTAKE_MOTOR, MotorType.kBrushless);
+    WPI_VictorSPX seeSawMotor = new WPI_VictorSPX(1);
+
     // Solenoid deploy = new Solenoid(PneumaticsModuleType.CTREPCM,
     // Ports.INTAKE_DEPLOY);
-
-    public Intake() {
-    }
 
     public void runIntake() {
         // deploy.set(true);
@@ -26,5 +26,17 @@ public class Intake extends SubsystemBase {
     public void stopIntake() {
         // deploy.set(false);
         intakeMotor.set(0);
+    }
+
+    public void seeSawUp() {
+        seeSawMotor.set(0.2);
+    }
+
+    public void seeSawDown() {
+        seeSawMotor.set(-0.2);
+    }
+
+    public void seeSawStop() {
+        seeSawMotor.set(0);
     }
 }
