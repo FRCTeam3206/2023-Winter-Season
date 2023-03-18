@@ -25,19 +25,58 @@ public class Constants {
     }
 
     public static class Inputs {
-        public static final int BTN_CONE = 4;    // Xbox Y Yellow
-        public static final int BTN_CUBE = 1;    // Xbox X blue
-        public static final int BTN_INTAKE = 6;  //  Xbox Right Bumper
-        public static final int BTN_DRIVE_FLIP = 2;
+        // Controls Constants (Do not Change)
+        public static final int JOY_BTN_TRIGGER = 1; // Trigger
+        public static final int JOY_BTN_THUMB = 2; // Thumb
+        public static final int JOY_BTN_3 = 3; // Top of stick
+        public static final int JOY_BTN_4 = 4; // Top of stick
+        public static final int JOY_BTN_5 = 5; // top of stick
+        public static final int JOY_BTN_6 = 6; // Top of stick
+        public static final int JOY_BTN_7 = 7; // Base
+        public static final int JOY_BTN_8 = 8; // Base
+        public static final int JOY_BTN_9 = 9; // Base
+        public static final int JOY_BTN_10 = 10; // Base
+        public static final int JOY_BTN_11 = 11; // Base
+        public static final int JOY_BTN_12 = 12; // Base
+        public static final int JOY_UP_DOWN_AXIS = 1;
+        public static final int JOY_LEFT_RIGHT_AXIS = 2;
+        public static final int JOY_TWIST_AXIS = 3;
+        public static final int JOY_THRUST_AXIS = 4;
+        public static final int HAT_UP_DOWN_AXIS = 5;
+        public static final int HAT_LEFT_RIGHT_AXIS = 6;
 
-        public static final int ARCADE_FORWARD_AXIS = 1;
-        public static final int ARCADE_ROTATE_AXIS = 2;
+        // Gamepad Constants for LogitechF310 (Do not change)
+        public static final int PAD_LEFTSTICK_UP_DOWN_AXIS = 0;
+        public static final int PAD_LEFTSTICK_LEFT_RIGHT_AXIS = 1;
+        public static final int PAD_RIGHTSTICK_UP_DOWN_AXIS = 2;
+        public static final int PAD_RIGHTSTICK_LEFT_RIGHT_AXIS = 3;
+        public static final int PAD_BTN_X_BLUE = 0;
+        public static final int PAD_BTN_A_GREEN = 1;
+        public static final int PAD_BTN_B_RED = 2;
+        public static final int PAD_BTN_Y_YELLOW = 3;
+        public static final int PAD_LEFT_BUMPER = 4;
+        public static final int PAD_RIGHT_BUMPER = 5;
+        public static final int PAD_LEFT_TRIGGER = 6;
+        public static final int PAD_RIGHT_TRIGGER = 7;
+        public static final int PAD_BTN_BACK = 8;
+        public static final int PAD_BTN_START = 9;
+        public static final int PAD_BTN_LEFT_STICK = 10;
+        public static final int PAD_BTN_RIGHT_STICK = 11;
 
-        public static final int TANK_LEFT_AXIS = 1;    // Left joystick
-        public static final int TANK_RIGHT_AXIS = 1;   // Right joystick
+        // Driver chosenConstants
+        public static final int BTN_CONE = PAD_BTN_X_BLUE;
+        public static final int BTN_CUBE = PAD_BTN_Y_YELLOW;
+        public static final int BTN_INTAKE = PAD_LEFT_TRIGGER;
+        public static final int BTN_DRIVE_FLIP = PAD_BTN_B_RED;
 
-        public static final int BTN_SHIFT = 1;         // Right Joystick trigger
-        public static final int BTN_LEVEL = 2;         // Right joystick Thumb
+        public static final int ARCADE_FORWARD_AXIS = JOY_UP_DOWN_AXIS;
+        public static final int ARCADE_ROTATE_AXIS = JOY_LEFT_RIGHT_AXIS;
+
+        public static final int TANK_LEFT_AXIS = JOY_UP_DOWN_AXIS;
+        public static final int TANK_RIGHT_AXIS = JOY_UP_DOWN_AXIS;
+
+        public static final int BTN_SHIFT = JOY_BTN_TRIGGER;
+        public static final int BTN_LEVEL = JOY_BTN_THUMB;
     }
 
     public static class CANIDs {
