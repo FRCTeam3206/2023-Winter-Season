@@ -10,13 +10,15 @@ public class TankDrive extends CommandBase {
     private final Supplier<Double> leftSupplier;
     private final Supplier<Double> rightSupplier;
     Supplier<Boolean> shiftSupplier;
+    Supplier<Boolean> reverseSupplier;
 
     public TankDrive(Drivetrain subsystem, Supplier<Double> leftForwardPower, Supplier<Double> rightForwardPower,
-            Supplier<Boolean> shiftSupplier) {
+            Supplier<Boolean> shiftSupplier, Supplier<Boolean> reverseSupplier) {
         this.m_drive = subsystem;
         this.leftSupplier = leftForwardPower;
         this.rightSupplier = rightForwardPower;
         this.shiftSupplier = shiftSupplier;
+        this.reverseSupplier = reverseSupplier;
         addRequirements(subsystem);
     }
 
@@ -26,7 +28,12 @@ public class TankDrive extends CommandBase {
 
     @Override
     public void execute() {
-        this.m_drive.tankDrive(-this.leftSupplier.get(), -this.rightSupplier.get());
+
+        if (reverseSupplier.get()) {
+            this.m_drive.tankDrive(this.leftSupplier.get(), this.rightSupplier.get());
+        } else {
+            this.m_drive.tankDrive(-this.leftSupplier.get(), -this.rightSupplier.get());
+        }
         m_drive.setShift(shiftSupplier.get());
     }
 

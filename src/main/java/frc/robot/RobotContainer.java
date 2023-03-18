@@ -55,7 +55,8 @@ public class RobotContainer {
             () -> rightStick.getRawAxis(ARCADE_ROTATE_AXIS),
             () -> rightStick.getHID().getRawButton(BTN_SHIFT));
     TankDrive tank = new TankDrive(drive, () -> leftStick.getRawAxis(TANK_LEFT_AXIS),
-            () -> rightStick.getRawAxis(TANK_RIGHT_AXIS), () -> rightStick.getHID().getRawButton(BTN_SHIFT));
+            () -> rightStick.getRawAxis(TANK_RIGHT_AXIS), () -> rightStick.getHID().getRawButton(BTN_SHIFT),
+            () -> leftStick.getHID().getRawButton(1));
 
     // Choosers
     SendableChooser<Command> drive_chooser = new SendableChooser<>();
@@ -123,7 +124,10 @@ public class RobotContainer {
         intake.setDefaultCommand(
                 new IntakeCommand(
                         intake,
-                        () -> xbox.getHID().getRawButton(BTN_INTAKE)));
+                        () -> xbox.getHID().getRawButton(BTN_INTAKE_CONE),
+                        () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CONE),
+                        () -> xbox.getHID().getRawButton(BTN_INTAKE_CUBE),
+                        () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CUBE)));
 
         // Setup Compressor
         // pcmCompressor.enableDigital();

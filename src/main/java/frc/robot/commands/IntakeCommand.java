@@ -7,10 +7,17 @@ import frc.robot.subsystems.Intake;
 
 public class IntakeCommand extends CommandBase {
     private Intake intake;
-    private Supplier<Boolean> button;
+    private Supplier<Boolean> runConeButton;
+    private Supplier<Boolean> reverseConeButton;
+    private Supplier<Boolean> runCubeButton;
+    private Supplier<Boolean> reverseCubeButton;
 
-    public IntakeCommand(Intake subsystem, Supplier<Boolean> button) {
-        this.button = button;
+    public IntakeCommand(Intake subsystem, Supplier<Boolean> runConeButton, Supplier<Boolean> reverseConeButton,
+            Supplier<Boolean> runCubeButton, Supplier<Boolean> reverseCubeButton) {
+        this.runConeButton = runConeButton;
+        this.reverseConeButton = reverseConeButton;
+        this.runCubeButton = runCubeButton;
+        this.reverseCubeButton = reverseCubeButton;
         this.intake = subsystem;
         addRequirements(subsystem);
     }
@@ -21,10 +28,16 @@ public class IntakeCommand extends CommandBase {
 
     @Override
     public void execute() {
-        if (button.get()) {
-            intake.runIntake();
+        if (runCubeButton.get()) {
+            intake.runIntake(.3);
+        } else if (runConeButton.get()) {
+            intake.runIntake(.5);
+        } else if (reverseCubeButton.get()) {
+            intake.runIntake(-.4);
+        } else if (reverseConeButton.get()) {
+            intake.runIntake(-.7);
         } else {
-            intake.stopIntake();
+            intake.runIntake(0);
         }
     }
 
