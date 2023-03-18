@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.ADIS16448_IMU;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,9 +34,9 @@ public class Gyro {
         return value;
     }
 
-    public Filter pos_x = new Filter(() -> this.getRawGyroAngleX(), Constants.FILTER_WINDOW_SIZE);
-    public Filter pos_y = new Filter(() -> this.getRawGyroAngleY(), Constants.FILTER_WINDOW_SIZE);
-    public Filter pos_z = new Filter(() -> this.getRawGyroAngleZ(), Constants.FILTER_WINDOW_SIZE);
+    public Supplier<Double> pos_x = () -> this.getRawGyroAngleX();
+    public Supplier<Double> pos_y = () -> this.getRawGyroAngleY();
+    public Supplier<Double> pos_z = () -> this.getRawGyroAngleZ();
 
     public double getGyroAngleX() {
         double value = pos_x.get();
@@ -59,9 +61,6 @@ public class Gyro {
     }
 
     public void periodic() {
-        pos_x.periodic();
-        pos_y.periodic();
-        pos_z.periodic();
         getGyroAngleX();
         getGyroAngleY();
         getGyroAngleZ();
