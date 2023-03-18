@@ -16,9 +16,9 @@ public class Gyro {
         raw_gyro.reset();
     }
 
-    public Supplier<Float> pos_x = () -> raw_gyro.getRawGyroX();
-    public Supplier<Float> pos_y = () -> raw_gyro.getRawGyroY();
-    public Supplier<Float> pos_z = () -> raw_gyro.getRawGyroZ();
+    public Supplier<Float> pos_x = () -> raw_gyro.getPitch();
+    public Supplier<Float> pos_y = () -> raw_gyro.getYaw();
+    public Supplier<Float> pos_z = () -> raw_gyro.getRoll();
 
     public double getGyroAngleX() {
         double value = pos_x.get();
@@ -43,5 +43,8 @@ public class Gyro {
     }
 
     public void periodic() {
+        getGyroAngleX();
+        getGyroAngleY();
+        getGyroAngleZ();
     }
 }
