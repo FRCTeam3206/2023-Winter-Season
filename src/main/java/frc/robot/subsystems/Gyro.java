@@ -2,14 +2,14 @@ package frc.robot.subsystems;
 
 import java.util.function.Supplier;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.ADIS16448_IMU;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants;
-import frc.robot.helpers.Filter;
 
 public class Gyro {
-    public ADIS16448_IMU raw_gyro = new ADIS16448_IMU();
+    public AHRS raw_gyro = new AHRS(SPI.Port.kMXP);
 
     public Gyro() {
         raw_gyro.calibrate();
@@ -17,19 +17,19 @@ public class Gyro {
     }
 
     public double getRawGyroAngleX() {
-        double value = raw_gyro.getGyroAngleX();
+        double value = raw_gyro.getRawGyroX();
         SmartDashboard.putNumber("Raw Pos X", value);
         return value;
     }
 
     public double getRawGyroAngleY() {
-        double value = raw_gyro.getGyroAngleY();
+        double value = raw_gyro.getRawGyroY();
         SmartDashboard.putNumber("Raw Pos Y", value);
         return value;
     }
 
     public double getRawGyroAngleZ() {
-        double value = raw_gyro.getGyroAngleZ();
+        double value = raw_gyro.getRawGyroZ();
         SmartDashboard.putNumber("Raw Pos Z", value);
         return value;
     }
