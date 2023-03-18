@@ -16,27 +16,9 @@ public class Gyro {
         raw_gyro.reset();
     }
 
-    public double getRawGyroAngleX() {
-        double value = raw_gyro.getRawGyroX();
-        SmartDashboard.putNumber("Raw Pos X", value);
-        return value;
-    }
-
-    public double getRawGyroAngleY() {
-        double value = raw_gyro.getRawGyroY();
-        SmartDashboard.putNumber("Raw Pos Y", value);
-        return value;
-    }
-
-    public double getRawGyroAngleZ() {
-        double value = raw_gyro.getRawGyroZ();
-        SmartDashboard.putNumber("Raw Pos Z", value);
-        return value;
-    }
-
-    public Supplier<Double> pos_x = () -> this.getRawGyroAngleX();
-    public Supplier<Double> pos_y = () -> this.getRawGyroAngleY();
-    public Supplier<Double> pos_z = () -> this.getRawGyroAngleZ();
+    public Supplier<Float> pos_x = () -> raw_gyro.getRawGyroX();
+    public Supplier<Float> pos_y = () -> raw_gyro.getRawGyroY();
+    public Supplier<Float> pos_z = () -> raw_gyro.getRawGyroZ();
 
     public double getGyroAngleX() {
         double value = pos_x.get();
@@ -57,12 +39,9 @@ public class Gyro {
     }
 
     public Rotation2d yaw() {
-        return new Rotation2d(getRawGyroAngleZ());
+        return new Rotation2d(getGyroAngleZ());
     }
 
     public void periodic() {
-        getGyroAngleX();
-        getGyroAngleY();
-        getGyroAngleZ();
     }
 }
