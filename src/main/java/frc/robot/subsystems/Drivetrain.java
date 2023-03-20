@@ -9,6 +9,7 @@ import com.revrobotics.RelativeEncoder;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -34,6 +35,8 @@ public class Drivetrain extends SubsystemBase {
     IntegratedOdometry odometry = new IntegratedOdometry(gyro, rightEncoder, leftEncoder);
     Pose2d pose = new Pose2d();
     Solenoid shifter = new Solenoid(PneumaticsModuleType.REVPH, Ports.SOLENOID_SHIFTER);
+    SlewRateLimiter rightLimiter = new SlewRateLimiter(ACCEL_LIMIT_K, -ACCEL_LIMIT_K, 0);
+    SlewRateLimiter leftLimiter = new SlewRateLimiter(ACCEL_LIMIT_K, -ACCEL_LIMIT_K, 0);
 
     public Drivetrain() {
         frontLeftDrive.restoreFactoryDefaults();
@@ -64,7 +67,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void tankDrive(double left_speed, double right_speed) {
-        drive.tankDrive(left_speed, right_speed);
+        drive.tankDrive(leftLimiter.calculate(left_speed), rightLimiter.calculate(right_speed));
     }
 
     public void flip() {
