@@ -9,7 +9,7 @@ public class Constants {
     public static final double CHARGE_LEVEL_K = 1.0 / 10.0 / 2.25;
     public static final double ENCODER_RATIO_K = 6. * Math.PI / 39.37 / 4090.;
     public static final double TRACK_WIDTH = 20.817 / 39.37;
-    public static final double ACCEL_LIMIT_K = .7;// In %motor/second(1 is no accel, 0 is not moving)
+    public static final double ACCEL_LIMIT_K = 1;// In %motor/second(1 is no accel limit, 0 is not moving)
 
     public static class Ports {
         public static final int INTAKE_MOTOR = 7;
