@@ -107,8 +107,8 @@ public class RobotContainer {
 
     private void configureBindings() {
         // Setup Drivetrain
-        drive_chooser.setDefaultOption("Arcade", arcade);
-        drive_chooser.addOption("Tank", tank);
+        drive_chooser.setDefaultOption("Tank", tank);
+        drive_chooser.addOption("Tank.", arcade);
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
