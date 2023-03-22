@@ -34,7 +34,12 @@ public class Drivetrain extends SubsystemBase {
     Gyro gyro = new Gyro();
     IntegratedOdometry odometry = new IntegratedOdometry(gyro, rightEncoder, leftEncoder);
     Pose2d pose = new Pose2d();
-    Solenoid shifter = new Solenoid(PneumaticsModuleType.REVPH, Ports.SOLENOID_SHIFTER);
+    // REV Pneumatics Hub
+    // Solenoid shifter = new Solenoid(PneumaticsModuleType.REVPH,
+    // Ports.SOLENOID_SHIFTER);
+    // CTRE PCM
+    Solenoid shifter = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.SOLENOID_SHIFTER);
+
     SlewRateLimiter rightLimiter = new SlewRateLimiter(ACCEL_LIMIT_K, -ACCEL_LIMIT_K, 0);
     SlewRateLimiter leftLimiter = new SlewRateLimiter(ACCEL_LIMIT_K, -ACCEL_LIMIT_K, 0);
 
