@@ -24,6 +24,7 @@ public class TankDrive extends CommandBase {
 
     @Override
     public void initialize() {
+        this.m_drive.tankDrive(0, 0);
     }
 
     @Override
