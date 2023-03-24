@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -25,8 +26,8 @@ public class Drivetrain extends SubsystemBase {
     CANSparkMax rearRightDrive = new CANSparkMax(CANIDs.RRD, MotorType.kBrushless);
     // Probably a better way to do this, but we do not know it, so here our solution
     // lies :)
-    WPI_CANCoder leftEncoder = new WPI_CANCoder(CANIDs.LEFT_ENCODER);
-    WPI_CANCoder rightEncoder = new WPI_CANCoder(CANIDs.RIGHT_ENCODER);
+    Encoder leftEncoder = new Encoder(Encoders.LEFT_A, Encoders.LEFT_B);
+    Encoder rightEncoder = new Encoder(Encoders.RIGHT_A, Encoders.RIGHT_B);
     DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
     boolean flipped = false;
     Gyro gyro = new Gyro();
@@ -43,16 +44,8 @@ public class Drivetrain extends SubsystemBase {
         frontRightDrive.restoreFactoryDefaults();
         rearLeftDrive.restoreFactoryDefaults();
         rearRightDrive.restoreFactoryDefaults();
-        CANCoderConfiguration config = new CANCoderConfiguration();
-        config.sensorCoefficient = ENCODER_RATIO_K;
-        config.unitString = "m";
-        config.sensorTimeBase = SensorTimeBase.PerSecond;
-        rightEncoder.configAllSettings(config);
-        config.sensorDirection = true;
-        leftEncoder.configAllSettings(config);
-        leftEncoder.setPosition(0);
-        rightEncoder.setPosition(0);
-
+        rightEncoder.setDistancePerPulse(ENCODER_RATIO_K);
+        leftEncoder.setDistancePerPulse(ENCODER_RATIO_K);
         frontRightDrive.setInverted(true);
         rearLeftDrive.follow(frontLeftDrive);
         rearRightDrive.follow(frontRightDrive);
@@ -69,7 +62,7 @@ public class Drivetrain extends SubsystemBase {
     public void tankDrive(double left_speed, double right_speed) {
         SmartDashboard.putNumber("Left Speed", left_speed);
         SmartDashboard.putNumber("Right Speed", right_speed);
-        drive.tankDrive(leftLimiter.calculate(left_speed), rightLimiter.calculate(-right_speed));
+        drive.tankDrive(leftLimiter.calculate(left_speed), rightLimiter.calculate(right_speed));
     }
 
     public void flip() {
@@ -85,8 +78,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void reset_position() {
-        leftEncoder.setPosition(0);
-        rightEncoder.setPosition(0);
+        leftEncoder.reset();
+        rightEncoder.reset();
     }
 
     public double pitch() {

@@ -3,24 +3,21 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.*;
 
 public class Arm extends SubsystemBase {
-    CANSparkMax elbow = new CANSparkMax(Ports.ARM_MOTOR, MotorType.kBrushless);
-    VictorSPX telescope = new VictorSPX(Ports.ARM_MOTOR);
-    Encoder elbowEncoder = new Encoder(0, 1, false);
-    PIDController elbowPID = new PIDController(1 / 180., 0, 0);
-    AnalogPotentiometer teleEncoder = new AnalogPotentiometer(0, 37, 52);
-    PIDController telePID = new PIDController(1 / 26., 0, 0);
+    CANSparkMax elbow = new CANSparkMax(CANIDs.ARM_ELBOW, MotorType.kBrushless);
+    VictorSPX telescope = new VictorSPX(CANIDs.ARM_TELE);
+    Encoder elbowEncoder = new Encoder(Encoders.ELBOW_A, Encoders.ELBOW_B, false);
+    PIDController elbowPID = new PIDController(ArmPID.elbowKp, ArmPID.elbowKi, ArmPID.elbowKd);
+    AnalogPotentiometer teleEncoder = new AnalogPotentiometer(0, ArmPID.ARM_SMALL, ArmPID.ARM_BIG);
+    PIDController telePID = new PIDController(ArmPID.teleKp, ArmPID.teleKi, ArmPID.teleKd);
 
     public Arm() {
         elbowEncoder.setDistancePerPulse(360 / 1024);

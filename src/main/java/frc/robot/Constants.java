@@ -7,15 +7,15 @@ import edu.wpi.first.math.geometry.Translation3d;
 public class Constants {
     public static final int FILTER_WINDOW_SIZE = 5;
     public static final double CHARGE_LEVEL_K = 1.0 / 10.0 / 2.25;
-    public static final double ENCODER_RATIO_K = 6. * Math.PI / 39.37 / 4090.;
+    public static final double ENCODER_RATIO_K = 6. * Math.PI / 39.37 / 1024.;
     public static final double TRACK_WIDTH = 20.817 / 39.37;
     public static final double ACCEL_LIMIT_K = 100000;// In %motor/second(infinity is no accel limit, 0 is not moving)
+    public static final double TRANSPORT_ENCODER_END_POS = 20 / Math.PI / 2 * 1024.;
 
     public static class Ports {
         public static final int INTAKE_MOTOR = 7;
-        public static final int CLAW_MASTER_PISTON = 0;
-        public static final int CLAW_SECOND_PISTON = 1;
-        public static final int ARM_MOTOR = 6;
+        public static final int CLAW_MASTER_PISTON = 2;
+        public static final int CLAW_SECOND_PISTON = 3;
         public static final int INTAKE_DEPLOY = 2;
         public static final int COMPRESSOR_MODULE = 0;
         public static final int SOLENOID_SHIFTER = 1;
@@ -49,9 +49,35 @@ public class Constants {
         public static final int FRD = 1;
         public static final int RLD = 3;
         public static final int RRD = 2;
-
+        public static final int ARM_ELBOW = 5;
+        public static final int ARM_TELE = 6;
+        public static final int TRANSPORT = 11;
         public static final int RIGHT_ENCODER = 1;
         public static final int LEFT_ENCODER = 2;
+    }
+
+    public static class Encoders {
+        public static final int RIGHT_A = 0;
+        public static final int RIGHT_B = 1;
+        public static final int LEFT_A = 2;
+        public static final int LEFT_B = 3;
+        public static final int ELBOW_A = 4;
+        public static final int ELBOW_B = 5;
+        public static final int TRANSPORT_A = 6;
+        public static final int TRANSPORT_B = 7;
+    }
+
+    public static class ArmPID {
+        public static final double elbowKp = 1.0 / 180;
+        public static final double elbowKi = 0;
+        public static final double elbowKd = 0;
+
+        public static final double teleKp = 1.0 / 32;
+        public static final double teleKi = 0;
+        public static final double teleKd = 0;
+
+        public static double ARM_SMALL = 37;
+        public static double ARM_BIG = 52;
     }
 
     // Macros for the claw.grab() func
