@@ -117,7 +117,8 @@ public class RobotContainer {
                         () -> xbox.getHID().getRawButton(BTN_INTAKE_CONE),
                         () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CONE),
                         () -> xbox.getHID().getRawButton(BTN_INTAKE_CUBE),
-                        () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CUBE)));
+                        () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CUBE),
+                        () -> xbox.getHID().getRawButton(BTN_TRANS_DOWN)));
 
         // Setup Compressor
         // pcmCompressor.enableDigital();
