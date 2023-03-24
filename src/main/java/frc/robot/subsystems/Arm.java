@@ -23,7 +23,7 @@ public class Arm extends SubsystemBase {
     PIDController telePID = new PIDController(1 / 26., 0, 0);
 
     public Arm() {
-        elbowEncoder.setDistancePerPulse(360 / 4096);
+        elbowEncoder.setDistancePerPulse(360 / 1024);
     }
 
     public void setElbowPos(double pos) {
