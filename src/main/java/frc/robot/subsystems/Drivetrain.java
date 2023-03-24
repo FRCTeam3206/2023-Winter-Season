@@ -67,7 +67,9 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void tankDrive(double left_speed, double right_speed) {
-        drive.tankDrive(leftLimiter.calculate(left_speed), rightLimiter.calculate(right_speed));
+        SmartDashboard.putNumber("Left Speed", left_speed);
+        SmartDashboard.putNumber("Right Speed", right_speed);
+        drive.tankDrive(leftLimiter.calculate(left_speed), rightLimiter.calculate(-right_speed));
     }
 
     public void flip() {
