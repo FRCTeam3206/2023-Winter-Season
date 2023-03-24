@@ -9,7 +9,7 @@ public class Constants {
     public static final double CHARGE_LEVEL_K = 1.0 / 10.0 / 2.25;
     public static final double ENCODER_RATIO_K = 6. * Math.PI / 39.37 / 4090.;
     public static final double TRACK_WIDTH = 20.817 / 39.37;
-    public static final double ACCEL_LIMIT_K = .7;// In %motor/second(1 is no accel, 0 is not moving)
+    public static final double ACCEL_LIMIT_K = 100000;// In %motor/second(infinity is no accel limit, 0 is not moving)
 
     public static class Ports {
         public static final int INTAKE_MOTOR = 7;
@@ -26,12 +26,12 @@ public class Constants {
     }
 
     public static class Inputs {
-        public static final int BTN_CONE = 4;
-        public static final int BTN_CUBE = 1;
-        public static final int BTN_INTAKE_CONE = 6;
-        public static final int BTN_REVERSE_INTAKE_CONE = 5;
-        public static final int BTN_INTAKE_CUBE = 8;
-        public static final int BTN_REVERSE_INTAKE_CUBE = 7;
+        public static final int BTN_CONE = 4; // x
+        public static final int BTN_CUBE = 1; // Y
+        public static final int BTN_INTAKE_CONE = 6; // RB
+        public static final int BTN_REVERSE_INTAKE_CONE = 5; // LB
+        public static final int BTN_INTAKE_CUBE = 8; // RT
+        public static final int BTN_REVERSE_INTAKE_CUBE = 7; // LT
         public static final int BTN_DRIVE_FLIP = 2;
 
         public static final int ARCADE_FORWARD_AXIS = 1;

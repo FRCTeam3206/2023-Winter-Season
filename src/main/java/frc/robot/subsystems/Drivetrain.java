@@ -1,11 +1,9 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.sensors.SensorTimeBase;
 import com.ctre.phoenix.sensors.WPI_CANCoder;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -34,7 +32,9 @@ public class Drivetrain extends SubsystemBase {
     Gyro gyro = new Gyro();
     IntegratedOdometry odometry = new IntegratedOdometry(gyro, rightEncoder, leftEncoder);
     Pose2d pose = new Pose2d();
-    Solenoid shifter = new Solenoid(PneumaticsModuleType.REVPH, Ports.SOLENOID_SHIFTER);
+    // MAKE SURE THIS IS RIGHT
+    Solenoid shifter = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.SOLENOID_SHIFTER);
+
     SlewRateLimiter rightLimiter = new SlewRateLimiter(ACCEL_LIMIT_K, -ACCEL_LIMIT_K, 0);
     SlewRateLimiter leftLimiter = new SlewRateLimiter(ACCEL_LIMIT_K, -ACCEL_LIMIT_K, 0);
 
