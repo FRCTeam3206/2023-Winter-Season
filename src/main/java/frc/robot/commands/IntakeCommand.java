@@ -32,26 +32,26 @@ public class IntakeCommand extends CommandBase {
     public void execute() {
         if (runCubeButton.get()) {
             intake.runIntake(.3);
-            intake.setIntake(true);
+            intake.setDeploy(true);
             intake.setTransport(true);
         } else if (runConeButton.get()) {
             intake.runIntake(.5);
-            intake.setIntake(true);
+            intake.setDeploy(true);
             intake.setTransport(true);
         } else if (reverseCubeButton.get()) {
             intake.runIntake(-.4);
-            intake.setIntake(true);
+            intake.setDeploy(true);
             intake.setTransport(true);
         } else if (reverseConeButton.get()) {
             intake.runIntake(-.7);
-            intake.setIntake(true);
+            intake.setDeploy(true);
             intake.setTransport(true);
         } else {
-            intake.runIntake(0);
-            intake.setIntake(false);
+            intake.runIntake(.2);
+            intake.setDeploy(false);
         }
         if (transportUp.get()) {
-            intake.setTransport(false);
+            // intake.setTransport(false);
         }
     }
 

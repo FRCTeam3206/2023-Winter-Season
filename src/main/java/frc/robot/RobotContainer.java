@@ -13,12 +13,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import frc.robot.Constants.Inputs;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ChargeLeveler;
 import frc.robot.commands.DriveTime;
 import frc.robot.commands.DriveUntilSupplier;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.TransportUp;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Vision;
@@ -119,7 +121,7 @@ public class RobotContainer {
                         () -> xbox.getHID().getRawButton(BTN_INTAKE_CUBE),
                         () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CUBE),
                         () -> xbox.getHID().getRawButton(BTN_TRANS_DOWN)));
-
+        xbox.button(Inputs.BTN_TRANS_DOWN).whileTrue(new TransportUp(intake));
         // Setup Compressor
         // pcmCompressor.enableDigital();
     }

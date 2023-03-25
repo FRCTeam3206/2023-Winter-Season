@@ -22,6 +22,8 @@ public class Intake extends SubsystemBase {
     Solenoid deploy = new Solenoid(PneumaticsModuleType.REVPH, Ports.INTAKE_DEPLOY);
 
     public Intake() {
+        encoder.setDistancePerPulse(Math.PI / 2048.);
+        encoder.setReverseDirection(true);
     }
 
     public void runIntake(double speed) {
@@ -29,7 +31,7 @@ public class Intake extends SubsystemBase {
         intakeMotor.set(-speed);
     }
 
-    public void setIntake(boolean down) {
+    public void setDeploy(boolean down) {
         deploy.set(down);
         intakeUp = !down;
     }
@@ -44,13 +46,14 @@ public class Intake extends SubsystemBase {
     }
 
     public void periodic() {
-        SmartDashboard.putNumber("Drawbridge Location", encoder.get());
+        SmartDashboard.putData("Drawbridge Location", encoder);
+        SmartDashboard.putBoolean("Transport Location", transportUp);
         if (movingTransport) {
-            deploy.set(true);
-            if (transportUp && encoder.get() < TRANSPORT_ENCODER_END_POS) {
-                transportMotor.set(VictorSPXControlMode.PercentOutput, .5);
-            } else if (!transportUp && encoder.get() > 0) {
-                transportMotor.set(VictorSPXControlMode.PercentOutput, -.5);
+            // deploy.set(true);
+            if (transportUp && encoder.getDistance() < TRANSPORT_ENCODER_END_POS) {
+                transportMotor.set(VictorSPXControlMode.PercentOutput, -.7);
+            } else if (!transportUp && encoder.getDistance() > 0) {
+                transportMotor.set(VictorSPXControlMode.PercentOutput, .7);
             } else {
                 transportMotor.set(VictorSPXControlMode.PercentOutput, 0);
                 movingTransport = false;
