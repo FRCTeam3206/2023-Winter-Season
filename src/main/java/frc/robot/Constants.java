@@ -7,10 +7,10 @@ import edu.wpi.first.math.geometry.Translation3d;
 public class Constants {
     public static final int FILTER_WINDOW_SIZE = 5;
     public static final double CHARGE_LEVEL_K = 1.0 / 10.0 / 2.25;
-    public static final double ENCODER_RATIO_K = 6. * Math.PI / 39.37 / 1024.;
+    public static final double ENCODER_RATIO_K = 6. * Math.PI / 39.37 / 8192.;
     public static final double TRACK_WIDTH = 20.817 / 39.37;
     public static final double ACCEL_LIMIT_K = 100000;// In %motor/second(infinity is no accel limit, 0 is not moving)
-    public static final double TRANSPORT_ENCODER_END_POS = 20 / Math.PI / 2 * 1024.;
+    public static final double TRANSPORT_ENCODER_END_POS = 20 / Math.PI / 2 * 8192.;
 
     public static class Ports {
         public static final int INTAKE_MOTOR = 7;
