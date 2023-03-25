@@ -42,9 +42,9 @@ public class Intake extends SubsystemBase {
         if (movingTransport) {
             deploy.set(true);
             if (transportUp && encoder.get() < TRANSPORT_ENCODER_END_POS) {
-                transportMotor.set(VictorSPXControlMode.PercentOutput, 1);
+                transportMotor.set(VictorSPXControlMode.PercentOutput, -.5);
             } else if (!transportUp && encoder.get() > 0) {
-                transportMotor.set(VictorSPXControlMode.PercentOutput, -1);
+                transportMotor.set(VictorSPXControlMode.PercentOutput, .5);
             } else {
                 transportMotor.set(VictorSPXControlMode.PercentOutput, 0);
                 movingTransport = false;
