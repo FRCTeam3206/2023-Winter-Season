@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Constants.*;
 
@@ -18,7 +19,7 @@ public class Intake extends SubsystemBase {
     boolean intakeUp = true;
     boolean movingTransport = false;
     boolean transportUp = false;
-    Solenoid deploy = new Solenoid(PneumaticsModuleType.CTREPCM, Ports.INTAKE_DEPLOY);
+    Solenoid deploy = new Solenoid(PneumaticsModuleType.REVPH, Ports.INTAKE_DEPLOY);
 
     public Intake() {
     }
@@ -38,13 +39,18 @@ public class Intake extends SubsystemBase {
         movingTransport = true;
     }
 
+    public void overrideTransport(double downSpeed) {
+        transportMotor.set(VictorSPXControlMode.PercentOutput, -downSpeed);
+    }
+
     public void periodic() {
+        SmartDashboard.putNumber("Drawbridge Location", encoder.get());
         if (movingTransport) {
             deploy.set(true);
             if (transportUp && encoder.get() < TRANSPORT_ENCODER_END_POS) {
-                transportMotor.set(VictorSPXControlMode.PercentOutput, -.5);
-            } else if (!transportUp && encoder.get() > 0) {
                 transportMotor.set(VictorSPXControlMode.PercentOutput, .5);
+            } else if (!transportUp && encoder.get() > 0) {
+                transportMotor.set(VictorSPXControlMode.PercentOutput, -.5);
             } else {
                 transportMotor.set(VictorSPXControlMode.PercentOutput, 0);
                 movingTransport = false;
