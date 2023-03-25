@@ -24,8 +24,6 @@ public class Drivetrain extends SubsystemBase {
     CANSparkMax frontRightDrive = new CANSparkMax(CANIDs.FRD, MotorType.kBrushless);
     CANSparkMax rearLeftDrive = new CANSparkMax(CANIDs.RLD, MotorType.kBrushless);
     CANSparkMax rearRightDrive = new CANSparkMax(CANIDs.RRD, MotorType.kBrushless);
-    // Probably a better way to do this, but we do not know it, so here our solution
-    // lies :)
     Encoder leftEncoder = new Encoder(Encoders.LEFT_A, Encoders.LEFT_B);
     Encoder rightEncoder = new Encoder(Encoders.RIGHT_A, Encoders.RIGHT_B);
     DifferentialDrive drive = new DifferentialDrive(frontLeftDrive, frontRightDrive);
