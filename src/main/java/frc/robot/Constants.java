@@ -68,8 +68,8 @@ public class Constants {
         public static final int TRANSPORT_B = 7;
     }
 
-    public static class ArmPID {
-        public static final double elbowKp = 1.0 / 180;
+    public static class ArmConstants {
+        public static final double elbowKp = 1.0;
         public static final double elbowKi = 0;
         public static final double elbowKd = 0;
 
@@ -77,8 +77,9 @@ public class Constants {
         public static final double teleKi = 0;
         public static final double teleKd = 0;
 
-        public static double ARM_SMALL = 37;
-        public static double ARM_BIG = 52;
+        public static final double ARM_SMALL = 37.;
+        public static final double ARM_BIG = 52.;
+        public static final double ARM_INITAL_ANGLE = Math.toRadians(10.);
     }
 
     // Macros for the claw.grab() func

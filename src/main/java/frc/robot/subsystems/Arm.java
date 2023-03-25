@@ -9,18 +9,22 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ArmConstants;
+
 import static frc.robot.Constants.*;
 
 public class Arm extends SubsystemBase {
     CANSparkMax elbow = new CANSparkMax(CANIDs.ARM_ELBOW, MotorType.kBrushless);
     VictorSPX telescope = new VictorSPX(CANIDs.ARM_TELE);
     Encoder elbowEncoder = new Encoder(Encoders.ELBOW_A, Encoders.ELBOW_B, false);
-    PIDController elbowPID = new PIDController(ArmPID.elbowKp, ArmPID.elbowKi, ArmPID.elbowKd);
-    AnalogPotentiometer teleEncoder = new AnalogPotentiometer(0, ArmPID.ARM_SMALL, ArmPID.ARM_BIG);
-    PIDController telePID = new PIDController(ArmPID.teleKp, ArmPID.teleKi, ArmPID.teleKd);
+    PIDController elbowPID = new PIDController(ArmConstants.elbowKp, ArmConstants.elbowKi, ArmConstants.elbowKd);
+    AnalogPotentiometer teleEncoder = new AnalogPotentiometer(0, ArmConstants.ARM_SMALL, ArmConstants.ARM_BIG);
+    PIDController telePID = new PIDController(ArmConstants.teleKp, ArmConstants.teleKi, ArmConstants.teleKd);
 
     public Arm() {
-        elbowEncoder.setDistancePerPulse(360 / 1024);
+        elbowEncoder.setDistancePerPulse(Math.PI * 2 / 1024);
+        elbowPID.setSetpoint(ArmConstants.ARM_INITAL_ANGLE);
+        telePID.setSetpoint(ArmConstants.ARM_SMALL);
     }
 
     public void setElbowPos(double pos) {
@@ -32,8 +36,9 @@ public class Arm extends SubsystemBase {
     }
 
     public void periodic() {
-        elbow.set(elbowPID.calculate(elbowEncoder.getDistance()));
-        telescope.set(VictorSPXControlMode.PercentOutput, telePID.calculate(teleEncoder.get()));
+        elbow.set(elbowPID.calculate(elbowEncoder.getDistance() + ArmConstants.ARM_INITAL_ANGLE));
+        telescope.set(VictorSPXControlMode.PercentOutput,
+                telePID.calculate(teleEncoder.get() + ArmConstants.ARM_SMALL));
     }
 
 }
