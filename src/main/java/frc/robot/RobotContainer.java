@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.Constants.Inputs;
@@ -20,7 +21,7 @@ import frc.robot.commands.DriveTime;
 import frc.robot.commands.DriveUntilSupplier;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.TankDrive;
-import frc.robot.commands.TransportUp;
+import frc.robot.commands.IntakeDown;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Vision;
@@ -113,15 +114,41 @@ public class RobotContainer {
         // () -> xbox.getHID().getRawButton(BTN_CUBE)));
 
         // // Setup Intake
-        intake.setDefaultCommand(
-                new IntakeCommand(
-                        intake,
-                        () -> xbox.getHID().getRawButton(BTN_INTAKE_CONE),
-                        () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CONE),
-                        () -> xbox.getHID().getRawButton(BTN_INTAKE_CUBE),
-                        () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CUBE),
-                        () -> xbox.getHID().getRawButton(BTN_TRANS_DOWN)));
-        xbox.button(Inputs.BTN_TRANS_DOWN).whileTrue(new TransportUp(intake));
+        /*
+         * intake.setDefaultCommand(
+         * new IntakeCommand(
+         * intake,
+         * () -> xbox.getHID().getRawButton(BTN_INTAKE_CONE),
+         * () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CONE),
+         * () -> xbox.getHID().getRawButton(BTN_INTAKE_CUBE),
+         * () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CUBE),
+         * () -> xbox.getHID().getRawButton(BTN_TRANS_DOWN)));
+         */
+        xbox.button(BTN_INTAKE_CONE).whileTrue(new RunCommand(() -> {
+            intake.runIntake(.5);
+            intake.setDeploy(true);
+            intake.setTransport(true);
+        }, intake));
+        xbox.button(BTN_INTAKE_CUBE).whileTrue(new RunCommand(() -> {
+            intake.runIntake(.3);
+            intake.setDeploy(true);
+            intake.setTransport(true);
+        }, intake));
+        xbox.button(BTN_REVERSE_INTAKE_CONE).whileTrue(new RunCommand(() -> {
+            intake.runIntake(-.7);
+            intake.setDeploy(true);
+            intake.setTransport(true);
+        }, intake));
+        xbox.button(BTN_REVERSE_INTAKE_CUBE).whileTrue(new RunCommand(() -> {
+            intake.runIntake(-.4);
+            intake.setDeploy(true);
+            intake.setTransport(true);
+        }, intake));
+        xbox.button(Inputs.BTN_TRANS_DOWN).whileTrue(new RunCommand(() -> {
+            intake.setDeploy(false);
+            intake.runIntake(.2);
+            intake.setTransport(false);
+        }, intake));
         // Setup Compressor
         // pcmCompressor.enableDigital();
     }
