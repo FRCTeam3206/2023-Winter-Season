@@ -16,12 +16,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.Constants.Inputs;
 import frc.robot.commands.ArcadeDrive;
+
 import frc.robot.commands.ChargeLeveler;
 import frc.robot.commands.DriveTime;
 import frc.robot.commands.DriveUntilSupplier;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.IntakeDown;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Vision;
@@ -30,6 +32,7 @@ public class RobotContainer {
     // Subsystems
     Drivetrain drive = new Drivetrain();
     Vision vision = new Vision();
+    Arm armo = new Arm();
     // Claw claw = new Claw();
     // Arm arm = new Arm();
     Intake intake = new Intake();
@@ -114,23 +117,23 @@ public class RobotContainer {
         // () -> xbox.getHID().getRawButton(BTN_CUBE)));
 
         // // Setup Intake
-        /*
-         * intake.setDefaultCommand(
-         * new IntakeCommand(
-         * intake,
-         * () -> xbox.getHID().getRawButton(BTN_INTAKE_CONE),
-         * () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CONE),
-         * () -> xbox.getHID().getRawButton(BTN_INTAKE_CUBE),
-         * () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CUBE),
-         * () -> xbox.getHID().getRawButton(BTN_TRANS_DOWN)));
-         */
+
+        // intake.setDefaultCommand(
+        // new IntakeCommand(
+        // intake,
+        // () -> xbox.getHID().getRawButton(BTN_INTAKE_CONE),
+        // () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CONE),
+        // () -> xbox.getHID().getRawButton(BTN_INTAKE_CUBE),
+        // () -> xbox.getHID().getRawButton(BTN_REVERSE_INTAKE_CUBE),
+        // () -> xbox.getHID().getRawButton(BTN_TRANS_DOWN)));
+
         xbox.button(BTN_INTAKE_CONE).whileTrue(new RunCommand(() -> {
             intake.runIntake(.5);
             intake.setDeploy(true);
             intake.setTransport(true);
         }, intake));
         xbox.button(BTN_INTAKE_CUBE).whileTrue(new RunCommand(() -> {
-            intake.runIntake(.3);
+            intake.runIntake(.2);
             intake.setDeploy(true);
             intake.setTransport(true);
         }, intake));
@@ -149,6 +152,15 @@ public class RobotContainer {
             intake.runIntake(.2);
             intake.setTransport(false);
         }, intake));
+        intake.setDefaultCommand(new RunCommand(() -> {
+            intake.runIntake(0);
+            intake.setDeploy(false);
+            intake.setTransport(true);
+        }, intake));
+
+        xbox.povUp().whileTrue(new RunCommand(() -> {
+            armo.setElbowUp();
+        }, armo));
         // Setup Compressor
         // pcmCompressor.enableDigital();
     }

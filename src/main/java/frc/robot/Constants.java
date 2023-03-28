@@ -9,8 +9,8 @@ public class Constants {
     public static final double CHARGE_LEVEL_K = 1.0 / 10.0 / 2.25;
     public static final double ENCODER_RATIO_K = 6. * Math.PI / 39.37 / 8192.;
     public static final double TRACK_WIDTH = 20.817 / 39.37;
-    public static final double ACCEL_LIMIT_K = 100000;// In %motor/second(infinity is no accel limit, 0 is not moving)
-    public static final double TRANSPORT_ENCODER_END_POS = 3.0;
+    public static final double ACCEL_LIMIT_K = 2;// In %motor/second(infinity is no accel limit, 0 is not moving)
+    public static final double TRANSPORT_ENCODER_END_POS = 3.1;
 
     public static class Ports {
         public static final int INTAKE_MOTOR = 7;
@@ -69,7 +69,7 @@ public class Constants {
     }
 
     public static class ArmConstants {
-        public static final double elbowKp = 1.0;
+        public static final double elbowKp = 1.0 / 32;
         public static final double elbowKi = 0;
         public static final double elbowKd = 0;
 
@@ -80,7 +80,8 @@ public class Constants {
         public static final double ARM_SMALL = 37.;
         public static final double ARM_BIG = 52.;
 
-        public static final double ARM_INITAL_ANGLE = Math.toRadians(10.);
+        public static final double ARM_ANGLE_UP = Math.toRadians(0);
+        public static final double ARM_ANGLE_DOWN = Math.toRadians(0);
     }
 
     // Macros for the claw.grab() func

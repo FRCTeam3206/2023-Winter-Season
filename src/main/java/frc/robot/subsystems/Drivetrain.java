@@ -90,5 +90,6 @@ public class Drivetrain extends SubsystemBase {
         pose = odometry.update();
         SmartDashboard.putData(leftEncoder);
         SmartDashboard.putData(rightEncoder);
+        SmartDashboard.putData(gyro.raw_gyro);
     }
 }

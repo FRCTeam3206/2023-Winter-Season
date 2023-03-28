@@ -47,7 +47,7 @@ public class IntakeCommand extends CommandBase {
             intake.setDeploy(true);
             intake.setTransport(true);
         } else {
-            intake.runIntake(.2);
+            intake.runIntake(.3);
             intake.setDeploy(false);
         }
         if (transportUp.get()) {
