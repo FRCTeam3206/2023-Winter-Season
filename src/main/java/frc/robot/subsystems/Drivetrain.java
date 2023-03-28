@@ -45,6 +45,16 @@ public class Drivetrain extends SubsystemBase {
         rearRightDrive.follow(frontRightDrive);
     }
 
+    public void resetEncoders() {
+        rightEncoder.reset();
+        leftEncoder.reset();
+    }
+
+    public double getRawEncoderDistance() {
+        SmartDashboard.putNumber("Encoder Distance", (rightEncoder.getDistance() - leftEncoder.getDistance()) / 2);
+        return (rightEncoder.getDistance() - leftEncoder.getDistance()) / 2;
+    }
+
     public void calibrateGyro() {
         gyro.raw_gyro.calibrate();
     }
@@ -88,6 +98,7 @@ public class Drivetrain extends SubsystemBase {
     public void periodic() {
         gyro.periodic();
         pose = odometry.update();
+        getRawEncoderDistance();
         SmartDashboard.putData(leftEncoder);
         SmartDashboard.putData(rightEncoder);
         SmartDashboard.putNumber("Gryo", gyro.getRawGyroAngleY());

@@ -64,21 +64,33 @@ public class RobotContainer {
         autons();
     }
 
+    private DriveUntilSupplier getGetOnChargeStation() {
+        return new DriveUntilSupplier(drive, () -> {
+            // System.out.println(0);
+            return drive.pitch() < -10;
+        }, -0.8);
+    }
+
+    public SequentialCommandGroup getGetOverChargeStation() {
+        return new SequentialCommandGroup(new ParallelCommandGroup(new DriveUntilSupplier(drive, () -> {
+            System.out.println(1);
+            return drive.pitch() > 10;
+        }, -0.8), new InstantCommand(() -> {
+            intake.runIntake(0);
+            intake.setTransport(false);
+        }, intake)),
+
+                new DriveUntilSupplier(drive, () -> {
+                    System.out.println(2);
+                    return Math.abs(drive.pitch()) < 1;
+                }, -0.8).setTimeout(1500),
+
+                new DriveTime(drive, 0.8, 350));
+    }
+
     SequentialCommandGroup balence = new SequentialCommandGroup(
-            new ParallelCommandGroup(new DriveUntilSupplier(drive, () -> {
-                System.out.println(1);
-                return drive.pitch() > 10;
-            }, -0.8), new InstantCommand(() -> {
-                intake.runIntake(0);
-                intake.setTransport(false);
-            }, intake)),
-
-            new DriveUntilSupplier(drive, () -> {
-                System.out.println(2);
-                return Math.abs(drive.pitch()) < 1;
-            }, -0.8).setTimeout(1500),
-
-            new DriveTime(drive, 0.8, 350),
+            getGetOnChargeStation(),
+            getGetOverChargeStation(),
 
             new DriveUntilSupplier(drive, () -> {
                 // System.out.println(3);
@@ -92,23 +104,27 @@ public class RobotContainer {
 
             new ChargeLeveler(drive));
 
-    private void autons() {
-        auton_chooser.addOption("Charge Level", new SequentialCommandGroup(new Command[] {
-                // new InstantCommand(() -> {
-                // drive.calibrateGyro();
-                // }),
-                new ParallelCommandGroup(
-                        new DriveUntilSupplier(drive, () -> {
-                            // System.out.println(0);
-                            return drive.pitch() < -10;
-                        }, -0.8),
-                        new InstantCommand(() -> {
-                            intake.runIntake(-.2);
-                        }, intake)),
+    private InstantCommand getDropCube() {
+        return new InstantCommand(() -> {
+            intake.runIntake(-.2);
+        }, intake);
+    }
 
+    SequentialCommandGroup back = new SequentialCommandGroup(
+            new InstantCommand(() -> {
+                drive.resetEncoders();
+            }),
+            new DriveUntilSupplier(drive, () -> drive.getRawEncoderDistance() < -3.75, -.7)
+                    .setTimeout(7000));
+
+    private void autons() {
+        auton_chooser.addOption("Cube+Taxi+Charge", new SequentialCommandGroup(new Command[] {
+                getDropCube(),
                 balence
         }));
-        auton_chooser.setDefaultOption("Forward", new DriveTime(drive, .5, 5000));
+        auton_chooser.addOption("Cube+Charge",
+                new SequentialCommandGroup(getDropCube(), getGetOnChargeStation(), new ChargeLeveler(drive)));
+        auton_chooser.setDefaultOption("Cube+Forward", new ParallelCommandGroup(new Command[] { getDropCube(), back }));
         SmartDashboard.putData(auton_chooser);
     }
 
