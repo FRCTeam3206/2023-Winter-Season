@@ -92,7 +92,7 @@ public class Constants {
 
     public static class Vision {
         // Change which camera you want to use with photonvision.
-        public static final String photonvision_camera = "USB_GS_Camera";
+        public static final String photonvision_camera = "USB_Camera";
         public static final Transform3d CAMERA_POS = new Transform3d(new Translation3d(-.229, 0, 0),
                 new Rotation3d(0, 0, Math.PI));
     }
