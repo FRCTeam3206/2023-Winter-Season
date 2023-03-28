@@ -16,6 +16,7 @@ import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -23,7 +24,7 @@ import frc.robot.Constants.Vision;
 
 public class IntegratedOdometry {
     Gyro gyro;
-    CANCoder rightEncoder, lefEncoder;
+    Encoder rightEncoder, lefEncoder;
     PhotonCamera camera = new PhotonCamera(Constants.Vision.photonvision_camera);
     Pose3d pose = new Pose3d();
     PhotonPoseEstimator photonEstimator;
@@ -33,12 +34,12 @@ public class IntegratedOdometry {
             Constants.TRACK_WIDTH);
     DifferentialDrivePoseEstimator poseEstimator;
 
-    public IntegratedOdometry(Gyro gyro, CANCoder rightEncoder, CANCoder lefEncoder) {
+    public IntegratedOdometry(Gyro gyro, Encoder rightEncoder, Encoder lefEncoder) {
         this.gyro = gyro;
         this.rightEncoder = rightEncoder;
         this.lefEncoder = lefEncoder;
-        poseEstimator = new DifferentialDrivePoseEstimator(kinematics, gyro.yaw(), lefEncoder.getPosition(),
-                rightEncoder.getPosition(), new Pose2d());
+        poseEstimator = new DifferentialDrivePoseEstimator(kinematics, gyro.yaw(), lefEncoder.getDistance(),
+                rightEncoder.getDistance(), new Pose2d());
         try {
             aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
         } catch (IOException e) {
@@ -61,7 +62,7 @@ public class IntegratedOdometry {
 
     public Pose2d update() {
         // propose encoder based position
-        poseEstimator.update(gyro.yaw(), lefEncoder.getPosition(), rightEncoder.getPosition());
+        poseEstimator.update(gyro.yaw(), lefEncoder.getDistance(), rightEncoder.getDistance());
         // if we don't have a vision estimator or there is no april tag, return that;
         if (photonEstimator == null)
             return poseEstimator.getEstimatedPosition();

@@ -28,7 +28,7 @@ public class DriveUntilSupplier extends CommandBase {
     }
 
     public void execute() {
-        drive.arcadeDrive(speed, 0);
+        drive.tankDrive(speed, speed);
     }
 
     public boolean isFinished() {
