@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
@@ -63,39 +64,49 @@ public class RobotContainer {
         autons();
     }
 
+    SequentialCommandGroup balence = new SequentialCommandGroup(
+            new ParallelCommandGroup(new DriveUntilSupplier(drive, () -> {
+                System.out.println(1);
+                return drive.pitch() > 10;
+            }, -0.8), new InstantCommand(() -> {
+                intake.runIntake(0);
+                intake.setTransport(false);
+            }, intake)),
+
+            new DriveUntilSupplier(drive, () -> {
+                System.out.println(2);
+                return Math.abs(drive.pitch()) < 1;
+            }, -0.8).setTimeout(1500),
+
+            new DriveTime(drive, 0.8, 350),
+
+            new DriveUntilSupplier(drive, () -> {
+                // System.out.println(3);
+                return drive.pitch() > 10;
+            }, 0.8),
+
+            new DriveUntilSupplier(drive, () -> {
+                System.out.println(4);
+                return Math.abs(drive.pitch()) < -5;
+            }, 0.5),
+
+            new ChargeLeveler(drive));
+
     private void autons() {
         auton_chooser.addOption("Charge Level", new SequentialCommandGroup(new Command[] {
-                new InstantCommand(() -> {
-                    drive.calibrateGyro();
-                }),
-                new DriveUntilSupplier(drive, () -> {
-                    // System.out.println(0);
-                    return drive.pitch() > 10;
-                }, 0.8),
+                // new InstantCommand(() -> {
+                // drive.calibrateGyro();
+                // }),
+                new ParallelCommandGroup(
+                        new DriveUntilSupplier(drive, () -> {
+                            // System.out.println(0);
+                            return drive.pitch() < -10;
+                        }, -0.8),
+                        new InstantCommand(() -> {
+                            intake.runIntake(-.2);
+                        }, intake)),
 
-                new DriveUntilSupplier(drive, () -> {
-                    // System.out.println(1);
-                    return drive.pitch() < -10;
-                }, 0.8),
-
-                new DriveUntilSupplier(drive, () -> {
-                    // System.out.println(2);
-                    return Math.abs(drive.pitch()) < 1;
-                }, 0.8).setTimeout(1500),
-
-                new DriveTime(drive, 0.8, 350),
-
-                new DriveUntilSupplier(drive, () -> {
-                    // System.out.println(3);
-                    return drive.pitch() < -10;
-                }, -0.8),
-
-                new DriveUntilSupplier(drive, () -> {
-                    // System.out.println(4);
-                    return Math.abs(drive.pitch()) < 5;
-                }, -0.5),
-
-                new ChargeLeveler(drive)
+                balence
         }));
         auton_chooser.setDefaultOption("Forward", new DriveTime(drive, .5, 5000));
         SmartDashboard.putData(auton_chooser);

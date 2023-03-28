@@ -77,7 +77,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public double pitch() {
-        return gyro.getRawGyroAngleZ();
+        return gyro.getRawGyroAngleY();
     }
 
     public Pose2d getPose() {
@@ -90,6 +90,6 @@ public class Drivetrain extends SubsystemBase {
         pose = odometry.update();
         SmartDashboard.putData(leftEncoder);
         SmartDashboard.putData(rightEncoder);
-        SmartDashboard.putData(gyro.raw_gyro);
+        SmartDashboard.putNumber("Gryo", gyro.getRawGyroAngleY());
     }
 }
