@@ -68,14 +68,14 @@ public class RobotContainer {
     private DriveUntilSupplier getGetOnChargeStation() {
         return new DriveUntilSupplier(drive, () -> {
             // System.out.println(0);
-            return drive.pitch() < -10;
+            return drive.pitch() < -7;
         }, -0.8);
     }
 
     public SequentialCommandGroup getGetOverChargeStation() {
         return new SequentialCommandGroup(new ParallelCommandGroup(new DriveUntilSupplier(drive, () -> {
             System.out.println(1);
-            return drive.pitch() > 10;
+            return drive.pitch() > 7;
         }, -0.8), new InstantCommand(() -> {
             intake.runIntake(0);
             intake.setTransport(false);
@@ -95,7 +95,7 @@ public class RobotContainer {
 
             new DriveUntilSupplier(drive, () -> {
                 // System.out.println(3);
-                return drive.pitch() > 10;
+                return drive.pitch() > 7;
             }, 0.8),
 
             new DriveDistance(drive, 1.2, .5));
@@ -118,8 +118,6 @@ public class RobotContainer {
                 getDropCube(),
                 balence
         }));
-        auton_chooser.addOption("Cube+Charge",
-                new SequentialCommandGroup(getDropCube(), getGetOnChargeStation(), new ChargeLeveler(drive)));
         auton_chooser.setDefaultOption("Cube+Forward", new ParallelCommandGroup(new Command[] { getDropCube(), back }));
         SmartDashboard.putData(auton_chooser);
     }
@@ -180,7 +178,12 @@ public class RobotContainer {
             intake.setDeploy(false);
             intake.setTransport(true);
         }, intake));
-
+        xbox.pov(0).whileTrue(new RunCommand(() -> {
+            intake.overrideTransport(.5);
+        }, intake));
+        xbox.pov(180).whileTrue(new RunCommand(() -> {
+            intake.overrideTransport(.5);
+        }, intake));
         // xbox.povUp().whileTrue(new RunCommand(() -> {
         // armo.setElbowUp();
         // }, armo));
