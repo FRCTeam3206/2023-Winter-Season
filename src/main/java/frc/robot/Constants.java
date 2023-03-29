@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 
 public class Constants {
     public static final int FILTER_WINDOW_SIZE = 5;
-    public static final double CHARGE_LEVEL_K = 1.0 / 10.0 / 2.25;
+    public static final double CHARGE_LEVEL_K = 1.0 / 10.0 / 3.0;
     public static final double ENCODER_RATIO_K = 6. * Math.PI / 39.37 / 2048.;
     public static final double TRACK_WIDTH = 20.817 / 39.37;
     public static final double ACCEL_LIMIT_K = 2;// In %motor/second(infinity is no accel limit, 0 is not moving)

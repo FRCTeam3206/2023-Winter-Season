@@ -51,4 +51,8 @@ public class ChargeLeveler extends CommandBase {
         SmartDashboard.putNumber("Level Active", 0.0);
     }
 
+    // public boolean isFinished() {
+    // return Math.abs(drive.pitch()) < .5;
+    // }
+
 }

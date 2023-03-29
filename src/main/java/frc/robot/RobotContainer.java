@@ -19,6 +19,7 @@ import frc.robot.Constants.Inputs;
 import frc.robot.commands.ArcadeDrive;
 
 import frc.robot.commands.ChargeLeveler;
+import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveTime;
 import frc.robot.commands.DriveUntilSupplier;
 import frc.robot.commands.IntakeCommand;
@@ -97,12 +98,7 @@ public class RobotContainer {
                 return drive.pitch() > 10;
             }, 0.8),
 
-            new DriveUntilSupplier(drive, () -> {
-                System.out.println(4);
-                return Math.abs(drive.pitch()) < -5;
-            }, 0.5),
-
-            new ChargeLeveler(drive));
+            new DriveDistance(drive, 1.2, .5));
 
     private InstantCommand getDropCube() {
         return new InstantCommand(() -> {
@@ -176,7 +172,7 @@ public class RobotContainer {
         }, intake));
         xbox.button(Inputs.BTN_TRANS_DOWN).whileTrue(new RunCommand(() -> {
             intake.setDeploy(false);
-            intake.runIntake(.2);
+            intake.runIntake(0);
             intake.setTransport(false);
         }, intake));
         intake.setDefaultCommand(new RunCommand(() -> {
@@ -185,9 +181,9 @@ public class RobotContainer {
             intake.setTransport(true);
         }, intake));
 
-        xbox.povUp().whileTrue(new RunCommand(() -> {
-            armo.setElbowUp();
-        }, armo));
+        // xbox.povUp().whileTrue(new RunCommand(() -> {
+        // armo.setElbowUp();
+        // }, armo));
         // Setup Compressor
         // pcmCompressor.enableDigital();
     }
