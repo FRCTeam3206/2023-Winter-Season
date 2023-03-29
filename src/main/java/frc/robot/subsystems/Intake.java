@@ -43,6 +43,11 @@ public class Intake extends SubsystemBase {
 
     public void overrideTransport(double downSpeed) {
         transportMotor.set(VictorSPXControlMode.PercentOutput, -downSpeed);
+        movingTransport = false;
+    }
+
+    public void resetEncoder() {
+        encoder.reset();
     }
 
     public void periodic() {

@@ -182,7 +182,10 @@ public class RobotContainer {
             intake.overrideTransport(.5);
         }, intake));
         xbox.pov(180).whileTrue(new RunCommand(() -> {
-            intake.overrideTransport(.5);
+            intake.overrideTransport(-.5);
+        }, intake));
+        xbox.button(12).onTrue(new InstantCommand(() -> {
+            intake.resetEncoder();
         }, intake));
         // xbox.povUp().whileTrue(new RunCommand(() -> {
         // armo.setElbowUp();
