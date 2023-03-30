@@ -68,23 +68,23 @@ public class RobotContainer {
     private DriveUntilSupplier getGetOnChargeStation() {
         return new DriveUntilSupplier(drive, () -> {
             // System.out.println(0);
-            return drive.pitch() < -7;
+            return drive.pitch() < -5;
         }, -0.8);
     }
 
     public SequentialCommandGroup getGetOverChargeStation() {
         return new SequentialCommandGroup(new ParallelCommandGroup(new DriveUntilSupplier(drive, () -> {
             System.out.println(1);
-            return drive.pitch() > 7;
-        }, -0.8), new InstantCommand(() -> {
+            return drive.pitch() > 5;
+        }, -0.8).setTimeout(3000), new InstantCommand(() -> {
             intake.runIntake(0);
             intake.setTransport(false);
         }, intake)),
 
                 new DriveUntilSupplier(drive, () -> {
                     System.out.println(2);
-                    return Math.abs(drive.pitch()) < 1;
-                }, -0.8).setTimeout(1500),
+                    return Math.abs(drive.pitch()) < 2;
+                }, -0.8).setTimeout(3000),
 
                 new DriveTime(drive, 0.8, 350));
     }
@@ -95,7 +95,7 @@ public class RobotContainer {
 
             new DriveUntilSupplier(drive, () -> {
                 // System.out.println(3);
-                return drive.pitch() > 7;
+                return drive.pitch() > 5;
             }, 0.8),
 
             new DriveDistance(drive, 1.2, .5));
@@ -119,6 +119,12 @@ public class RobotContainer {
                 balence
         }));
         auton_chooser.setDefaultOption("Cube+Forward", new ParallelCommandGroup(new Command[] { getDropCube(), back }));
+        auton_chooser.addOption("NEW Cube+Taxi+Charge", new SequentialCommandGroup(
+                getDropCube(),
+                new DriveUntilSupplier(drive, () -> drive.getRawEncoderDistance() < -4, -.7)
+                        .setTimeout(7000),
+                new DriveUntilSupplier(drive, () -> drive.getRawEncoderDistance() > -2, .5)
+                        .setTimeout(7000)));
         SmartDashboard.putData(auton_chooser);
     }
 
@@ -154,12 +160,12 @@ public class RobotContainer {
             intake.setTransport(true);
         }, intake));
         xbox.button(BTN_INTAKE_CUBE).whileTrue(new RunCommand(() -> {
-            intake.runIntake(.2);
+            intake.runIntake(.15);
             intake.setDeploy(true);
             intake.setTransport(true);
         }, intake));
         xbox.button(BTN_REVERSE_INTAKE_CONE).whileTrue(new RunCommand(() -> {
-            intake.runIntake(-.7);
+            intake.runIntake(-.62);
             intake.setDeploy(true);
             intake.setTransport(true);
         }, intake));
