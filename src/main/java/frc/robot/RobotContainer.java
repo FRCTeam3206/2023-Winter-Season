@@ -34,7 +34,7 @@ public class RobotContainer {
     // Subsystems
     Drivetrain drive = new Drivetrain();
     Vision vision = new Vision();
-    Arm armo = new Arm();
+    // Arm armo = new Arm();
     // Claw claw = new Claw();
     // Arm arm = new Arm();
     Intake intake = new Intake();
@@ -102,8 +102,9 @@ public class RobotContainer {
 
     private InstantCommand getDropCube() {
         return new InstantCommand(() -> {
+            drive.fixReverseDrive();
             intake.runIntake(-.2);
-        }, intake);
+        }, intake, drive);
     }
 
     SequentialCommandGroup back = new SequentialCommandGroup(
@@ -129,11 +130,16 @@ public class RobotContainer {
                 getDropCube(),
                 new DriveUntilSupplier(drive, () -> drive.getRawEncoderDistance() < -4, -.7)
                         .setTimeout(7000),
+                new InstantCommand(() -> {
+                    intake.setTransport(false);
+                }, intake),
                 new DriveUntilSupplier(drive, () -> {
                     // System.out.println(3);
                     return drive.pitch() > 5;
                 }, 0.8),
-
+                new InstantCommand(() -> {
+                    intake.setTransport(true);
+                }, intake),
                 new DriveDistance(drive, 1.2, .5)));
         SmartDashboard.putData(auton_chooser);
     }
@@ -180,7 +186,7 @@ public class RobotContainer {
             intake.setTransport(true);
         }, intake));
         xbox.button(BTN_REVERSE_INTAKE_CUBE).whileTrue(new RunCommand(() -> {
-            intake.runIntake(-.4);
+            intake.runIntake(-.25);
             intake.setDeploy(true);
             intake.setTransport(true);
         }, intake));
