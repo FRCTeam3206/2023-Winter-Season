@@ -119,12 +119,22 @@ public class RobotContainer {
                 balence
         }));
         auton_chooser.setDefaultOption("Cube+Forward", new ParallelCommandGroup(new Command[] { getDropCube(), back }));
-        auton_chooser.addOption("NEW Cube+Taxi+Charge", new SequentialCommandGroup(
+        auton_chooser.addOption("Pure Encoder Cube+Taxi+Charge", new SequentialCommandGroup(
                 getDropCube(),
                 new DriveUntilSupplier(drive, () -> drive.getRawEncoderDistance() < -4, -.7)
                         .setTimeout(7000),
                 new DriveUntilSupplier(drive, () -> drive.getRawEncoderDistance() > -2, .5)
                         .setTimeout(7000)));
+        auton_chooser.addOption("Partial Encoder Cube+Taxi+Charge", new SequentialCommandGroup(
+                getDropCube(),
+                new DriveUntilSupplier(drive, () -> drive.getRawEncoderDistance() < -4, -.7)
+                        .setTimeout(7000),
+                new DriveUntilSupplier(drive, () -> {
+                    // System.out.println(3);
+                    return drive.pitch() > 5;
+                }, 0.8),
+
+                new DriveDistance(drive, 1.2, .5)));
         SmartDashboard.putData(auton_chooser);
     }
 
@@ -160,7 +170,7 @@ public class RobotContainer {
             intake.setTransport(true);
         }, intake));
         xbox.button(BTN_INTAKE_CUBE).whileTrue(new RunCommand(() -> {
-            intake.runIntake(.15);
+            intake.runIntake(.3);
             intake.setDeploy(true);
             intake.setTransport(true);
         }, intake));
