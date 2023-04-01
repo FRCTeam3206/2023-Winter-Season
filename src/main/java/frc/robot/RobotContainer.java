@@ -140,7 +140,7 @@ public class RobotContainer {
                 new InstantCommand(() -> {
                     intake.setTransport(true);
                 }, intake),
-                new DriveDistance(drive, 1.2, .5)));
+                new DriveDistance(drive, 1.15, .5)));
         SmartDashboard.putData(auton_chooser);
     }
 
