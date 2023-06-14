@@ -45,6 +45,10 @@ public class Drivetrain extends SubsystemBase {
         rearRightDrive.follow(frontRightDrive);
     }
 
+    public void fixReverseDrive() {
+        frontRightDrive.setInverted(true);
+    }
+
     public void resetEncoders() {
         rightEncoder.reset();
         leftEncoder.reset();
@@ -96,6 +100,7 @@ public class Drivetrain extends SubsystemBase {
 
     @Override
     public void periodic() {
+        fixReverseDrive();
         gyro.periodic();
         pose = odometry.update();
         getRawEncoderDistance();
