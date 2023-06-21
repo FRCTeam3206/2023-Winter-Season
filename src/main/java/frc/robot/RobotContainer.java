@@ -34,7 +34,6 @@ public class RobotContainer {
     // Subsystems
     Drivetrain drive = new Drivetrain();
     Vision vision = new Vision();
-    // Arm armo = new Arm();
     // Claw claw = new Claw();
     // Arm arm = new Arm();
     Intake intake = new Intake();
