@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.Constants.Inputs;
 import frc.robot.commands.ArcadeDrive;
-
+import frc.robot.commands.ArmMove;
 import frc.robot.commands.ChargeLeveler;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveTime;
@@ -35,7 +35,7 @@ public class RobotContainer {
     Drivetrain drive = new Drivetrain();
     Vision vision = new Vision();
     // Claw claw = new Claw();
-    // Arm arm = new Arm();
+    Arm arm = new Arm();
     Intake intake = new Intake();
     // Compressor pcmCompressor = new Compressor(COMPRESSOR_MODULE,
     // PneumaticsModuleType.CTREPCM);
@@ -150,6 +150,7 @@ public class RobotContainer {
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
+        arm.setDefaultCommand(new ArmMove(arm, () -> xbox.getHID().getRawAxis(1)));
         // vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw
         // claw.setDefaultCommand(

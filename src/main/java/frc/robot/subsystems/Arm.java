@@ -18,6 +18,7 @@ import static frc.robot.Constants.*;
 
 public class Arm extends SubsystemBase {
     CANSparkMax elbow = new CANSparkMax(CANIDs.ARM_ELBOW, MotorType.kBrushless);
+    DutyCycleEncoder elbowEncoder = new DutyCycleEncoder(Encoders.ELBOW_A);
     // AnalogPotentiometer teleEncoder = new AnalogPotentiometer(0,
     // ArmConstants.ARM_SMALL, ArmConstants.ARM_BIG);
     // PIDController telePID = new PIDController(ArmConstants.teleKp,
@@ -37,7 +38,7 @@ public class Arm extends SubsystemBase {
         // ArmConstants.ARM_INITAL_ANGLE));
         // telescope.set(VictorSPXControlMode.PercentOutput,
         // telePID.calculate(teleEncoder.get() + ArmConstants.ARM_SMALL));
-        // SmartDashboard.putData("Tele Position", teleEncoder);
+        SmartDashboard.putData(elbowEncoder);
     }
 
 }
