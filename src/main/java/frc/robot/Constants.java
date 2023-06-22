@@ -81,7 +81,7 @@ public class Constants {
         public static final double ARM_BIG = 52.;
 
         public static final double ARM_ANGLE_UP = Math.toRadians(0);
-        public static final double ARM_ANGLE_DOWN = Math.toRadians(0);
+        public static final double ARM_ANGLE_DOWN = .20685 * 360.;
     }
 
     // Macros for the claw.grab() func
