@@ -26,13 +26,14 @@ public class Constants {
     }
 
     public static class Inputs {
-        public static final int BTN_CONE = 4; // x
+        public static final int BTN_MANUAL_INTAKE_UP = 4; // x
         public static final int BTN_CUBE = 1; // Y
         public static final int BTN_TRANS_DOWN = 2;// A
         public static final int BTN_INTAKE_CONE = 6; // RB
         public static final int BTN_REVERSE_INTAKE_CONE = 5; // LB
         public static final int BTN_INTAKE_CUBE = 8; // RT
         public static final int BTN_REVERSE_INTAKE_CUBE = 7; // LT
+
         public static final int BTN_DRIVE_FLIP = 2;
 
         public static final int ARCADE_FORWARD_AXIS = 1;

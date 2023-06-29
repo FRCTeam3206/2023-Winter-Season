@@ -184,7 +184,7 @@ public class RobotContainer {
             intake.setTransport(true);
         }, intake));
         xbox.button(BTN_INTAKE_CUBE).whileTrue(new RunCommand(() -> {
-            intake.runIntake(.3);
+            intake.runIntake(.4);
             intake.setDeploy(true);
             intake.setTransport(true);
         }, intake));
@@ -199,10 +199,15 @@ public class RobotContainer {
             intake.setTransport(true);
         }, intake));
         xbox.button(Inputs.BTN_TRANS_DOWN).whileTrue(new RunCommand(() -> {
-            intake.setDeploy(false);
+            // intake.setDeploy(false);
             intake.runIntake(0);
             intake.setTransport(false);
         }, intake));
+        xbox.button(Inputs.BTN_MANUAL_INTAKE_UP).whileTrue(new RunCommand(() -> {
+            intake.setDeploy(false);
+            intake.runIntake(0);
+        }, intake));
+
         intake.setDefaultCommand(new RunCommand(() -> {
             intake.runIntake(0);
             intake.setDeploy(false);
