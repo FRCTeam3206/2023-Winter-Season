@@ -19,6 +19,7 @@ import frc.robot.Constants.Inputs;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ArmMove;
 import frc.robot.commands.ChargeLeveler;
+import frc.robot.commands.ClawCommand;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveTime;
 import frc.robot.commands.DriveUntilSupplier;
@@ -26,6 +27,7 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.IntakeDown;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Vision;
@@ -34,7 +36,7 @@ public class RobotContainer {
     // Subsystems
     Drivetrain drive = new Drivetrain();
     Vision vision = new Vision();
-    // Claw claw = new Claw();
+    Claw claw = new Claw();
     Arm arm = new Arm();
     Intake intake = new Intake();
     // Compressor pcmCompressor = new Compressor(COMPRESSOR_MODULE,
@@ -162,10 +164,13 @@ public class RobotContainer {
         // vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw
         // claw.setDefaultCommand(
-        // new ClawCommand(
-        // claw,
-        // () -> xbox.getHID().getRawButton(BTN_CONE),
-        // () -> xbox.getHID().getRawButton(BTN_CUBE)));
+
+        xbox.pov(0).whileTrue(new RunCommand(() -> {
+            claw.open();
+        }, claw));
+        xbox.pov(180).whileTrue(new RunCommand(() -> {
+            claw.grab(Constants.ClawBools.GRAB_CONE);
+        }, claw));
 
         // // Setup Intake
 
@@ -213,12 +218,12 @@ public class RobotContainer {
             intake.setDeploy(false);
             intake.setTransport(true);
         }, intake));
-        xbox.pov(0).whileTrue(new RunCommand(() -> {
-            intake.overrideTransport(.5);
-        }, intake));
-        xbox.pov(180).whileTrue(new RunCommand(() -> {
-            intake.overrideTransport(-.5);
-        }, intake));
+        // xbox.pov(0).whileTrue(new RunCommand(() -> {
+        // intake.overrideTransport(.5);
+        // }, intake));
+        // xbox.pov(180).whileTrue(new RunCommand(() -> {
+        // intake.overrideTransport(-.5);
+        // }, intake));
         xbox.button(12).onTrue(new InstantCommand(() -> {
             intake.resetEncoder();
         }, intake));
