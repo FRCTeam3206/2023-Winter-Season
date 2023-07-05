@@ -153,14 +153,14 @@ public class RobotContainer {
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
         // arm.setDefaultCommand(new ArmMove(arm, () -> xbox.getHID().getRawAxis(1)));
-        xbox.button(4).whileTrue(new RunCommand(() -> {
-            if (arm.position < 65)
-                arm.setArmPosition(arm.position + .5);
-        }, arm));
-        xbox.button(3).whileTrue(new RunCommand(() -> {
-            if (arm.position > 0)
-                arm.setArmPosition(arm.position - .5);
-        }, arm));
+        // xbox.button(4).whileTrue(new RunCommand(() -> {
+        // if (arm.position < 65)
+        // arm.setArmPosition(arm.position + .5);
+        // }, arm));
+        // xbox.button(3).whileTrue(new RunCommand(() -> {
+        // if (arm.position > 0)
+        // arm.setArmPosition(arm.position - .5);
+        // }, arm));
         // vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw
         // claw.setDefaultCommand(
@@ -171,7 +171,9 @@ public class RobotContainer {
         xbox.pov(180).whileTrue(new RunCommand(() -> {
             claw.grab(Constants.ClawBools.GRAB_CONE);
         }, claw));
-
+        xbox.button(3).whileTrue(new RunCommand(() -> {
+            intake.runIntake(.6);
+        }));
         // // Setup Intake
 
         // intake.setDefaultCommand(
@@ -210,7 +212,7 @@ public class RobotContainer {
         }, intake));
         xbox.button(Inputs.BTN_MANUAL_INTAKE_UP).whileTrue(new RunCommand(() -> {
             intake.setDeploy(false);
-            intake.runIntake(0);
+            // intake.runIntake(0);
         }, intake));
 
         intake.setDefaultCommand(new RunCommand(() -> {
