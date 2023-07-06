@@ -18,14 +18,6 @@ public class ClawCommand extends CommandBase {
     }
 
     public void execute() {
-        if (cubeSupplier.get()) {
-            //claw.cube();
-            claw.grab(Constants.ClawBools.GRAB_BLCK);
-        } else if (coneSupplier.get()) {
-            //claw.cone();
-            claw.grab(Constants.ClawBools.GRAB_CONE);
-        } else {
-            claw.open();
-        }
+
     }
 }

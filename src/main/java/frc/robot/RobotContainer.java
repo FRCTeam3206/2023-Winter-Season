@@ -152,25 +152,27 @@ public class RobotContainer {
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
-        // arm.setDefaultCommand(new ArmMove(arm, () -> xbox.getHID().getRawAxis(1)));
-        // xbox.button(4).whileTrue(new RunCommand(() -> {
-        // if (arm.position < 65)
-        // arm.setArmPosition(arm.position + .5);
-        // }, arm));
-        // xbox.button(3).whileTrue(new RunCommand(() -> {
-        // if (arm.position > 0)
-        // arm.setArmPosition(arm.position - .5);
-        // }, arm));
+        arm.setDefaultCommand(new ArmMove(arm, () -> xbox.getHID().getRawAxis(1)));
+        xbox.povUp().whileTrue(new RunCommand(() -> {
+            if (arm.position < 65)
+                arm.setArmPosition(arm.position + .5);
+        }, arm));
+        xbox.povDown().whileTrue(new RunCommand(() -> {
+            if (arm.position > 0)
+                arm.setArmPosition(arm.position - .5);
+        }, arm));
         // vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw
         // claw.setDefaultCommand(
-
-        xbox.pov(0).whileTrue(new RunCommand(() -> {
+        xbox.button(10).whileTrue(new RunCommand(() -> {
             claw.open();
-        }, claw));
-        xbox.pov(180).whileTrue(new RunCommand(() -> {
-            claw.grab(Constants.ClawBools.GRAB_CONE);
-        }, claw));
+        }, claw));// Start
+        xbox.button(4).whileTrue(new RunCommand(() -> {
+            claw.cone();
+        }, claw));// Yellow y
+        xbox.button(1).whileTrue(new RunCommand(() -> {
+            claw.cube();
+        }, claw));// Blue X
         xbox.button(3).whileTrue(new RunCommand(() -> {
             intake.runIntake(.6);
         }));
@@ -208,6 +210,7 @@ public class RobotContainer {
         xbox.button(Inputs.BTN_TRANS_DOWN).whileTrue(new RunCommand(() -> {
             // intake.setDeploy(false);
             intake.runIntake(0);
+            intake.setDeploy(true);
             intake.setTransport(false);
         }, intake));
         xbox.button(Inputs.BTN_MANUAL_INTAKE_UP).whileTrue(new RunCommand(() -> {
