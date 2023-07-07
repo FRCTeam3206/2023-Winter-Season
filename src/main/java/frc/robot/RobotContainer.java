@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import frc.robot.Constants.Inputs;
 import frc.robot.commands.ArcadeDrive;
@@ -152,9 +153,9 @@ public class RobotContainer {
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
-        arm.setDefaultCommand(new ArmMove(arm, () -> xbox.getHID().getRawAxis(1)));
+        // arm.setDefaultCommand(new ArmMove(arm, () -> xbox.getHID().getRawAxis(1)));
         xbox.povUp().whileTrue(new RunCommand(() -> {
-            if (arm.position < 65)
+            if (arm.position < 90)
                 arm.setArmPosition(arm.position + .5);
         }, arm));
         xbox.povDown().whileTrue(new RunCommand(() -> {
@@ -207,12 +208,17 @@ public class RobotContainer {
             intake.setDeploy(true);
             intake.setTransport(true);
         }, intake));
-        xbox.button(Inputs.BTN_TRANS_DOWN).whileTrue(new RunCommand(() -> {
+        xbox.button(Inputs.BTN_TRANS_DOWN).onTrue(new RunCommand(() -> {
             // intake.setDeploy(false);
             intake.runIntake(0);
             intake.setDeploy(true);
             intake.setTransport(false);
         }, intake));
+        xbox.button(Inputs.BTN_TRANS_DOWN).onFalse(new ParallelCommandGroup(
+                new RunCommand(() -> {
+                    intake.setDeploy(true);
+                }, intake),
+                new WaitCommand(1)));
         xbox.button(Inputs.BTN_MANUAL_INTAKE_UP).whileTrue(new RunCommand(() -> {
             intake.setDeploy(false);
             // intake.runIntake(0);
