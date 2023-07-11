@@ -155,8 +155,8 @@ public class RobotContainer {
         drive.setDefaultCommand(drive_chooser.getSelected());
         // arm.setDefaultCommand(new ArmMove(arm, () -> xbox.getHID().getRawAxis(1)));
         xbox.povUp().whileTrue(new RunCommand(() -> {
-            if (arm.position < 90)
-                arm.setArmPosition(arm.position + .5);
+            if (arm.position < 100)
+                arm.setArmPosition(arm.position + .75);
         }, arm));
         xbox.povDown().whileTrue(new RunCommand(() -> {
             if (arm.position > 0)
@@ -208,7 +208,7 @@ public class RobotContainer {
             intake.setDeploy(true);
             intake.setTransport(true);
         }, intake));
-        xbox.button(Inputs.BTN_TRANS_DOWN).onTrue(new RunCommand(() -> {
+        xbox.button(Inputs.BTN_TRANS_DOWN).whileTrue(new RunCommand(() -> {
             // intake.setDeploy(false);
             intake.runIntake(0);
             intake.setDeploy(true);
@@ -217,6 +217,7 @@ public class RobotContainer {
         xbox.button(Inputs.BTN_TRANS_DOWN).onFalse(new ParallelCommandGroup(
                 new RunCommand(() -> {
                     intake.setDeploy(true);
+                    intake.setTransport(true);
                 }, intake),
                 new WaitCommand(1)));
         xbox.button(Inputs.BTN_MANUAL_INTAKE_UP).whileTrue(new RunCommand(() -> {

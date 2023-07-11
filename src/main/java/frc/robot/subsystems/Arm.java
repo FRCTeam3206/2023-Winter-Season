@@ -25,7 +25,7 @@ public class Arm extends SubsystemBase {
 
     public Arm() {
         // telePID.setSetpoint(ArmConstants.ARM_SMALL);
-        elbow.setIdleMode(IdleMode.kCoast);
+        elbow.setIdleMode(IdleMode.kBrake);
         elbowEncoder.setPositionOffset(.206);
         elbow.setSmartCurrentLimit(7);
     }
