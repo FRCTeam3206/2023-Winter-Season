@@ -161,6 +161,7 @@ public class RobotContainer {
             if (arm.position > 0)
                 arm.setArmPosition(arm.position - .4);
         }, arm));
+
         xbox.povUp().whileTrue(new RunCommand(() -> {
             arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_GRAB);
         }, arm));
