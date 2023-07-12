@@ -153,14 +153,22 @@ public class RobotContainer {
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
-        // arm.setDefaultCommand(new ArmMove(arm, () -> xbox.getHID().getRawAxis(1)));
-        xbox.povUp().whileTrue(new RunCommand(() -> {
+        xbox.axisLessThan(3, -.5).whileTrue(new RunCommand(() -> {
             if (arm.position < 100)
-                arm.setArmPosition(arm.position + .75);
+                arm.setArmPosition(arm.position + .4);
+        }, arm));
+        xbox.axisGreaterThan(3, .5).whileTrue(new RunCommand(() -> {
+            if (arm.position > 0)
+                arm.setArmPosition(arm.position - .4);
+        }, arm));
+        xbox.povUp().whileTrue(new RunCommand(() -> {
+            arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_GRAB);
         }, arm));
         xbox.povDown().whileTrue(new RunCommand(() -> {
-            if (arm.position > 0)
-                arm.setArmPosition(arm.position - .5);
+            arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_DOWN);
+        }, arm));
+        xbox.povRight().whileTrue(new RunCommand(() -> {
+            arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_SCORE);
         }, arm));
         // vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw
@@ -213,16 +221,6 @@ public class RobotContainer {
             intake.runIntake(0);
             intake.setDeploy(true);
             intake.setTransport(false);
-        }, intake));
-        xbox.button(Inputs.BTN_TRANS_DOWN).onFalse(new ParallelCommandGroup(
-                new RunCommand(() -> {
-                    intake.setDeploy(true);
-                    intake.setTransport(true);
-                }, intake),
-                new WaitCommand(1)));
-        xbox.button(Inputs.BTN_MANUAL_INTAKE_UP).whileTrue(new RunCommand(() -> {
-            intake.setDeploy(false);
-            // intake.runIntake(0);
         }, intake));
 
         intake.setDefaultCommand(new RunCommand(() -> {
