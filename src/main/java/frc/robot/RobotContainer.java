@@ -219,8 +219,8 @@ public class RobotContainer {
         }, intake));
         xbox.button(Inputs.BTN_TRANS_DOWN).whileTrue(new RunCommand(() -> {
             // intake.setDeploy(false);
-            intake.runIntake(0);
-            intake.setDeploy(true);
+            //intake.runIntake(0);
+            //intake.setDeploy(true);
             intake.setTransport(false);
         }, intake));
 
