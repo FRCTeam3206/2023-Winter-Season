@@ -15,13 +15,13 @@ public class Claw extends SubsystemBase {
     }
 
     public void cone() {
-        masterPiston.set(false);
-        secondaryPiston.set(false);
+        masterPiston.set(true);
+        secondaryPiston.set(true);
     }
 
     public void cube() {
-        masterPiston.set(false);
-        secondaryPiston.set(true);
+        masterPiston.set(true);
+        secondaryPiston.set(false);
     }
 
     public void close() {
@@ -29,7 +29,7 @@ public class Claw extends SubsystemBase {
     }
 
     public void open() {
-        masterPiston.set(true);
-        secondaryPiston.set(true);
+        masterPiston.set(false);
+        secondaryPiston.set(false);
     }
 }

@@ -83,8 +83,8 @@ public class Constants {
 
         public static final double ARM_ANGLE_SCORE = 67.5;
         public static final double ARM_ANGLE_DOWN = 0.;
-        public static final double ARM_ANGLE_GRAB = 80.;
-
+        public static final double ARM_ANGLE_GRAB = 81.;
+        public static final double ARM_ANGLE_HOLD = 30.;
         public static final double kG = .29;// tuned on 7/6
         public static final double kV = 3.7;// unused
     }

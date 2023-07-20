@@ -154,6 +154,47 @@ public class RobotContainer {
         auton_chooser.addOption("Cube+Taxi", new SequentialCommandGroup(
                 getDropCube(),
                 new DriveDistance(drive, -3.75, -.5)));
+        auton_chooser.addOption("High_Cube+Balance", new SequentialCommandGroup(
+                new InstantCommand(() -> {
+                    claw.cube();
+                    intake.setTransport(false);
+                }, claw, intake),
+                // new WaitCommand(1.0),
+                new InstantCommand(() -> {
+                    arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_GRAB);
+                }, arm),
+                new DriveTime(drive, -.4, 3000),
+                new InstantCommand(() -> {
+                    claw.open();
+                }, claw),
+                new DriveDistance(drive, .4, .4),
+                new InstantCommand(() -> {
+                    arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_DOWN);
+                }, arm),
+                new WaitCommand(1.0),
+                new DriveUntilSupplier(drive, () -> {
+                    // System.out.println(3);
+                    return drive.pitch() > 5;
+                }, 0.5),
+                new DriveDistance(drive, 1.15, .5)));
+        auton_chooser.addOption("High_Cube+Taxi", new SequentialCommandGroup(
+                new InstantCommand(() -> {
+                    claw.cube();
+                }, claw),
+                // new WaitCommand(1.0),
+                new InstantCommand(() -> {
+                    arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_GRAB);
+                }, arm),
+                new DriveTime(drive, -.4, 3000),
+                new InstantCommand(() -> {
+                    claw.open();
+                }, claw),
+
+                new DriveDistance(drive, 3.75, .5),
+                new InstantCommand(() -> {
+                    arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_DOWN);
+                }, arm)));
+
         SmartDashboard.putData(auton_chooser);
     }
 
@@ -181,6 +222,9 @@ public class RobotContainer {
         }, arm));
         xbox.povRight().whileTrue(new RunCommand(() -> {
             arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_SCORE);
+        }, arm));
+        xbox.povLeft().whileTrue(new RunCommand(() -> {
+            arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_HOLD);
         }, arm));
         // vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw

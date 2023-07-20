@@ -17,6 +17,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         m_robotContainer = new RobotContainer();
+        m_robotContainer.claw.open();
     }
 
     @Override
@@ -26,6 +27,7 @@ public class Robot extends TimedRobot {
 
     @Override
     public void disabledInit() {
+        m_robotContainer.claw.open();
     }
 
     @Override
@@ -84,9 +86,9 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {
-        if (xbox.getRawAxis(1)>.5) {
+        if (xbox.getRawAxis(1) > .5) {
             m_robotContainer.intake.overrideTransport(-.5);
-        } else if (xbox.getRawAxis(1)<-.5) {
+        } else if (xbox.getRawAxis(1) < -.5) {
             m_robotContainer.intake.overrideTransport(.5);
         } else {
             m_robotContainer.intake.overrideTransport(0);
