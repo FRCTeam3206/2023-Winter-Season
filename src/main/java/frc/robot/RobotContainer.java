@@ -32,6 +32,7 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Lights;;
 
 public class RobotContainer {
     // Subsystems
@@ -40,6 +41,7 @@ public class RobotContainer {
     Claw claw = new Claw();
     Arm arm = new Arm();
     Intake intake = new Intake();
+    Lights lights = new Lights();
     // Compressor pcmCompressor = new Compressor(COMPRESSOR_MODULE,
     // PneumaticsModuleType.CTREPCM);
 
