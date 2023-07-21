@@ -38,7 +38,7 @@ public class Lights extends SubsystemBase {
       // Set the value
       m_ledBuffer.setHSV(i, hue, 255, 128);
     }
-    
+
     m_rainbowFirstPixelHue += 3;
     // Check bounds
     m_rainbowFirstPixelHue %= 180;
@@ -53,11 +53,11 @@ public class Lights extends SubsystemBase {
       m_led.setData(m_ledBuffer);
   }
 
-  @Override
-  public void LightColor(int ColorRed,int ColorBlue,int ColorGreen) {
+
+  public void LightColor(int ColorRed,int ColorGreen,int ColorBlue) {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
         // Sets the specified LED to the RGB values for red
-        m_ledBuffer.setRGB(i, ColorRed, ColorBlue, ColorGreen);
+        m_ledBuffer.setRGB(i, ColorRed, ColorGreen, ColorBlue);
      }
      
      m_led.setData(m_ledBuffer);
