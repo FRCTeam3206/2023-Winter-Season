@@ -53,7 +53,7 @@ public class Lights extends SubsystemBase {
 
         m_led.setData(m_ledBuffer);
     } else if (lightState == 1) {
-        LightColor(150, 150, 150);
+        LightColor(0, 0, 150);
     }
   }
 
