@@ -9,6 +9,8 @@ public class Lights extends SubsystemBase {
 
   private AddressableLED m_led; 
   private AddressableLEDBuffer m_ledBuffer;
+  private int m_rainbowFirstPixelHue = 0;
+
 
   public Lights() {
     // PWM port 0
@@ -24,14 +26,30 @@ public class Lights extends SubsystemBase {
     // Set the data
     m_led.setData(m_ledBuffer);
     m_led.start();
+
+    
+  }
+
+  private void rainbow(int m_rainbowFirstPixelHue) {
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Calculate the hue - hue is easier for rainbows because the color
+      // shape is a circle so only one value needs to precess
+      final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
+      // Set the value
+      m_ledBuffer.setHSV(i, hue, 255, 128);
+    }
+    rainbow(m_rainbowFirstPixelHue);
+    m_rainbowFirstPixelHue += 3;
+    // Check bounds
+    m_rainbowFirstPixelHue %= 180;
+
   }
 
   @Override
   public void periodic() {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      // Sets the specified LED to the RGB values for red
-      m_ledBuffer.setRGB(i, 0, 0, 150);
-    }
+    
+     rainbow(m_rainbowFirstPixelHue);
+
       m_led.setData(m_ledBuffer);
   }
 
