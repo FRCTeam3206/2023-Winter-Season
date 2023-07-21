@@ -10,7 +10,7 @@ public class Lights extends SubsystemBase {
   private AddressableLED m_led; 
   private AddressableLEDBuffer m_ledBuffer;
   private int m_rainbowFirstPixelHue = 0;
-
+  public int lightState = 0;
 
   public Lights() {
     // PWM port 0
@@ -26,6 +26,7 @@ public class Lights extends SubsystemBase {
     // Set the data
     m_led.setData(m_ledBuffer);
     m_led.start();
+
 
     
   }
@@ -47,10 +48,13 @@ public class Lights extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
-     rainbow(m_rainbowFirstPixelHue);
+    if (lightState == 0){
+        rainbow(m_rainbowFirstPixelHue);
 
-      m_led.setData(m_ledBuffer);
+        m_led.setData(m_ledBuffer);
+    } else if (lightState == 1) {
+        LightColor(150, 150, 150);
+    }
   }
 
 
