@@ -46,21 +46,24 @@ public class Lights extends SubsystemBase {
 
   }
 
+  //Either rainbow or a solid color
   @Override
   public void periodic() {
     if (lightState == 0){
-        rainbow(m_rainbowFirstPixelHue);
+      //Rainbow
+      rainbow(m_rainbowFirstPixelHue);
 
-        m_led.setData(m_ledBuffer);
+      m_led.setData(m_ledBuffer);
     } else if (lightState == 1) {
-        LightColor(0, 0, 150);
+      //Solid Color
+      LightColor(0, 0, 150);
     }
   }
 
 
   public void LightColor(int ColorRed,int ColorGreen,int ColorBlue) {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        // Sets the specified LED to the RGB values for red
+        // Sets the LED's to the color
         m_ledBuffer.setRGB(i, ColorRed, ColorGreen, ColorBlue);
      }
      
