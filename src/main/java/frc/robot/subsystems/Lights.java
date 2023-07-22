@@ -16,8 +16,8 @@ public class Lights extends SubsystemBase {
   /*
    * showColor 0 - Rainbow
    * showColor 1 - Solid color (blue)
-   * showColor 2 - (slow theatre chase style alternation between r1,g1,b1 & r2,g2,b2
-   * showColor 3 - rainbow for 1 sec, 
+   * showColor 2 - slow theatre chase style alternation between r1,g1,b1 & r2,g2,b2
+   * showColor 3 - rainbow for 1 sec, theatre chase for  1 sec
    */
   public int showColor = 0;
 
@@ -56,7 +56,7 @@ public class Lights extends SubsystemBase {
     } else if (showColor == 1) {
     } else if (showColor == 2) {
       if (count == 13) {
-        ColorSwitch();
+        ColorSwitch(0,0,200,150,150,150);
         m_led.setData(m_ledBuffer);
         count = 0;
       }
@@ -67,7 +67,7 @@ public class Lights extends SubsystemBase {
         m_led.setData(m_ledBuffer);
       } else if (count2 < 100) {
         if (count == 13) {
-          ColorSwitch();
+          ColorSwitch(0,0,200,150,150,150);
           m_led.setData(m_ledBuffer);
           count = 0;
         }
@@ -77,6 +77,29 @@ public class Lights extends SubsystemBase {
       }
       count2++;
     }
+  }
+
+  public void setRainbow() {
+    showColor = 0;
+  }
+
+  /**
+   * sets all LED's to the rgb color specified from the three aproprately named variables
+   */
+  public void setLightColor(int ColorRed, int ColorGreen, int ColorBlue) {
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        m_ledBuffer.setRGB(i, ColorRed, ColorGreen, ColorBlue);
+     }
+     showColor = 1;
+     m_led.setData(m_ledBuffer);
+  }
+
+  public void setColorSwitch() {
+    showColor = 2;
+  }
+
+  public void showOff() {
+    showColor = 3;
   }
 
   /**
@@ -99,30 +122,7 @@ public class Lights extends SubsystemBase {
 
   }
 
-  public void setRainbow() {
-    showColor = 0;
-  }
 
-  /**
-   * sets all LED's to the rgb color specified from the three aproprately named variables
-   */
-  public void setLightColor(int ColorRed,int ColorGreen,int ColorBlue) {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        // Sets the specified LED to the RGB values for red
-        m_ledBuffer.setRGB(i, ColorRed, ColorGreen, ColorBlue);
-     }
-     showColor = 1;
-     m_led.setData(m_ledBuffer);
-  }
-
-  //I dont think this will communicate the colors with ColorSwitch right
-  public void setColorSwitch(int r1, int g1, int b1, int r2, int g2, int b2) {
-    showColor = 2;
-  }
-
-  public void showOff() {
-    showColor = 3;
-  }
 
   /**
    * Alternates colors for each led, then switches them every time it's called
