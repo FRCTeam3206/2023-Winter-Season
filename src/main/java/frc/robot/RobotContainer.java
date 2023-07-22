@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Inputs;
 import frc.robot.commands.ArcadeDrive;
 import frc.robot.commands.ArmMove;
@@ -56,6 +57,7 @@ public class RobotContainer {
             () -> rightStick.getRawAxis(ARCADE_FORWARD_AXIS),
             () -> rightStick.getRawAxis(ARCADE_ROTATE_AXIS),
             () -> rightStick.getHID().getRawButton(BTN_SHIFT));
+
     TankDrive tank = new TankDrive(drive, () -> leftStick.getRawAxis(TANK_LEFT_AXIS),
             () -> rightStick.getRawAxis(TANK_RIGHT_AXIS), () -> rightStick.getHID().getRawButton(BTN_SHIFT),
             () -> leftStick.getHID().getRawButton(1));
@@ -208,6 +210,8 @@ public class RobotContainer {
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
+        Trigger fallenandcantgetup = new Trigger(() -> { return Math.abs(drive.pitch())>45; });
+        fallenandcantgetup.whileTrue(new RunCommand(() -> {lights.setLightColor(155, 0, 0);}, lights));
         xbox.axisLessThan(3, -.5).whileTrue(new RunCommand(() -> {
             if (arm.position < 100)
                 arm.setArmPosition(arm.position + .4);
