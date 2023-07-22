@@ -17,16 +17,9 @@ public class Lights extends SubsystemBase {
    * showColor 0 - Rainbow
    * showColor 1 - Solid color (blue)
    * showColor 2 - slow theatre chase style alternation between r1,g1,b1 & r2,g2,b2
-   * showColor 3 - rainbow for 1 sec, theatre chase for  1 sec
+   * showColor 3 - rainbow for 1 sec, theatre chase for 1 sec
    */
   public int showColor = 0;
-
-  /*
-  //Three colors for ColorSwitch
-  public int r1 = 0, g1 = 0, b1 = 200;
-  public int r2 = 150, g2 = 150, b2 = 150;
-   */
-
 
   public Lights() {
     // PWM port 0
