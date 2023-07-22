@@ -1,13 +1,12 @@
 package frc.robot.subsystems;
 
-
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lights extends SubsystemBase {
 
-  private AddressableLED m_led; 
+  private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
   private int m_rainbowFirstPixelHue = 0;
   private int count = 0;
@@ -16,7 +15,8 @@ public class Lights extends SubsystemBase {
   /*
    * showColor 0 - Rainbow
    * showColor 1 - Solid color (blue)
-   * showColor 2 - slow theatre chase style alternation between r1,g1,b1 & r2,g2,b2
+   * showColor 2 - slow theatre chase style alternation between r1,g1,b1 &
+   * r2,g2,b2
    * showColor 3 - rainbow for 1 sec, theatre chase for 1 sec
    */
   public int showColor = 0;
@@ -36,35 +36,36 @@ public class Lights extends SubsystemBase {
     m_led.setData(m_ledBuffer);
     m_led.start();
 
-
-    
   }
 
   @Override
   public void periodic() {
-    //Chooses and uses a mode for the lights based on showColor
-    if (showColor == 0){
-        rainbow(m_rainbowFirstPixelHue);
-        m_led.setData(m_ledBuffer);
+    // Chooses and uses a mode for the lights based on showColor
+    if (showColor == 0) {
+      rainbow(m_rainbowFirstPixelHue);
+      m_led.setData(m_ledBuffer);
+      m_rainbowFirstPixelHue += 3;
+      // Check bounds
+      m_rainbowFirstPixelHue %= 180;
     } else if (showColor == 1) {
     } else if (showColor == 2) {
       if (count == 13) {
-        ColorSwitch(0,0,200,150,150,150);
+        ColorSwitch(0, 0, 200, 150, 150, 150);
         m_led.setData(m_ledBuffer);
         count = 0;
       }
-      count ++;
-    }else if (showColor == 3) {
+      count++;
+    } else if (showColor == 3) {
       if (count2 < 50) {
         rainbow(m_rainbowFirstPixelHue);
         m_led.setData(m_ledBuffer);
       } else if (count2 < 100) {
         if (count == 13) {
-          ColorSwitch(0,0,200,150,150,150);
+          ColorSwitch(0, 0, 200, 150, 150, 150);
           m_led.setData(m_ledBuffer);
           count = 0;
         }
-        count ++;
+        count++;
       } else if (count2 > 100) {
         count2 = 0;
       }
@@ -77,14 +78,15 @@ public class Lights extends SubsystemBase {
   }
 
   /**
-   * sets all LED's to the rgb color specified from the three aproprately named variables
+   * sets all LED's to the rgb color specified from the three aproprately named
+   * variables
    */
   public void setLightColor(int ColorRed, int ColorGreen, int ColorBlue) {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        m_ledBuffer.setRGB(i, ColorRed, ColorGreen, ColorBlue);
-     }
-     showColor = 1;
-     m_led.setData(m_ledBuffer);
+      m_ledBuffer.setRGB(i, ColorRed, ColorGreen, ColorBlue);
+    }
+    showColor = 1;
+    m_led.setData(m_ledBuffer);
   }
 
   public void setColorSwitch() {
@@ -109,13 +111,7 @@ public class Lights extends SubsystemBase {
       m_ledBuffer.setHSV(i, hue, 255, 128);
     }
 
-    m_rainbowFirstPixelHue += 3;
-    // Check bounds
-    m_rainbowFirstPixelHue %= 180;
-
   }
-
-
 
   /**
    * Alternates colors for each led, then switches them every time it's called
@@ -124,27 +120,26 @@ public class Lights extends SubsystemBase {
 
     if (count3 == false) {
 
-      for (var i = 0; i < m_ledBuffer.getLength(); i+=2) {
+      for (var i = 0; i < m_ledBuffer.getLength(); i += 2) {
         m_ledBuffer.setRGB(i, r1, g1, b1);
       }
 
-      for (var i = 1; i < m_ledBuffer.getLength(); i+=2) {
+      for (var i = 1; i < m_ledBuffer.getLength(); i += 2) {
         m_ledBuffer.setRGB(i, r2, g2, b2);
       }
       count3 = true;
     } else if (count3 == true) {
 
-      for (var i = 1; i < m_ledBuffer.getLength(); i+=2) {
+      for (var i = 1; i < m_ledBuffer.getLength(); i += 2) {
         m_ledBuffer.setRGB(i, r1, g1, b1);
       }
 
-      for (var i = 0; i < m_ledBuffer.getLength(); i+=2) {
+      for (var i = 0; i < m_ledBuffer.getLength(); i += 2) {
         m_ledBuffer.setRGB(i, r2, g2, b2);
       }
       count3 = false;
     }
-    
+
   }
 
 }
-
