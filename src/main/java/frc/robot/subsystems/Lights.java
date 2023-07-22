@@ -72,6 +72,8 @@ public class Lights extends SubsystemBase {
           count = 0;
         }
         count ++;
+      } else if (count2 > 100) {
+        count2 = 0;
       }
       count2++;
     }
@@ -113,6 +115,7 @@ public class Lights extends SubsystemBase {
      m_led.setData(m_ledBuffer);
   }
 
+  //I dont think this will communicate the colors with ColorSwitch right
   public void setColorSwitch(int r1, int g1, int b1, int r2, int g2, int b2) {
     showColor = 2;
   }
