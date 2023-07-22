@@ -178,7 +178,7 @@ public class RobotContainer {
                     // System.out.println(3);
                     return drive.pitch() > 5;
                 }, 0.5).setTimeout(5000),
-                new DriveDistance(drive, 1.14, .5)));
+                new DriveDistance(drive, 1.17, .5)));
         auton_chooser.addOption("High_Cube+Taxi", new SequentialCommandGroup(
                 new InstantCommand(() -> {
                     claw.cube();
