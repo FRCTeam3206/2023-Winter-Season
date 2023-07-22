@@ -66,6 +66,7 @@ public class RobotContainer {
 
     public RobotContainer() {
         configureBindings();
+        lights.setRainbow();
         autons();
     }
 
