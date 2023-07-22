@@ -14,17 +14,19 @@ public class Lights extends SubsystemBase {
   private int count2 = 0;
   private boolean count3 = false;
   /*
-   * lightState 0 - Rainbow
-   * Lightstate 1 - Solid color (blue)
-   * lightstate 2 - (slow theatre chase style alternation between r1,g1,b1 & r2,g2,b2
-   * lightstate 3 - rainbow for 1 sec, 
+   * showColor 0 - Rainbow
+   * showColor 1 - Solid color (blue)
+   * showColor 2 - (slow theatre chase style alternation between r1,g1,b1 & r2,g2,b2
+   * showColor 3 - rainbow for 1 sec, 
    */
-  public int lightState = 0;
+  public int showColor = 0;
 
-  
+  /*
   //Three colors for ColorSwitch
-  private final int r1 = 0, g1 = 0, b1 = 200;
-  private final int r2 = 150, g2 = 150, b2 = 150;
+  public int r1 = 0, g1 = 0, b1 = 200;
+  public int r2 = 150, g2 = 150, b2 = 150;
+   */
+
 
   public Lights() {
     // PWM port 0
@@ -47,19 +49,19 @@ public class Lights extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //Chooses and uses a mode for the lights based on lightState
-    if (lightState == 0){
+    //Chooses and uses a mode for the lights based on showColor
+    if (showColor == 0){
         rainbow(m_rainbowFirstPixelHue);
         m_led.setData(m_ledBuffer);
-    } else if (lightState == 1) {
-    } else if (lightState == 2) {
+    } else if (showColor == 1) {
+    } else if (showColor == 2) {
       if (count == 13) {
         ColorSwitch();
         m_led.setData(m_ledBuffer);
         count = 0;
       }
       count ++;
-    }else if (lightState == 3) {
+    }else if (showColor == 3) {
       if (count2 < 50) {
         rainbow(m_rainbowFirstPixelHue);
         m_led.setData(m_ledBuffer);
@@ -95,22 +97,34 @@ public class Lights extends SubsystemBase {
 
   }
 
+  public void setRainbow() {
+    showColor = 0;
+  }
+
   /**
    * sets all LED's to the rgb color specified from the three aproprately named variables
    */
-  public void LightColor(int ColorRed,int ColorGreen,int ColorBlue) {
+  public void setLightColor(int ColorRed,int ColorGreen,int ColorBlue) {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      lightState = 1;
         // Sets the specified LED to the RGB values for red
         m_ledBuffer.setRGB(i, ColorRed, ColorGreen, ColorBlue);
-        m_led.setData(m_ledBuffer);
      }
+     showColor = 1;
+     m_led.setData(m_ledBuffer);
+  }
+
+  public void setColorSwitch(int r1, int g1, int b1, int r2, int g2, int b2) {
+    showColor = 2;
+  }
+
+  public void showOff() {
+    showColor = 3;
   }
 
   /**
    * Alternates colors for each led, then switches them every time it's called
    */
-  public void ColorSwitch() {
+  private void ColorSwitch(int r1, int g1, int b1, int r2, int g2, int b2) {
 
     if (count3 == false) {
 
