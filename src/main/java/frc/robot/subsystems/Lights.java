@@ -11,12 +11,18 @@ public class Lights extends SubsystemBase {
   private AddressableLEDBuffer m_ledBuffer;
   private int m_rainbowFirstPixelHue = 0;
   private int count = 0;
-  private boolean count2 = false;
-  private int count3 = 0;
+  private int count2 = 0;
+  private boolean count3 = false;
+  /*
+   * lightState 0 - Rainbow
+   * Lightstate 1 - Solid color (blue)
+   * lightstate 2 - (slow theatre chase style alternation between r1,g1,b1 & r2,g2,b2
+   * lightstate 3 - rainbow for 1 sec, 
+   */
   public int lightState = 0;
 
   
-  //Three colors for 3ColorSwitch
+  //Three colors for ColorSwitch
   private final int r1 = 0, g1 = 0, b1 = 200;
   private final int r2 = 150, g2 = 150, b2 = 150;
 
@@ -46,8 +52,6 @@ public class Lights extends SubsystemBase {
         rainbow(m_rainbowFirstPixelHue);
         m_led.setData(m_ledBuffer);
     } else if (lightState == 1) {
-        LightColor(0, 0, 150);
-        m_led.setData(m_ledBuffer);
     } else if (lightState == 2) {
       if (count == 13) {
         ColorSwitch();
@@ -55,6 +59,19 @@ public class Lights extends SubsystemBase {
         count = 0;
       }
       count ++;
+    }else if (lightState == 3) {
+      if (count2 < 50) {
+        rainbow(m_rainbowFirstPixelHue);
+        m_led.setData(m_ledBuffer);
+      } else if (count2 < 100) {
+        if (count == 13) {
+          ColorSwitch();
+          m_led.setData(m_ledBuffer);
+          count = 0;
+        }
+        count ++;
+      }
+      count2++;
     }
   }
 
@@ -83,8 +100,10 @@ public class Lights extends SubsystemBase {
    */
   public void LightColor(int ColorRed,int ColorGreen,int ColorBlue) {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      lightState = 1;
         // Sets the specified LED to the RGB values for red
         m_ledBuffer.setRGB(i, ColorRed, ColorGreen, ColorBlue);
+        m_led.setData(m_ledBuffer);
      }
   }
 
@@ -93,7 +112,7 @@ public class Lights extends SubsystemBase {
    */
   public void ColorSwitch() {
 
-    if (count2 == false) {
+    if (count3 == false) {
 
       for (var i = 0; i < m_ledBuffer.getLength(); i+=2) {
         m_ledBuffer.setRGB(i, r1, g1, b1);
@@ -102,8 +121,8 @@ public class Lights extends SubsystemBase {
       for (var i = 1; i < m_ledBuffer.getLength(); i+=2) {
         m_ledBuffer.setRGB(i, r2, g2, b2);
       }
-      count2 = true;
-    } else if (count2 == true) {
+      count3 = true;
+    } else if (count3 == true) {
 
       for (var i = 1; i < m_ledBuffer.getLength(); i+=2) {
         m_ledBuffer.setRGB(i, r1, g1, b1);
@@ -112,7 +131,7 @@ public class Lights extends SubsystemBase {
       for (var i = 0; i < m_ledBuffer.getLength(); i+=2) {
         m_ledBuffer.setRGB(i, r2, g2, b2);
       }
-      count2 = false;
+      count3 = false;
     }
     
   }
