@@ -214,6 +214,7 @@ public class RobotContainer {
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
         Trigger fallenandcantgetup = new Trigger(() -> { return Math.abs(drive.pitch())>60; });
+        fallenandcantgetup.whileFalse(new RunCommand(() -> {lights.setColorSwitch();}, lights));
         fallenandcantgetup.whileTrue(new RunCommand(() -> {lights.setLightColor(155, 0, 0);}, lights));
         xbox.axisLessThan(3, -.5).whileTrue(new RunCommand(() -> {
             if (arm.position < 100)

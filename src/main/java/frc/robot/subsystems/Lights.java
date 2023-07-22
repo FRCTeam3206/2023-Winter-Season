@@ -49,7 +49,7 @@ public class Lights extends SubsystemBase {
       m_rainbowFirstPixelHue %= 180;
     } else if (showColor == 1) {
     } else if (showColor == 2) {
-      if (count == 13) {
+      if (count >= 25) {
         ColorSwitch(0, 0, 200, 150, 150, 150);
         m_led.setData(m_ledBuffer);
         count = 0;
