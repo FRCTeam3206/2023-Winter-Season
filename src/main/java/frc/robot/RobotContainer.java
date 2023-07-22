@@ -177,8 +177,8 @@ public class RobotContainer {
                 new DriveUntilSupplier(drive, () -> {
                     // System.out.println(3);
                     return drive.pitch() > 5;
-                }, 0.5),
-                new DriveDistance(drive, 1.15, .5)));
+                }, 0.5).setTimeout(5000),
+                new DriveDistance(drive, 1.14, .5)));
         auton_chooser.addOption("High_Cube+Taxi", new SequentialCommandGroup(
                 new InstantCommand(() -> {
                     claw.cube();
@@ -215,7 +215,16 @@ public class RobotContainer {
             if (arm.position > 0)
                 arm.setArmPosition(arm.position - .4);
         }, arm));
-
+        xbox.button(11).onTrue(new SequentialCommandGroup(
+                new InstantCommand(() -> {
+                    intake.resetEncoder();
+                }, intake)));
+        xbox.axisGreaterThan(1, .5).whileTrue(new RunCommand(() -> {
+            intake.overrideTransport(-.5);
+        }, intake));
+        xbox.axisLessThan(1, -.5).whileTrue(new RunCommand(() -> {
+            intake.overrideTransport(.5);
+        }, intake));
         xbox.povUp().whileTrue(new RunCommand(() -> {
             arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_GRAB);
         }, arm));
