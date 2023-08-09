@@ -7,6 +7,8 @@ package frc.robot;
 import static frc.robot.Constants.Inputs.*;
 import static frc.robot.Constants.Ports.*;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,7 +47,9 @@ public class RobotContainer {
     CommandGenericHID leftStick = new CommandGenericHID(LEFT_JOYSTICK);
     CommandGenericHID rightStick = new CommandGenericHID(RIGHT_JOYSTICK);
     CommandGenericHID xbox = new CommandGenericHID(XBOX_CONTROLLER);
-
+    NetworkTable rawPhotonTable = NetworkTableInstance.getDefault().getTable("photonvision")
+            .getSubTable("USB_GS_Camera");// FOR OUTREACH ONLY BAD PROGRAMMING PRACTICE DO AS I SAY, NOT AS I AM DOING
+    double lastSign = 0;
     // Drive Commands
     ArcadeDrive arcade = new ArcadeDrive(
             drive,
@@ -141,13 +145,34 @@ public class RobotContainer {
                     intake.setTransport(true);
                 }, intake),
                 new DriveDistance(drive, 1.15, .5)));
+        SmartDashboard.putNumber("FollowArea", .5);
+        auton_chooser.addOption("DogBot", new RunCommand(() -> {
+            if (rawPhotonTable.getEntry("hasTarget").getBoolean(false)) {
+                double x = rawPhotonTable.getEntry("targetYaw").getDouble(0);
+                double size = rawPhotonTable.getEntry("targetArea").getDouble(3.0);
+                double turn = -x / 20.0;
+                if (turn > .4)
+                    turn = .4;
+                if (turn < -.4)
+                    turn = -.4;
+                lastSign = Math.signum(turn);
+                double forward = 0;
+                if (size < SmartDashboard.getNumber("FollowArea", .5))
+                    forward = -.5 + Math.abs(turn) * .1;
+
+                drive.arcadeDrive(forward, turn);
+
+            } else {
+                drive.arcadeDrive(0, .3 * lastSign);
+            }
+        }, drive));
         SmartDashboard.putData(auton_chooser);
     }
 
     private void configureBindings() {
         // Setup Drivetrain
-        drive_chooser.setDefaultOption("Tank", tank);
-        drive_chooser.addOption("Arcade.", arcade);
+        drive_chooser.setDefaultOption("Arcade", tank);
+        drive_chooser.addOption("Tank", arcade);
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());

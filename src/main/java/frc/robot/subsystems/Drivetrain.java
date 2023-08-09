@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -38,6 +38,10 @@ public class Drivetrain extends SubsystemBase {
         frontRightDrive.restoreFactoryDefaults();
         rearLeftDrive.restoreFactoryDefaults();
         rearRightDrive.restoreFactoryDefaults();
+        frontLeftDrive.setIdleMode(IdleMode.kCoast);
+        frontRightDrive.setIdleMode(IdleMode.kCoast);
+        rearLeftDrive.setIdleMode(IdleMode.kCoast);
+        rearRightDrive.setIdleMode(IdleMode.kCoast);
         rightEncoder.setDistancePerPulse(ENCODER_RATIO_K);
         leftEncoder.setDistancePerPulse(ENCODER_RATIO_K);
         frontRightDrive.setInverted(true);
