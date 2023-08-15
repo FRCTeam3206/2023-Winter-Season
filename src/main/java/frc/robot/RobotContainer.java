@@ -16,11 +16,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.Inputs;
 import frc.robot.commands.ArcadeDrive;
-
+import frc.robot.commands.ArmMove;
 import frc.robot.commands.ChargeLeveler;
+import frc.robot.commands.ClawCommand;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveTime;
 import frc.robot.commands.DriveUntilSupplier;
@@ -28,18 +31,20 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.IntakeDown;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Lights;;
 
 public class RobotContainer {
     // Subsystems
     Drivetrain drive = new Drivetrain();
     Vision vision = new Vision();
-    // Arm armo = new Arm();
-    // Claw claw = new Claw();
-    // Arm arm = new Arm();
+    Claw claw = new Claw();
+    Arm arm = new Arm();
     Intake intake = new Intake();
+    Lights lights = new Lights();
     // Compressor pcmCompressor = new Compressor(COMPRESSOR_MODULE,
     // PneumaticsModuleType.CTREPCM);
 
@@ -56,6 +61,7 @@ public class RobotContainer {
             () -> rightStick.getRawAxis(ARCADE_FORWARD_AXIS),
             () -> rightStick.getRawAxis(ARCADE_ROTATE_AXIS),
             () -> rightStick.getHID().getRawButton(BTN_SHIFT));
+
     TankDrive tank = new TankDrive(drive, () -> leftStick.getRawAxis(TANK_LEFT_AXIS),
             () -> rightStick.getRawAxis(TANK_RIGHT_AXIS), () -> rightStick.getHID().getRawButton(BTN_SHIFT),
             () -> leftStick.getHID().getRawButton(1));
@@ -66,6 +72,7 @@ public class RobotContainer {
 
     public RobotContainer() {
         configureBindings();
+        lights.setRainbow();
         autons();
     }
 
@@ -123,14 +130,15 @@ public class RobotContainer {
                 getDropCube(),
                 balence
         }));
-        auton_chooser.setDefaultOption("Cube+Forward", new ParallelCommandGroup(new Command[] { getDropCube(), back }));
-        auton_chooser.addOption("Pure Encoder Cube+Taxi+Charge", new SequentialCommandGroup(
+        auton_chooser.setDefaultOption("DONT USE Cube+Forward",
+                new ParallelCommandGroup(new Command[] { getDropCube(), back }));
+        auton_chooser.addOption("DONT USEPure Encoder Cube+Taxi+Charge", new SequentialCommandGroup(
                 getDropCube(),
                 new DriveUntilSupplier(drive, () -> drive.getRawEncoderDistance() < -4, -.7)
                         .setTimeout(7000),
                 new DriveUntilSupplier(drive, () -> drive.getRawEncoderDistance() > -2, .5)
                         .setTimeout(7000)));
-        auton_chooser.addOption("Partial Encoder Cube+Taxi+Charge", new SequentialCommandGroup(
+        auton_chooser.addOption("DONT USE Partial Encoder Cube+Taxi+Charge", new SequentialCommandGroup(
                 getDropCube(),
                 new DriveUntilSupplier(drive, () -> drive.getRawEncoderDistance() < -4, -.7)
                         .setTimeout(7000),
@@ -176,14 +184,54 @@ public class RobotContainer {
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
+        Trigger fallenandcantgetup = new Trigger(() -> { return Math.abs(drive.pitch())>60; });
+        // fallenandcantgetup.whileFalse(new RunCommand(() -> {lights.setColorSwitch();}, lights));
+        fallenandcantgetup.whileTrue(new RunCommand(() -> {lights.setLightColor(155, 0, 0);}, lights));
+        xbox.axisLessThan(3, -.5).whileTrue(new RunCommand(() -> {
+            if (arm.position < 100)
+                arm.setArmPosition(arm.position + .4);
+        }, arm));
+        xbox.axisGreaterThan(3, .5).whileTrue(new RunCommand(() -> {
+            if (arm.position > 0)
+                arm.setArmPosition(arm.position - .4);
+        }, arm));
+        xbox.button(11).onTrue(new SequentialCommandGroup(
+                new InstantCommand(() -> {
+                    intake.resetEncoder();
+                }, intake)));
+        xbox.axisGreaterThan(1, .5).whileTrue(new RunCommand(() -> {
+            intake.overrideTransport(-.5);
+        }, intake));
+        xbox.axisLessThan(1, -.5).whileTrue(new RunCommand(() -> {
+            intake.overrideTransport(.5);
+        }, intake));
+        xbox.povUp().whileTrue(new RunCommand(() -> {
+            arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_GRAB);
+        }, arm));
+        xbox.povDown().whileTrue(new RunCommand(() -> {
+            arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_DOWN);
+        }, arm));
+        xbox.povRight().whileTrue(new RunCommand(() -> {
+            arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_SCORE);
+        }, arm));
+        xbox.povLeft().whileTrue(new RunCommand(() -> {
+            arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_HOLD);
+        }, arm));
         // vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw
         // claw.setDefaultCommand(
-        // new ClawCommand(
-        // claw,
-        // () -> xbox.getHID().getRawButton(BTN_CONE),
-        // () -> xbox.getHID().getRawButton(BTN_CUBE)));
-
+        xbox.button(10).whileTrue(new RunCommand(() -> {
+            claw.open();
+        }, claw));// Start
+        xbox.button(4).whileTrue(new RunCommand(() -> {
+            claw.cone();
+        }, claw));// Yellow y
+        xbox.button(1).whileTrue(new RunCommand(() -> {
+            claw.cube();
+        }, claw));// Blue X
+        xbox.button(3).whileTrue(new RunCommand(() -> {
+            intake.runIntake(.6);
+        }));
         // // Setup Intake
 
         // intake.setDefaultCommand(
@@ -201,7 +249,7 @@ public class RobotContainer {
             intake.setTransport(true);
         }, intake));
         xbox.button(BTN_INTAKE_CUBE).whileTrue(new RunCommand(() -> {
-            intake.runIntake(.3);
+            intake.runIntake(.4);
             intake.setDeploy(true);
             intake.setTransport(true);
         }, intake));
@@ -216,21 +264,23 @@ public class RobotContainer {
             intake.setTransport(true);
         }, intake));
         xbox.button(Inputs.BTN_TRANS_DOWN).whileTrue(new RunCommand(() -> {
-            intake.setDeploy(false);
-            intake.runIntake(0);
+            // intake.setDeploy(false);
+            // intake.runIntake(0);
+            // intake.setDeploy(true);
             intake.setTransport(false);
         }, intake));
+
         intake.setDefaultCommand(new RunCommand(() -> {
             intake.runIntake(0);
             intake.setDeploy(false);
             intake.setTransport(true);
         }, intake));
-        xbox.pov(0).whileTrue(new RunCommand(() -> {
-            intake.overrideTransport(.5);
-        }, intake));
-        xbox.pov(180).whileTrue(new RunCommand(() -> {
-            intake.overrideTransport(-.5);
-        }, intake));
+        // xbox.pov(0).whileTrue(new RunCommand(() -> {
+        // intake.overrideTransport(.5);
+        // }, intake));
+        // xbox.pov(180).whileTrue(new RunCommand(() -> {
+        // intake.overrideTransport(-.5);
+        // }, intake));
         xbox.button(12).onTrue(new InstantCommand(() -> {
             intake.resetEncoder();
         }, intake));

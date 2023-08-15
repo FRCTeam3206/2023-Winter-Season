@@ -33,6 +33,9 @@ public class Drivetrain extends SubsystemBase {
     SlewRateLimiter rightLimiter = new SlewRateLimiter(ACCEL_LIMIT_K, -ACCEL_LIMIT_K, 0);
     SlewRateLimiter leftLimiter = new SlewRateLimiter(ACCEL_LIMIT_K, -ACCEL_LIMIT_K, 0);
 
+    SlewRateLimiter speedLimiter = new SlewRateLimiter(ACCEL_LIMIT_K, -ACCEL_LIMIT_K, 0);
+    SlewRateLimiter rotateLimiter = new SlewRateLimiter(ACCEL_LIMIT_K, -ACCEL_LIMIT_K, 0);
+
     public Drivetrain() {
         frontLeftDrive.restoreFactoryDefaults();
         frontRightDrive.restoreFactoryDefaults();
@@ -68,7 +71,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void arcadeDrive(double xaxisSpeed, double zaxisRotate) {
-        drive.arcadeDrive(xaxisSpeed, zaxisRotate);
+        drive.arcadeDrive(speedLimiter.calculate(xaxisSpeed), rotateLimiter.calculate(zaxisRotate));
     }
 
     public void tankDrive(double left_speed, double right_speed) {
