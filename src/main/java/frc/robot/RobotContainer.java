@@ -165,13 +165,15 @@ public class RobotContainer {
                     turn = -.4;
                 lastSign = Math.signum(turn);
                 double forward = 0;
+                if (size > SmartDashboard.getNumber("FollowArea", .5))
+                    turn = 0;
                 if (size < SmartDashboard.getNumber("FollowArea", .5))
                     forward = -.5 + Math.abs(turn) * .1;
 
                 drive.arcadeDrive(forward, turn);
 
             } else {
-                drive.arcadeDrive(0, .3 * lastSign);
+                drive.arcadeDrive(0, .3 * 0);
             }
         }, drive));
         SmartDashboard.putData(auton_chooser);
@@ -184,9 +186,14 @@ public class RobotContainer {
         SmartDashboard.putData("Drive Mode", drive_chooser);
         rightStick.button(BTN_LEVEL).whileTrue(new ChargeLeveler(drive));
         drive.setDefaultCommand(drive_chooser.getSelected());
-        Trigger fallenandcantgetup = new Trigger(() -> { return Math.abs(drive.pitch())>60; });
-        // fallenandcantgetup.whileFalse(new RunCommand(() -> {lights.setColorSwitch();}, lights));
-        fallenandcantgetup.whileTrue(new RunCommand(() -> {lights.setLightColor(155, 0, 0);}, lights));
+        Trigger fallenandcantgetup = new Trigger(() -> {
+            return Math.abs(drive.pitch()) > 60;
+        });
+        // fallenandcantgetup.whileFalse(new RunCommand(() ->
+        // {lights.setColorSwitch();}, lights));
+        fallenandcantgetup.whileTrue(new RunCommand(() -> {
+            lights.setLightColor(155, 0, 0);
+        }, lights));
         xbox.axisLessThan(3, -.5).whileTrue(new RunCommand(() -> {
             if (arm.position < 100)
                 arm.setArmPosition(arm.position + .4);
