@@ -157,7 +157,7 @@ public class RobotContainer {
                 new DriveDistance(drive, 1.15, .5)));
         SmartDashboard.putNumber("FollowArea", .5);
         auton_chooser.addOption("DogBot", new RunCommand(() -> {
-            if (rawPhotonTable.getEntry("hasTarget").getBoolean(false)) {
+            if (rawPhotonTable.getEntry("hasTarget").getBoolean(false)&&xbox.getHID().getRawButton(1)) {
                 double x = rawPhotonTable.getEntry("targetYaw").getDouble(0);
                 double size = rawPhotonTable.getEntry("targetArea").getDouble(3.0);
                 double distance = rawPhotonTable.getEntry("targetPose").getDoubleArray(poseDefaultArray)[0];
@@ -183,7 +183,7 @@ public class RobotContainer {
                 drive.arcadeDrive(forward, turn);
 
             } else {
-                drive.arcadeDrive(0, .3 * 0);
+                drive.arcadeDrive(0,0);
             }
         }, drive));
         SmartDashboard.putData(auton_chooser);
