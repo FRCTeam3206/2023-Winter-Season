@@ -45,6 +45,8 @@ public class RobotContainer {
     Arm arm = new Arm();
     Intake intake = new Intake();
     Lights lights = new Lights();
+
+    double[] poseDefaultArray = { 0, 0, 0, 0, 0, 0, 0 };
     // Compressor pcmCompressor = new Compressor(COMPRESSOR_MODULE,
     // PneumaticsModuleType.CTREPCM);
 
@@ -158,6 +160,7 @@ public class RobotContainer {
             if (rawPhotonTable.getEntry("hasTarget").getBoolean(false)) {
                 double x = rawPhotonTable.getEntry("targetYaw").getDouble(0);
                 double size = rawPhotonTable.getEntry("targetArea").getDouble(3.0);
+                double distance = rawPhotonTable.getEntry("targetPose").getDoubleArray(poseDefaultArray)[0];
                 double turn = -x / 20.0;
                 if (turn > .4)
                     turn = .4;
@@ -165,10 +168,17 @@ public class RobotContainer {
                     turn = -.4;
                 lastSign = Math.signum(turn);
                 double forward = 0;
-                if (size > SmartDashboard.getNumber("FollowArea", .5))
+                // if (size > SmartDashboard.getNumber("FollowArea", .5))
+                // turn = 0;
+                // if (size < SmartDashboard.getNumber("FollowArea", .5))
+                // forward = -.5 + Math.abs(turn) * .1;
+
+                if (distance < 1) {
                     turn = 0;
-                if (size < SmartDashboard.getNumber("FollowArea", .5))
+                }
+                if (distance > 1) {
                     forward = -.5 + Math.abs(turn) * .1;
+                }
 
                 drive.arcadeDrive(forward, turn);
 
