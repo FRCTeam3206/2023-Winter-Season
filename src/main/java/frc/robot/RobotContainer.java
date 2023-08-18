@@ -156,8 +156,10 @@ public class RobotContainer {
                 }, intake),
                 new DriveDistance(drive, 1.15, .5)));
         SmartDashboard.putNumber("FollowArea", .5);
+
         auton_chooser.addOption("DogBot", new RunCommand(() -> {
-            if (rawPhotonTable.getEntry("hasTarget").getBoolean(false)&&xbox.getHID().getRawButton(1)) {
+            System.out.println(xbox.getHID().getRawAxis(1));
+            if (rawPhotonTable.getEntry("hasTarget").getBoolean(false) && xbox.getHID().getRawButton(1)) {
                 double x = rawPhotonTable.getEntry("targetYaw").getDouble(0);
                 double size = rawPhotonTable.getEntry("targetArea").getDouble(3.0);
                 double distance = rawPhotonTable.getEntry("targetPose").getDoubleArray(poseDefaultArray)[0];
@@ -183,7 +185,7 @@ public class RobotContainer {
                 drive.arcadeDrive(forward, turn);
 
             } else {
-                drive.arcadeDrive(0,0);
+                drive.arcadeDrive(0, 0);
             }
         }, drive));
         SmartDashboard.putData(auton_chooser);
@@ -204,14 +206,14 @@ public class RobotContainer {
         fallenandcantgetup.whileTrue(new RunCommand(() -> {
             lights.setLightColor(155, 0, 0);
         }, lights));
-        xbox.axisLessThan(3, -.5).whileTrue(new RunCommand(() -> {
-            if (arm.position < 100)
-                arm.setArmPosition(arm.position + .4);
-        }, arm));
-        xbox.axisGreaterThan(3, .5).whileTrue(new RunCommand(() -> {
-            if (arm.position > 0)
-                arm.setArmPosition(arm.position - .4);
-        }, arm));
+        // xbox.axisLessThan(3, -.5).whileTrue(new RunCommand(() -> {
+        // if (arm.position < 100)
+        // arm.setArmPosition(arm.position + .4);
+        // }, arm));
+        // xbox.axisGreaterThan(3, .5).whileTrue(new RunCommand(() -> {
+        // if (arm.position > 0)
+        // arm.setArmPosition(arm.position - .4);
+        // }, arm));
         xbox.button(11).onTrue(new SequentialCommandGroup(
                 new InstantCommand(() -> {
                     intake.resetEncoder();
@@ -234,6 +236,33 @@ public class RobotContainer {
         xbox.povLeft().whileTrue(new RunCommand(() -> {
             arm.setArmPosition(Constants.ArmConstants.ARM_ANGLE_HOLD);
         }, arm));
+        xbox.axisGreaterThan(2, .5).whileTrue(new RunCommand(() -> {
+            if (rawPhotonTable.getEntry("hasTarget").getBoolean(false)) {
+                double x = rawPhotonTable.getEntry("targetYaw").getDouble(0);
+                double size = rawPhotonTable.getEntry("targetArea").getDouble(3.0);
+                double distance = rawPhotonTable.getEntry("targetPose").getDoubleArray(poseDefaultArray)[0];
+                double turn = -x / 20.0;
+                if (turn > .4)
+                    turn = .4;
+                if (turn < -.4)
+                    turn = -.4;
+                lastSign = Math.signum(turn);
+                double forward = 0;
+                // if (size > SmartDashboard.getNumber("FollowArea", .5))
+                // turn = 0;
+                // if (size < SmartDashboard.getNumber("FollowArea", .5))
+                // forward = -.5 + Math.abs(turn) * .1;
+
+                if (size < 2.5) {
+                    forward = -.5 + Math.abs(turn) * .1;
+                }
+
+                drive.arcadeDrive(forward, turn);
+
+            } else {
+                drive.arcadeDrive(0, 0);
+            }
+        }, drive));
         // vision.setDefaultCommand(new PhotonLibVision(vision));
         // Setup Claw
         // claw.setDefaultCommand(
