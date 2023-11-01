@@ -36,8 +36,8 @@ public class Intake extends SubsystemBase {
         intakeUp = !down;
     }
 
-    public void setTransport(boolean down) {
-        transportUp = !down;
+    public void setTransport(boolean isDown) {
+        transportUp = !isDown;
         movingTransport = true;
     }
 
@@ -55,10 +55,10 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putBoolean("Transport Location", transportUp);
         if (movingTransport) {
             // deploy.set(true);
-            if (transportUp && encoder.getDistance() < TRANSPORT_ENCODER_END_POS) {
-                transportMotor.set(VictorSPXControlMode.PercentOutput, -1);
-            } else if (!transportUp && encoder.getDistance() > 0) {
+            if (transportUp && encoder.getDistance() > -TRANSPORT_ENCODER_END_POS) {
                 transportMotor.set(VictorSPXControlMode.PercentOutput, 1);
+            } else if (!transportUp && encoder.getDistance() < 0) {
+                transportMotor.set(VictorSPXControlMode.PercentOutput, -1);
             } else {
                 transportMotor.set(VictorSPXControlMode.PercentOutput, 0);
                 movingTransport = false;
